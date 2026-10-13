@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>PokéSurvivor 攻略｜從開局到排行榜</title>
+<meta name="description" content="PokéSurvivor 通用攻略：基本規則、挑夥伴、各屬性招式池、招式進化、選卡順序、時間線、戰術、持有物、競技場剋制表與毒系流派範例（理論值，未實測）。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&family=Silkscreen&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/guide.css">
+<script>(function(){try{var t=localStorage.getItem('psg-theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+</head>
+<body data-page="guide">
+<a class="skip" href="#basics">跳到攻略內容</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html"><b>PokéSurvivor</b><span>攻略・圖鑑</span></a>
+    <nav class="nav" aria-label="主選單">
+      <a href="index.html" data-nav="guide">攻略</a>
+      <a href="dex.html" data-nav="dex">圖鑑</a>
+      <a href="moves.html" data-nav="moves">招式表</a>
+    </nav>
+    <button id="theme-btn" class="theme-btn" type="button">淺色</button>
+  </div>
+</header>
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="kicker"><span class="px">SURVIVAL GUIDE</span>PokéSurvivor 攻略｜從開局到排行榜</p>
+      <h1 id="hero-title">活得越久，<br><em>就是贏。</em></h1>
+      <p class="lead">PokéSurvivor 是 Vampire Survivors 風格的寶可夢粉絲遊戲：單局沒有結局，排行榜只看存活秒數。這份攻略整理通用的規則、挑夥伴、招式與進化、選卡順序、時間線與戰術，最後附上一個流派範例。</p>
+      <div class="cta">
+        <a class="btn-main" href="#start">從開局開始看</a>
+        <a class="btn-ghost" href="#cards">直接看選卡順序</a>
+      </div>
+      <p class="cta-sub"><a href="dex.html">圖鑑</a><a href="moves.html">招式表</a><a href="https://pokesurvivor.com/en/" target="_blank" rel="noopener">遊戲官網 ↗</a></p>
+      <dl class="hero-stats">
+        <div><dt>可用夥伴</dt><dd><b id="hs-dex">965</b>隻</dd></div>
+        <div><dt>招式</dt><dd><b id="hs-mv">64</b>招</dd></div>
+        <div><dt>裂隙競技場</dt><dd><b>18</b>座</dd></div>
+      </dl>
+      <p class="disclaimer"><span class="tag">理論值</span>本站數字是從遊戲原始碼推算的<b>理論值，尚未實測</b>，遊戲更新後可能失準。</p>
+    </div>
+
+    <div class="arena" aria-hidden="true">
+      <div class="timer"><span class="px">ALIVE</span><b id="alive">00:00</b></div>
+      <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+      <div class="pool"></div>
+      <img class="mob m1" src="sprites/41.png" alt="" width="96" height="96">
+      <img class="mob m2" src="sprites/19.png" alt="" width="96" height="96">
+      <img class="mob m3" src="sprites/109.png" alt="" width="96" height="96">
+      <img class="mob m4" src="sprites/13.png" alt="" width="96" height="96">
+      <img class="mob m5" src="sprites/21.png" alt="" width="96" height="96">
+      <img class="mob m6" src="sprites/88.png" alt="" width="96" height="96">
+      <img class="mob m7" src="sprites/50.png" alt="" width="96" height="96">
+      <img class="mob m8" src="sprites/74.png" alt="" width="96" height="96">
+      <img class="hero-mon main" src="sprites/4.png" alt="" width="96" height="96">
+      <img class="hero-mon side" src="sprites/7.png" alt="" width="96" height="96">
+      <img class="hero-mon side2" src="sprites/1.png" alt="" width="96" height="96">
+      <span class="arena-cap">戰術示意，非遊戲截圖</span>
+    </div>
+  </div>
+</section>
+
+
+<div class="wrap layout">
+  <nav class="toc" id="toc" aria-label="攻略目錄">
+    <p class="toc-title px">INDEX</p>
+    <ol>
+      <li><a href="#basics"><i>01</i>基本規則</a></li>
+      <li><a href="#start"><i>02</i>開局與挑夥伴</a></li>
+      <li><a href="#pool"><i>03</i>各屬性招式池</a></li>
+      <li><a href="#kinds"><i>04</i>招式類型</a></li>
+      <li><a href="#cards"><i>05</i>選卡與進化</a></li>
+      <li><a href="#bonds"><i>06</i>羈絆</a></li>
+      <li><a href="#timeline"><i>07</i>時間線</a></li>
+      <li><a href="#tactics"><i>08</i>戰術</a></li>
+      <li><a href="#items"><i>09</i>持有物</a></li>
+      <li><a href="#upgrades"><i>10</i>永久升級</a></li>
+      <li><a href="#account"><i>11</i>帳號與扭蛋</a></li>
+      <li><a href="#arenas"><i>12</i>競技場剋制表</a></li>
+      <li><a href="#terrain"><i>13</i>地形與天氣</a></li>
+      <li><a href="#poison"><i>14</i>流派範例：毒系</a></li>
+    </ol>
+  </nav>
+
+
+  <main class="content">
+
+  <section class="sec" id="basics">
+    <header class="sec-h"><span class="no">01</span><h2>基本規則</h2></header>
+    <div class="facts">
+      <div class="fact"><span class="px">ENDLESS</span><b>沒有結局</b><p>單局無限進行，死亡才會結束。</p></div>
+      <div class="fact"><span class="px">RANKING</span><b>只看存活秒數</b><p>排行榜只比誰活得久。</p></div>
+      <div class="fact"><span class="px">DEFENSE</span><b>屬性只影響受傷</b><p>不會加強自己的招式。</p></div>
+    </div>
+    <ul class="bul">
+      <li><b>「全破」</b>指達成 127 個成就與 21 個稱號。</li>
+      <li><b>招式池：</b>夥伴可以學「一般系招式」，加上「自身屬性的招式」。</li>
+      <li><b>屬性只影響你受到的傷害，不會加強自己的招式。</b>受傷倍率：克制 ×1.6、不擅長 ×0.6、免疫 ×0.3；雙屬性相乘，最終限制在 ×0.3 到 ×2.4。 <span class="tag">理論值</span></li>
+    </ul>
+    <div class="mscale" role="img" aria-label="受傷倍率刻度：免疫 ×0.3、不擅長 ×0.6、普通 ×1、克制 ×1.6、上限 ×2.4">
+      <div class="ms-bar"></div>
+      <span style="--x:0%"><b>×0.3</b>免疫（下限）</span>
+      <span style="--x:14.3%"><b>×0.6</b>不擅長</span>
+      <span style="--x:33.3%"><b>×1</b>普通</span>
+      <span style="--x:61.9%"><b>×1.6</b>克制</span>
+      <span style="--x:100%"><b>×2.4</b>上限</span>
+    </div>
+    <p class="muted small">免疫不是零傷害，仍然吃 ×0.3。</p>
+  </section>
+
+  <section class="sec" id="start">
+    <header class="sec-h"><span class="no">02</span><h2>開局與挑夥伴</h2></header>
+    <h3>初始夥伴</h3>
+    <p>開戶時從下列初始夥伴挑一隻。<b>初始夥伴開戶後不能重選</b>，但之後可以免費換成已擁有的其他夥伴，所以不用太糾結，挑看得順眼的就好。</p>
+    <div class="starters" id="starters"><noscript><a href="dex.html">到圖鑑查看初始夥伴</a></noscript></div>
+    <h3>挑夥伴看四件事</h3>
+    <ol class="ladder howto">
+      <li><b>招式池</b><span>能學「一般系 8 招」加上「自身屬性的招式」。雙屬性兩邊的招都能學，選擇比較多；各屬性有哪些招見下一節。</span></li>
+      <li><b>有沒有範圍招式</b><span>怪是一波一波圍上來的，光環、環狀爆發、環繞、足跡這類打一圈的招，比單體投射好清怪。</span></li>
+      <li><b>受傷倍率</b><span>屬性只影響你受到的傷害。雙屬性弱點相乘最高 ×2.4，抗性相乘最低 ×0.3；點圖鑑卡片可以直接看每隻的受傷倍率。</span></li>
+      <li><b>三圍與星級</b><span>血量、速度、攻擊與星級都可以在圖鑑排序比較。高星夥伴要靠扭蛋取得。</span></li>
+    </ol>
+  </section>
+
+  <section class="sec" id="pool">
+    <header class="sec-h"><span class="no">03</span><h2>各屬性招式池</h2></header>
+    <p>每隻夥伴都能學一般系招式，再加上自身屬性的招式。下表列出每個屬性的招式、類型，以及進化需要的能力卡。完整說明見<a href="moves.html">招式表</a>。</p>
+    <div class="pool" id="pool-grid"><noscript><a href="moves.html">到招式表查看</a></noscript></div>
+  </section>
+
+  <section class="sec" id="kinds">
+    <header class="sec-h"><span class="no">04</span><h2>招式類型</h2></header>
+    <p>同樣是攻擊，打法差很多。挑主力招式時，先看它屬於哪一類。</p>
+    <div class="kinds" id="kinds-grid"></div>
+  </section>
+
+  <section class="sec" id="cards">
+    <header class="sec-h"><span class="no">05</span><h2>選卡與進化</h2><span class="tag">理論值</span></header>
+    <p>升級卡片的推薦優先序（看到時先拿哪張，不是固定的時間流程）：</p>
+    <ol class="ladder">
+      <li><b>先湊出一個主力範圍招式</b><span>光環、環狀爆發、環繞、足跡等打一圈的招。走流派時改拿流派核心招，例如毒系先拿毒菱足跡。</span></li>
+      <li><b>主力範圍招式升到 <em>Lv5</em></b><span>再拿 1 張該招指定的能力卡進化（每招要的卡不同，見下表）。</span></li>
+      <li><b>減傷卡（Armor）疊到 <em>70%</em></b><span>先把受傷壓下來。</span></li>
+      <li><b>攻擊卡（Power）</b></li>
+      <li><b>冷卻卡（Reflexes）</b></li>
+      <li><b>最大血卡（Vigor）與回血卡（Synthesis）</b><span>沒有上限，可以一直疊。</span></li>
+    </ol>
+    <h3>進化需要哪張能力卡</h3>
+    <p class="muted">招式升到 Lv5 後，再拿到指定的能力卡就會進化。增益招式不能進化。</p>
+    <div class="evoc" id="evo-cards"></div>
+    <h3>格子與重抽</h3>
+    <div class="slots" role="img" aria-label="四個招式格，只有作用中的那一格會出招">
+      <div class="slot on"><span class="px">ACTIVE</span>出招中</div>
+      <div class="slot">待命</div>
+      <div class="slot">待命</div>
+      <div class="slot">待命</div>
+    </div>
+    <ul class="bul">
+      <li>招式最多 4 格，只有<b>作用中的那一格</b>會出招。</li>
+      <li>新招式卡只會在格子未滿 4 格時出現。</li>
+      <li>重抽次數 = 1 + 已擊敗的 Boss 數。</li>
+      <li>增益招式（Harden、Aqua Ring 等）建議等拿到羈絆後，再併入主攻格。</li>
+    </ul>
+  </section>
+
+
+  <section class="sec" id="bonds">
+    <header class="sec-h"><span class="no">06</span><h2>羈絆</h2></header>
+    <div class="bond-grid">
+      <ul class="bul">
+        <li>打贏裂隙就能得到羈絆。</li>
+        <li>同一格最多可以併入 <b>4 招</b>同時發動。</li>
+        <li>例如同一格放 Power Whip（藤鞭進化）＋ Toxic（毒菱足跡）＋ Harden（變硬）＋ Aqua Ring（水流環）。</li>
+      </ul>
+      <div class="bond" role="img" aria-label="一個主攻格併入四招：強力藤鞭、毒菱足跡、變硬、水流環">
+        <span class="px">BOND SLOT ×4</span>
+        <div class="bond-in">
+          <span data-t="grass">強力藤鞭</span><span data-t="poison">毒菱足跡</span><span data-t="normal">變硬</span><span data-t="water">水流環</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="timeline">
+    <header class="sec-h"><span class="no">07</span><h2>時間線與難度</h2><span class="tag">理論值</span></header>
+    <div class="track" role="img" aria-label="時間軸：1 分 15 秒起裂隙判定，3 分 45 秒必出；Boss 在 3、6、9、12、15 分出現；約 9 分難度牆；15 分後不再排 Boss，但遊戲持續">
+      <div class="tk-line"></div>
+      <div class="tk-rift" style="--a:7.8125%;--b:23.4375%"><span>裂隙判定</span></div>
+      <div class="tk-wall" style="--x:56.25%"><span>難度牆</span></div>
+      <div class="tk-boss" style="--x:18.75%"><b>3:00</b></div>
+      <div class="tk-boss" style="--x:37.5%"><b>6:00</b></div>
+      <div class="tk-boss" style="--x:56.25%"><b>9:00</b></div>
+      <div class="tk-boss" style="--x:75%"><b>12:00</b></div>
+      <div class="tk-boss" style="--x:93.75%"><b>15:00</b></div>
+      <div class="tk-end">之後繼續生存 →</div>
+    </div>
+    <div class="tl-cols">
+      <div class="rift">
+        <h3>裂隙機率階梯</h3>
+        <div class="steps5" role="img" aria-label="裂隙判定機率：1:45 為 20%，2:15 為 40%，2:45 為 60%，3:15 為 80%，3:45 為 100% 必出">
+          <div style="--h:20%"><b>20%</b><span>1:45</span></div>
+          <div style="--h:40%"><b>40%</b><span>2:15</span></div>
+          <div style="--h:60%"><b>60%</b><span>2:45</span></div>
+          <div style="--h:80%"><b>80%</b><span>3:15</span></div>
+          <div class="must" style="--h:100%"><b>必出</b><span>3:45</span></div>
+        </div>
+        <p class="muted small">每次落空 +20%。Boss 在場時暫停判定，所以實際時間可能往後延。</p>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th scope="col">時間</th><th scope="col">事件</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1:15 起</td><td>裂隙判定開始，第一次約在 1:45，之後每 30 秒一次。起始機率 20%，每次落空 +20%，<b>第 5 次（約 3:45）必出</b>。Boss 在場時暫停判定。</td></tr>
+            <tr><td class="num">傳說血量</td><td>3200 + 9 × 秒數。越早進入越好。</td></tr>
+            <tr><td class="num">3 / 6 / 9 / 12 / 15 分</td><td>Boss 出現。15 分鐘之後不再排 Boss。</td></tr>
+            <tr><td class="num">約 9 分</td><td>難度牆：場上總血量約 30 萬。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="tactics">
+    <header class="sec-h"><span class="no">08</span><h2>戰術</h2></header>
+    <div class="kill" aria-label="殺敵順序">
+      <span class="px">KILL ORDER</span>
+      <ol><li>治療者</li><li>護盾者</li><li>召喚者</li></ol>
+    </div>
+    <div class="buffs">
+      <div class="buff altar"><span class="px">ALTAR</span><b>祭壇 25 秒</b><p>傷害 ×2、冷卻 −40%。建議留給打 Boss 時使用。</p></div>
+      <div class="buff spring"><span class="px">SPRING</span><b>泉水 14%/秒</b><p>每秒回復 14% 血量。</p></div>
+    </div>
+    <ul class="warns">
+      <li><b>自爆怪</b>要趁距離遠時先殺；引信燒到一半被殺，仍然會爆炸。</li>
+      <li>地面出現<b>預警圈</b>時要立刻離開。</li>
+      <li>陷阱別踩。</li>
+      <li>中後期迷路的寶可夢救不回來時就放棄，別硬救。</li>
+      <li>天氣也會套用在你受到的傷害上。</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="items">
+    <header class="sec-h"><span class="no">09</span><h2>持有物</h2></header>
+    <div class="items">
+      <div class="item good"><span class="verdict">✓ 推薦</span><b>Leftovers（剩飯）</b><p>每秒回復 1.5% 血量。 <span class="tag">理論值</span></p></div>
+      <div class="item good"><span class="verdict">✓ 推薦</span><b>Assault Vest（突擊背心）</b><p>減傷 +20%。</p></div>
+      <div class="item combo"><span class="verdict">⚗ 搭配足跡／軌道招式</span><b>Life Orb（生命寶珠）</b><p>攻擊 ×1.3；每次出招扣自身 1% 血量，但足跡與軌道類招式不扣血，所以主力是足跡或軌道類招式時沒有代價（例如毒菱足跡）。</p></div>
+      <div class="item bad"><span class="verdict">✕ 避開</span><b>Choice Band（講究頭帶）</b><p>會鎖招。</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="upgrades">
+    <header class="sec-h"><span class="no">10</span><h2>永久升級</h2></header>
+    <ul class="bul">
+      <li>每隻夥伴各自有一套永久升級，不互相共用。</li>
+      <li>先買到約 <b>1000 金幣</b>的份量就停手：金幣加成 1–3、血量 1–3、攻擊 1–2、拾取 1–2。確定主力之後再加。</li>
+    </ul>
+    <ol class="chain" aria-label="購買順序">
+      <li>血量</li><li>攻擊</li><li>冷卻</li><li>減傷</li>
+    </ol>
+  </section>
+
+  <section class="sec" id="account">
+    <header class="sec-h"><span class="no">11</span><h2>帳號、任務與扭蛋</h2></header>
+    <div class="gacha">
+      <div><span class="px">PITY</span><b>10</b><p>×10 抽的第 10 抽保底 4★ 以上</p></div>
+      <div><span class="px">PITY</span><b>70</b><p>70 抽保底 5★</p></div>
+    </div>
+    <ul class="bul">
+      <li><b>每日任務</b>一定要在<b>馬德里時間換日前</b>領取，過了不會補發。換算成台北時間，換日約在早上 6 點（馬德里夏令）或 7 點（冬令）。</li>
+      <li><b>扭蛋只用 ×10 抽。</b>第 10 抽保底 4★ 以上。</li>
+      <li>70 抽保底 5★。</li>
+      <li>關都卡池的毒系夥伴最多，組毒系隊可以優先考慮。</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="arenas">
+    <header class="sec-h"><span class="no">12</span><h2>裂隙 18 競技場剋制表</h2></header>
+    <p>每張卡左邊是競技場屬性，右邊是建議用來打的攻擊屬性，下方是需要的天氣或條件。</p>
+    <div class="af" id="af" hidden>
+      <span class="af-l">我想用哪個屬性打？</span>
+      <div class="af-btns" id="af-btns"></div>
+      <span class="count" id="af-count" aria-live="polite"></span>
+    </div>
+    <ul class="arenas" id="arena-list">
+      <li data-a="normal" data-k="fighting"><span class="ar">一般</span><span class="vs">→</span><span class="ak">格鬥</span></li>
+      <li data-a="fire" data-k="rock"><span class="ar">火</span><span class="vs">→</span><span class="ak">岩石</span></li>
+      <li data-a="water" data-k="electric"><span class="ar">水</span><span class="vs">→</span><span class="ak">電</span><span class="cond">雨天</span></li>
+      <li data-a="grass" data-k="poison"><span class="ar">草</span><span class="vs">→</span><span class="ak">毒</span></li>
+      <li data-a="electric" data-k="water"><span class="ar">電</span><span class="vs">→</span><span class="ak">水</span><span class="cond">雨天</span></li>
+      <li data-a="ice" data-k="rock"><span class="ar">冰</span><span class="vs">→</span><span class="ak">岩石</span></li>
+      <li data-a="fighting" data-k="fairy"><span class="ar">格鬥</span><span class="vs">→</span><span class="ak">妖精</span></li>
+      <li data-a="poison" data-k="ground"><span class="ar">毒</span><span class="vs">→</span><span class="ak">地面</span></li>
+      <li data-a="ground" data-k="ice"><span class="ar">地面</span><span class="vs">→</span><span class="ak">冰</span></li>
+      <li data-a="flying" data-k="rock"><span class="ar">飛行</span><span class="vs">→</span><span class="ak">岩石</span></li>
+      <li data-a="psychic" data-k="dark"><span class="ar">超能力</span><span class="vs">→</span><span class="ak">惡</span></li>
+      <li data-a="bug" data-k="fire"><span class="ar">蟲</span><span class="vs">→</span><span class="ak">火</span><span class="cond">只有蓋諾賽克特</span></li>
+      <li data-a="rock" data-k="steel"><span class="ar">岩石</span><span class="vs">→</span><span class="ak">鋼</span></li>
+      <li data-a="ghost" data-k="ghost"><span class="ar">幽靈</span><span class="vs">→</span><span class="ak">幽靈</span><span class="cond">霧天</span></li>
+      <li data-a="dragon" data-k="dragon"><span class="ar">龍</span><span class="vs">→</span><span class="ak">龍</span></li>
+      <li data-a="dark" data-k="fairy"><span class="ar">惡</span><span class="vs">→</span><span class="ak">妖精</span></li>
+      <li data-a="steel" data-k="ground"><span class="ar">鋼</span><span class="vs">→</span><span class="ak">地面</span></li>
+      <li data-a="fairy" data-k="steel"><span class="ar">妖精</span><span class="vs">→</span><span class="ak">鋼</span></li>
+    </ul>
+    <div class="note warn">火競技場在晴天時，水系傷害 ×0.5。</div>
+  </section>
+
+  <section class="sec" id="terrain">
+    <header class="sec-h"><span class="no">13</span><h2>地形與天氣：屬性的隱藏特性</h2><span class="tag">理論值</span></header>
+    <p class="big">傳聞是真的：<b>水系踩進水裡不會減速。</b>每張地圖都有一種液體地形，對應屬性的夥伴完全不受影響。雙屬性只要其中一個符合就算。</p>
+    <div class="items">
+      <div class="item good"><span class="verdict">水系免疫</span><b>水：移速 ×0.6</b><p>主線的幽暗森林、水晶洞窟，以及水、妖精競技場。</p></div>
+      <div class="item good"><span class="verdict">水系免疫（不是草系）</span><b>沼澤：移速 ×0.45</b><p>草、地面、蟲競技場。</p></div>
+      <div class="item bad"><span class="verdict">火系免疫</span><b>岩漿：約每秒 6% 最大血量</b><p>每 0.5 秒扣 3%（至少 5 點），還會清掉受傷後的無敵時間。主線灰燼火山，以及火、龍競技場。</p></div>
+      <div class="item bad"><span class="verdict">毒系、鋼系免疫</span><b>毒沼：約每秒 3.5%</b><p>每 0.5 秒扣 1.75%（至少 3 點）。毒競技場。</p></div>
+      <div class="item bad"><span class="verdict">電系、地面系免疫</span><b>電流：約每秒 3.2%</b><p>每 0.7 秒扣 2.25%（至少 4 點）。電競技場。</p></div>
+      <div class="item combo"><span class="verdict">冰系免疫</span><b>冰面：會打滑</b><p>不減速，最高速度還略快，但轉向有慣性、很難急停。冰競技場。</p></div>
+    </div>
+    <ul class="bul">
+      <li><b>飛行系夥伴沒有浮空特權。</b>你操作的夥伴照樣吃地形效果；只有「會飄的敵人」和傳說寶可夢不受地形影響。</li>
+      <li><b>敵人也吃同一套規則。</b>地面敵人在水中 ×0.55、沼澤 ×0.45，同屬性一樣免疫。會扣血的液體敵人尋路時會繞開。</li>
+      <li><b>主線地圖每 4 分鐘輪替：</b>幽暗森林（水）→ 水晶洞窟（水）→ 灰燼火山（岩漿）→ 回到森林。火系在火山區可以把岩漿當成安全區，地面敵人得繞路。</li>
+      <li>競技場中一般、格鬥、飛行、超能力、岩石、幽靈、惡、鋼沒有液體池。</li>
+    </ul>
+
+    <h3>天氣</h3>
+    <p>開局 2 分鐘後，每 60 秒有 18% 機率起天氣，持續約 55–75 秒。倍率看<b>攻擊的屬性</b>：你的招式看招式屬性，你受到的傷害看敵人的第一屬性。</p>
+    <div class="items">
+      <div class="item"><b>晴天</b><p>火 ×1.5、水 ×0.5。</p></div>
+      <div class="item"><b>雨天</b><p>水 ×1.5、電 ×1.2、火 ×0.5。</p></div>
+      <div class="item"><b>霧</b><p>幽靈、妖精、超能力 ×1.3。</p></div>
+      <div class="item combo"><span class="verdict">岩石、地面、鋼系免傷</span><b>沙暴</b><p>這三系 ×1.3。其他屬性每 2 秒扣 1.2% 最大血量（不會扣到死）。</p></div>
+      <div class="item combo"><span class="verdict">冰系免傷、免減速</span><b>雪天</b><p>冰 ×1.5。其他屬性每 2 秒扣 1.2% 最大血量，移速 −10%。</p></div>
+    </div>
+    <ul class="bul">
+      <li>沙暴與雪天對敵人也有效：非對應屬性的敵人每 2 秒扣 2% 最大血量 +1（Boss 除外），雪天一樣減速。</li>
+      <li><b>各地圖常見天氣：</b>森林以雨為主（約 40%），其次霧、晴；洞窟以霧（約 40%）和雪（約 33%）為主；火山以晴、沙暴各約 43% 為主。</li>
+      <li>競技場內不會隨機起天氣，但火、水、電、冰、地面、岩石、幽靈競技場有固定天氣（見上方剋制表）。</li>
+    </ul>
+
+    <div class="note combo"><b>挑夥伴時的地形分數：</b>水系在主線前 8 分鐘不怕水；火系在火山區不怕岩漿，晴天招式還加成；冰系在雪天與冰競技場兩項全免；岩石、地面、鋼不怕沙暴；地面系另外免疫電流。</div>
+  </section>
+
+  <section class="sec sec-poison" id="poison">
+    <p class="eyebrow">流派範例</p>
+    <header class="sec-h"><span class="no">14</span><h2>毒系：用百分比傷害吃掉高血量</h2><span class="tag">理論值</span></header>
+    <p class="big">中毒是毒系流派的主要傷害來源。傷害以<b>最大血量的百分比</b>計算，所以敵人血量再怎麼成長，中毒傷害都不會打折。</p>
+    <div class="formula"><span>每 0.6 秒受到的傷害</span> = <span>最大血量</span> × <b>1.2%</b> × <b>層數</b> + <span>1</span></div>
+
+    <div class="sim" id="sim">
+      <div class="sim-ctrl">
+        <label for="stack">疊毒層數</label>
+        <input id="stack" type="range" min="1" max="8" value="8" step="1" aria-describedby="sim-out">
+        <div class="pips" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <output id="sim-out" class="sim-out" for="stack">
+        <span class="so-n"><b id="so-stack">8</b> 層</span>
+        <span class="so-p">每秒約 <b id="so-pct">16%</b> 最大血量</span>
+        <span class="so-t">滿血到毒死約 <b id="so-sec">6.3</b> 秒</span>
+      </output>
+      <p class="sim-note">秒數只算百分比部分（每秒約 2% × 層數），沒有計入每跳 +1 的固定傷害，也沒算其他招式，實際只會更快。</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="tbl ptbl">
+        <caption class="sr-only">中毒層數與每秒傷害</caption>
+        <thead><tr><th scope="col">層數</th><th scope="col">每秒約（佔最大血量）</th></tr></thead>
+        <tbody>
+          <tr data-s="1"><td class="num">1 層</td><td class="num"><span class="pb" style="--w:12.5%"></span>2%</td></tr>
+          <tr data-s="2"><td class="num">2 層</td><td class="num"><span class="pb" style="--w:25%"></span>4%</td></tr>
+          <tr data-s="3"><td class="num">3 層</td><td class="num"><span class="pb" style="--w:37.5%"></span>6%</td></tr>
+          <tr data-s="4"><td class="num">4 層</td><td class="num"><span class="pb" style="--w:50%"></span>8%</td></tr>
+          <tr data-s="5"><td class="num">5 層</td><td class="num"><span class="pb" style="--w:62.5%"></span>10%</td></tr>
+          <tr data-s="6"><td class="num">6 層</td><td class="num"><span class="pb" style="--w:75%"></span>12%</td></tr>
+          <tr data-s="7"><td class="num">7 層</td><td class="num"><span class="pb" style="--w:87.5%"></span>14%</td></tr>
+          <tr data-s="8"><td class="num">8 層（上限）</td><td class="num"><span class="pb" style="--w:100%"></span>16%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="bul">
+      <li>毒層上限 8 層，約每秒 16% 最大血量。</li>
+      <li>Boss 與裂隙傳說<b>不免疫</b>中毒。</li>
+    </ul>
+
+    <h3>毒系招式（共 4 招）</h3>
+    <div class="moves4">
+      <div class="mv4" data-move="toxic"><span class="kd kd-trail" aria-hidden="true"></span><b>Toxic（毒菱足跡）</b><p>走過的路會留下毒池，1 層。</p><span class="stk" aria-label="每次 1 層"><i></i></span><span class="mevo"></span><span class="ribbon">最優先</span></div>
+      <div class="mv4" data-move="toxic-spikes"><span class="kd kd-mine" aria-hidden="true"></span><b>Toxic Spikes（毒菱地雷）</b><p>每次爆炸 2 層。</p><span class="stk" aria-label="每次 2 層"><i></i><i></i></span><span class="mevo"></span></div>
+      <div class="mv4" data-move="poison-sting"><span class="kd kd-sting" aria-hidden="true"></span><b>Poison Sting（毒針）</b><p>單體攻擊、出手快，1 層。</p><span class="stk" aria-label="每次 1 層"><i></i></span><span class="mevo"></span></div>
+      <div class="mv4" data-move="sludge"><span class="kd kd-proj" aria-hidden="true"></span><b>Sludge（污泥攻擊）</b><p>投射攻擊，1 層。</p><span class="stk" aria-label="每次 1 層"><i></i></span><span class="mevo"></span></div>
+    </div>
+    <div class="note combo"><b>搭配：</b>Hex（祟殺）不是毒系招式，但對有異常狀態（例如中毒）的敵人加成傷害，適合搭配中毒。</div>
+
+    <h3>毒系推薦夥伴：主力</h3>
+    <p class="muted">點卡片可以到圖鑑查看完整的招式池與受傷倍率。★ 是遊戲內星級，不是推薦評分。</p>
+    <div class="aces">
+      <a class="ace partner" href="dex.html#71" data-no="71">
+        <div class="ace-art"><img src="sprites/71.png" alt="" width="96" height="96" loading="lazy" decoding="async"></div>
+        <div class="ace-body">
+          <span class="role">範圍輸出</span>
+          <div><span class="pn">大食花</span><span class="pe">Victreebel #71</span></div>
+          <div class="pt"></div>
+          <div class="evo"><span>藤鞭<small>Vine Whip</small></span><i>攻擊卡</i><span>強力藤鞭<small>Power Whip</small></span></div>
+          <div class="pd">藤鞭（Vine Whip）進化為強力藤鞭（Power Whip），360° 近戰，範圍傷害第一。</div>
+        </div>
+      </a>
+      <a class="ace partner" href="dex.html#34" data-no="34">
+        <div class="ace-art"><img src="sprites/34.png" alt="" width="96" height="96" loading="lazy" decoding="async"></div>
+        <div class="ace-body">
+          <span class="role">減速＋保命</span>
+          <div><span class="pn">尼多王</span><span class="pe">Nidoking #34</span></div>
+          <div class="pt"></div>
+          <div class="evo"><span>重踏<small>Bulldoze</small></span><i>攻擊卡</i><span>地震<small>Earthquake</small></span></div>
+          <div class="pd">重踏（Bulldoze）進化為地震（Earthquake），光環加上減速 35%；電系免疫（受到的電系傷害 ×0.3），比較保命。</div>
+        </div>
+      </a>
+    </div>
+    <div class="partners">
+      <a class="partner" href="dex.html#45" data-no="45">
+        <img src="sprites/45.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <div>
+          <div><span class="pn">霸王花</span><span class="pe">Vileplume #45</span></div>
+          <div class="pt"></div>
+          <div class="pd">草／毒系，與大食花同屬性組合，可作為主力的備選。</div>
+        </div>
+      </a>
+    </div>
+
+    <h3>其他好拿的毒系</h3>
+    <div class="partners">
+      <a class="partner" href="dex.html#92" data-no="92">
+        <img src="sprites/92.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <div>
+          <div><span class="pn">鬼斯</span><span class="pe">Gastly #92</span></div>
+          <div class="pt"></div>
+          <div class="pd">幽靈／毒系，可與 Hex 組合。進化後的鬼斯通（Haunter #93）同樣適合。</div>
+        </div>
+      </a>
+      <a class="partner" href="dex.html#758" data-no="758">
+        <img src="sprites/758.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <div>
+          <div><span class="pn">焰后蜥</span><span class="pe">Salazzle #758</span></div>
+          <div class="pt"></div>
+          <div class="pd">毒／火系，毒系招式組合的備選。</div>
+        </div>
+      </a>
+      <a class="partner" href="dex.html#454" data-no="454">
+        <img src="sprites/454.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <div>
+          <div><span class="pn">毒骷蛙</span><span class="pe">Toxicroak #454</span></div>
+          <div class="pt"></div>
+          <div class="pd">毒／格鬥系，毒系招式組合的備選。</div>
+        </div>
+      </a>
+    </div>
+
+    <h3>高星夥伴</h3>
+    <div class="partners elite">
+      <a class="partner" href="dex.html#94" data-no="94">
+        <img src="sprites/94.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <div>
+          <div><span class="pn">耿鬼</span><span class="pe">Gengar #94</span></div>
+          <div class="pt"></div>
+          <div class="pd">高星幽靈／毒系。</div>
+        </div>
+      </a>
+      <a class="partner" href="dex.html#793" data-no="793">
+        <img src="sprites/793.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <div>
+          <div><span class="pn">虛吾伊德</span><span class="pe">Nihilego #793</span></div>
+          <div class="pt"></div>
+          <div class="pd">高星岩石／毒系。</div>
+        </div>
+      </a>
+      <a class="partner" href="dex.html#903" data-no="903">
+        <img src="sprites/903.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <div>
+          <div><span class="pn">大狃拉</span><span class="pe">Sneasler #903</span></div>
+          <div class="pt"></div>
+          <div class="pd">高星格鬥／毒系。</div>
+        </div>
+      </a>
+      <a class="partner" href="dex.html#890" data-no="890">
+        <img src="sprites/890.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <div>
+          <div><span class="pn">無極汰那</span><span class="pe">Eternatus #890</span></div>
+          <div class="pt"></div>
+          <div class="pd">5 星傳說，毒／龍系。</div>
+        </div>
+      </a>
+    </div>
+    <div class="note">毒系選卡：毒系招式優先，其中毒菱足跡（Toxic）最優先；其餘照「選卡與進化」的順序。關都卡池的毒系夥伴最多。</div>
+  </section>
+  </main>
+</div>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <p>PokéSurvivor 為 JPTER78 製作的粉絲遊戲（fan project）。圖片來源：PokeAPI/sprites。資料取自遊戲公開原始碼。</p>
+    <p>寶可夢 © Nintendo / Creatures / GAME FREAK。本站為非官方粉絲網站，所有數值為理論值、未實測。</p>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/guide.js"></script>
+</body>
+</html>
