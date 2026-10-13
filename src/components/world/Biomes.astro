@@ -1,0 +1,98 @@
+---
+// 生態區與競技場：21 個生態區（索引 0 至 20）與 18 種競技場主題。數值讀自 derived/world.json；譯名讀自 i18n/zh/world.json。
+import world from '../../data/derived/world.json';
+import ZH from '../../i18n/zh/world.json';
+import Type from '../Type.astro';
+import { typeName } from '../../lib/game';
+
+const LIQ = (k: string) => (ZH.tiles as Record<string, string>)[`liquid.${k}`];
+const TREE = ZH.propStyles as Record<string, string>;
+const WX = Object.fromEntries(world.weather.kinds.map(k => [k.id, k.nameZh]));
+const pct = (x: number) => (x ? `${+(x * 100).toFixed(1)}%` : '—');
+const noise = (x: number) => (x ? x.toFixed(3).replace(/0+$/, '').replace(/\.$/, '') : '—');
+
+const BIOMES = world.biomes.map(b => ({
+  i: b.index,
+  zh: b.nameZh,
+  es: b.nameEs,
+  liquid: LIQ(b.liquid),
+  tree: TREE[b.propStyle] ?? b.propStyle,
+  theme: (b as { theme?: string }).theme,
+}));
+
+const ARENA = world.arenaThemes.map(a => ({
+  type: a.type,
+  zh: a.nameZh,
+  liquid: LIQ(a.liquid),
+  tree: TREE[a.propStyle] ?? a.propStyle,
+  weather: a.weather ? WX[a.weather] : '無',
+  pools: noise(a.pools),
+  pillars: noise(a.pillars),
+  treeP: pct(a.props.tree),
+  rockP: pct(a.props.rock),
+  grassP: pct(a.props.grass),
+}));
+---
+<section class="wsec" aria-labelledby="biomes">
+  <h2 id="biomes">生態區一覽</h2>
+  <p class="wlead">共 {BIOMES.length} 個生態區。索引 0 至 2 是手寫的生態區；索引 3 至 20 由 18 種競技場主題自動產生，名稱前面加上「裂隙 ·」。</p>
+  <div class="spec-wrap">
+    <table class="spec">
+      <caption>21 個生態區</caption>
+      <thead><tr><th>索引</th><th>中文名稱</th><th>西文原名</th><th>液體</th><th>樹木樣式</th><th>來源</th></tr></thead>
+      <tbody>
+        {BIOMES.map(b => (
+          <tr>
+            <th class="num">{b.i}</th>
+            <td>{b.zh}</td>
+            <td>{b.es}</td>
+            <td>{b.liquid}</td>
+            <td>{b.tree}</td>
+            <td>{b.theme ? <>競技場主題（<Type t={b.theme} link={false} />）</> : '手寫'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <ul class="wrules">
+    <li>每 {world.biomeCycle.intervalSeconds} 秒換一次：索引 = floor(一局時間 ÷ 240) mod 21。因此 21 個生態區依序輪替，裂隙生態區也會出現在一般地圖中。</li>
+    <li>切換時播放生態區音效，並顯示生態區名稱 3 秒。一局開始時播放幽暗森林音樂，之後生態區切換只播放音效，不換曲。</li>
+    <li>在競技場中不切換，離開時還原進入前的生態區。一局時間在玩家死亡（非合作、非競技場）時停止。</li>
+    <li>生態區只決定地塊的液體與樹木樣式。一般敵人的生成不讀取生態區；天氣的抽取則依生態區索引除以 3 的餘數（見「地形與天氣」）。</li>
+  </ul>
+  
+</section>
+
+<section class="wsec" aria-labelledby="arena">
+  <h2 id="arena">競技場主題</h2>
+  <p class="wlead">競技場的主題是傳說寶可夢的屬性之一，從它的屬性中均勻隨機選一個，共 18 種主題。進入後生態區、地形與天氣都由主題決定。</p>
+  <div class="spec-wrap">
+    <table class="spec">
+      <caption>18 種競技場主題</caption>
+      <thead><tr><th>屬性</th><th>主題</th><th>液體</th><th>樹木樣式</th><th>天氣</th><th>水池</th><th>柱子</th><th>樹</th><th>岩石</th><th>草</th></tr></thead>
+      <tbody>
+        {ARENA.map(a => (
+          <tr>
+            <th><Type t={a.type} link={false} /></th>
+            <td>{a.zh}</td>
+            <td>{a.liquid}</td>
+            <td>{a.tree}</td>
+            <td>{a.weather}</td>
+            <td class="num">{a.pools}</td>
+            <td class="num">{a.pillars}</td>
+            <td class="num">{a.treeP}</td>
+            <td class="num">{a.rockP}</td>
+            <td class="num">{a.grassP}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="wnote">水池與柱子欄是雜訊門檻；樹、岩石、草欄是每格出現的機率。「—」表示 0，該主題不生成。</p>
+  <ul class="wrules">
+    <li>競技場中心 11 格內為場地；距離 11 格以上、未滿 18 格的環為牆。中心 18 格以外回到一般地形規則，液體改為競技場主題的液體。</li>
+    <li>中央十字通道為地面，且不生成地物。競技場內不生成祭壇、泉水、大寶箱、陷阱與寶箱。</li>
+    <li>主題有天氣時，進入後強制該天氣 135 秒，離開時清除。</li>
+  </ul>
+  
+</section>

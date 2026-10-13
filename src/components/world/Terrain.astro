@@ -1,0 +1,77 @@
+---
+// 液體與移動：速度倍率、傷害、免疫與例外。數值讀自 derived/world.json 的 liquids 與 i18n 譯名；敵人的速度與傷害依 app.pretty.js 87057–87063。
+import world from '../../data/derived/world.json';
+import ZH from '../../i18n/zh/world.json';
+import Type from '../Type.astro';
+const L = world.liquids;
+const name = (k: string) => (ZH.tiles as Record<string, string>)[`liquid.${k}`];
+// 玩家每次液體傷害 = max(flat, 最大生命 × dmg × 0.5)，所以 0.06 → 3%
+const hp = (d: number) => `${+(d * 0.5 * 100).toFixed(2)}%`;
+
+const ROWS = [
+  { k: 'water', pm: `× ${L.water.slow}`, pd: '無', em: '× 0.55', ed: '無', imm: L.water.immune },
+  { k: 'swamp', pm: `× ${L.swamp.slow}`, pd: '無', em: '× 0.45', ed: '無', imm: L.swamp.immune },
+  { k: 'lava', pm: '無', pd: `每 ${L.lava.every} 秒，取 ${L.lava.flat} 與最大生命 ${hp(L.lava.dmg)} 較大者`, em: '無', ed: `每 ${L.lava.every} 秒，6 + 最大生命 4%`, imm: L.lava.immune },
+  { k: 'poison', pm: '無', pd: `每 ${L.poison.every} 秒，取 ${L.poison.flat} 與最大生命 ${hp(L.poison.dmg)} 較大者`, em: '無', ed: `每 ${L.poison.every} 秒，6 + 最大生命 4%`, imm: L.poison.immune },
+  { k: 'spark', pm: '無', pd: `每 ${L.spark.every} 秒，取 ${L.spark.flat} 與最大生命 ${hp(L.spark.dmg)} 較大者`, em: '無', ed: `每 ${L.spark.every} 秒，6 + 最大生命 4%`, imm: L.spark.immune },
+  { k: 'ice', pm: '滑行（阻尼 1.6，目標速度 × 1.15）', pd: '無', em: '無', ed: '無', imm: L.ice.immune },
+] as const;
+
+const EXEMPT = [
+  { who: '一般寶可夢（非飛行）', hit: '是', why: '沒有任何豁免條件' },
+  { who: '首領', hit: '否', why: '首領一律算飛行，因此不會被陷阱觸發' },
+  { who: '會飄浮的寶可夢（遊戲內固定的 140 種）', hit: '否', why: '會飛行的條件是首領或會飄浮；與屬性無關' },
+  { who: '傳說（裂隙競技場的王）', hit: '否', why: '傳說標記為真，並把飛行判定設為假' },
+  { who: '飛行屬性，但不會飄浮的寶可夢', hit: '是', why: '飛行屬性本身不是豁免條件' },
+] as const;
+---
+<section class="wsec" aria-labelledby="liquids">
+  <h2 id="liquids">液體與移動</h2>
+  <p class="wlead">地塊有六種液體。液體不擋移動，只有牆與實心地物會擋住。每種液體對玩家與敵人的速度與傷害不同，免疫則依各自的屬性判定。</p>
+
+  <div class="spec-wrap">
+    <table class="spec">
+      <caption>液體效果</caption>
+      <thead><tr><th>液體</th><th>玩家移動</th><th>玩家傷害</th><th>敵人移動</th><th>敵人傷害</th><th>免疫屬性</th></tr></thead>
+      <tbody>
+        {ROWS.map(r => (
+          <tr>
+            <th>{name(r.k)}</th>
+            <td class="num">{r.pm}</td>
+            <td>{r.pd}</td>
+            <td class="num">{r.em}</td>
+            <td>{r.ed}</td>
+            <td>{r.imm.map(t => <Type t={t} link={false} />)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <ul class="wrules">
+    <li>免疫：實體（玩家或敵人）的任一屬性在該液體的免疫清單中，該液體對它的減速、傷害與滑行全部失效。</li>
+    <li>玩家受液體傷害時，先把無敵時間清為 0；這類傷害不套用屬性與天氣倍率。</li>
+    <li>敵人在水與沼澤中只減速，不受傷害；冰面對敵人沒有效果。</li>
+    <li>冰面上的玩家會滑行：速度朝輸入方向的目標值（速度 × 1.15）以阻尼 1.6 趨近。</li>
+  </ul>
+  
+
+  <h3 class="wcap">哪些敵人不受液體影響</h3>
+  <p class="wlead">只有敵人有豁免。玩家的液體判定沒有任何例外，飛行或飄浮的寶可夢，玩家照樣受影響。</p>
+  <div class="spec-wrap">
+    <table class="spec">
+      <caption>敵人是否受液體影響</caption>
+      <thead><tr><th>對象</th><th>敵人受液體影響</th><th>依據</th></tr></thead>
+      <tbody>
+        {EXEMPT.map(e => (
+          <tr>
+            <th>{e.who}</th>
+            <td class="num">{e.hit}</td>
+            <td>{e.why}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="wnote">「會飄浮」是寶可夢圖片資料中的設定，與屬性不是同一件事。同一個設定也讓陷阱不會被飛行敵人與會飄浮的寶可夢觸發（見「地圖物件」）。</p>
+  
+</section>

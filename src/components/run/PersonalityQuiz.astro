@@ -1,0 +1,185 @@
+---
+// 性格測驗（互動版）：計分與結果邏輯與遊戲相同，見 ./personality.js
+import Sprite from '../Sprite.astro';
+import Type from '../Type.astro';
+import { url, pad } from '../../lib/game';
+interface Trait { zh: string; es: string; desc: string }
+interface Props {
+  questions: { q: string; a: { t: string; p: Record<string, number> }[] }[];
+  traits: Record<string, Trait>;
+  starters: { dex: number; zh: string; types: string[]; startId: string; startZh: string; traits: string[] }[];
+}
+const { questions, traits, starters } = Astro.props;
+const cfg = {
+  questions: questions.map(q => ({ q: q.q, a: q.a.map(a => ({ t: a.t, p: a.p })) })),
+  traits: Object.fromEntries(Object.entries(traits).map(([k, v]) => [k, { zh: v.zh, es: k, desc: v.desc }])),
+  starters: starters.map(s => ({ dex: s.dex, zh: s.zh, traits: s.traits })),
+};
+---
+<section class="quiz" data-quiz data-cfg={JSON.stringify(cfg)} aria-label="性格測驗">
+  <div class="quiz-head">
+    <p class="count num" data-count aria-live="polite">第 1 / {questions.length} 題</p>
+    <div class="bar" aria-hidden="true"><i data-bar></i></div>
+  </div>
+
+  <div class="panel" data-panel="question">
+    <p class="q" data-q></p>
+    <div class="answers" data-answers></div>
+  </div>
+
+  <div class="panel result" data-panel="result" hidden>
+    <div class="res-top">
+      <div class="res-trait">
+        <p class="lbl">測驗結果的特質</p>
+        <p class="trait-name"><span data-trait-zh></span> <small class="num" data-trait-es></small></p>
+        <p class="trait-desc" data-trait-desc></p>
+        <p class="lbl">各特質分數（依遊戲排序：分數高者在前，同分時先獲得分數者在前）</p>
+        <ol class="scores" data-scores></ol>
+      </div>
+      <div class="res-starter">
+        <p class="lbl">對應的初始夥伴</p>
+        <div data-starter></div>
+        <p class="tie" data-tie hidden></p>
+      </div>
+    </div>
+    <button type="button" class="again" data-reset>重新作答</button>
+  </div>
+
+  {starters.map(s => (
+    <template data-result={s.dex}>
+      <div class="res-card">
+        <Sprite dex={s.dex} scale={2} label={`${s.zh}的動畫`} />
+        <div class="res-info">
+          <p class="num small">{pad(s.dex)}</p>
+          <p class="nm">{s.zh}</p>
+          <p class="types">{s.types.map(t => <Type t={t} />)}</p>
+          <p>開場招式：<a href={url(`/moves/${s.startId}/`)}>{s.startZh}</a></p>
+          <p>性格特質：{s.traits.map(t => traits[t].zh).join('、')}</p>
+          <p><a href={url(`/pokemon/${s.dex}/`)}>查看圖鑑</a></p>
+        </div>
+      </div>
+    </template>
+  ))}
+</section>
+
+<script>
+  import { addScores, personalityResult } from './personality.js';
+
+  type Cfg = {
+    questions: { q: string; a: { t: string; p: Record<string, number> }[] }[];
+    traits: Record<string, { zh: string; es: string; desc: string }>;
+    starters: { dex: number; zh: string; traits: string[] }[];
+  };
+
+  const root = document.querySelector<HTMLElement>('[data-quiz]');
+  if (root) {
+    const cfg = JSON.parse(root.dataset.cfg || '{}') as Cfg;
+    const $ = (sel: string) => root.querySelector<HTMLElement>(sel)!;
+    const n = cfg.questions.length;
+    let step = 0;
+    let scores: Record<string, number> = {};
+
+    const renderQuestion = (focus = false) => {
+      const item = cfg.questions[step];
+      $('[data-count]').textContent = `第 ${step + 1} / ${n} 題`;
+      ($('[data-bar]') as HTMLElement).style.width = `${(step / n) * 100}%`;
+      $('[data-q]').textContent = item.q;
+      const box = $('[data-answers]');
+      box.replaceChildren(...item.a.map((a, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'answer';
+        b.textContent = a.t;
+        b.addEventListener('click', () => choose(i, b));
+        return b;
+      }));
+      if (focus) box.querySelector<HTMLElement>('button')?.focus({ preventScroll: true });
+    };
+
+    // 先標示被選中的選項，短暫停留後才進入下一題
+    let picking = false;
+    const choose = (i: number, btn: HTMLElement) => {
+      if (picking) return;
+      picking = true;
+      btn.classList.add('picked');
+      setTimeout(() => {
+        addScores(scores, cfg.questions[step].a[i].p);
+        step++;
+        picking = false;
+        if (step < n) renderQuestion(true); else finish();
+      }, 200);
+    };
+
+    const finish = () => {
+      ($('[data-bar]') as HTMLElement).style.width = '100%';
+      $('[data-count]').textContent = `測驗完成（${n} 題）`;
+      $('[data-panel="question"]').hidden = true;
+      const r = personalityResult(scores, cfg.starters);
+      const t = cfg.traits[r.trait];
+      $('[data-trait-zh]').textContent = t.zh;
+      $('[data-trait-es]').textContent = t.es;
+      $('[data-trait-desc]').textContent = t.desc;
+      const ol = $('[data-scores]');
+      ol.replaceChildren(...Object.keys(scores).sort((x, y) => scores[y] - scores[x]).map(k => {
+        const li = document.createElement('li');
+        li.textContent = `${cfg.traits[k].zh} ${scores[k]}`;
+        return li;
+      }));
+      const tpl = root.querySelector<HTMLTemplateElement>(`template[data-result="${r.dex}"]`);
+      $('[data-starter]').replaceChildren(tpl ? tpl.content.cloneNode(true) : '');
+      const chosen = cfg.starters.find(s => s.dex === r.dex)!;
+      const tie = $('[data-tie]');
+      if (r.ties.length > 1) {
+        tie.hidden = false;
+        tie.textContent = `同分的夥伴有 ${r.ties.length} 隻：${r.ties.map(s => s.zh).join('、')}。遊戲在同分時隨機選一隻，這次選到的是 ${chosen.zh}。`;
+      } else {
+        tie.hidden = true;
+      }
+      $('[data-panel="result"]').hidden = false;
+    };
+
+    root.querySelector('[data-reset]')!.addEventListener('click', () => {
+      step = 0;
+      scores = {};
+      $('[data-panel="result"]').hidden = true;
+      $('[data-panel="question"]').hidden = false;
+      renderQuestion(true);
+    });
+
+    renderQuestion();
+  }
+</script>
+
+<style>
+  .quiz { border-top: 3px solid var(--ch); padding-top: 18px; margin-top: 8px; max-width: 900px; }
+  .quiz-head { display: flex; align-items: center; gap: 16px; }
+  .count { font-size: 16px; font-weight: 800; white-space: nowrap; margin: 0; }
+  .bar { flex: 1; height: 8px; background: var(--paper-2); border: 1px solid var(--rule); }
+  .bar i { display: block; height: 100%; width: 0; background: var(--ch); }
+  .panel { margin-top: 20px; }
+  .q { font-size: 20px; font-weight: 800; line-height: 1.5; margin: 0 0 16px; max-width: 42em; }
+  .answers { display: grid; gap: 10px; }
+  /* 選項按鈕由 script 動態建立，不在本元件的 scoped 範圍內，故用 :global */
+  .answers :global(.answer) { font: 700 16px/1.5 var(--font); color: var(--ink); text-align: left; background: var(--paper); border: 2px solid var(--ink); border-radius: 4px; padding: 12px 16px; cursor: pointer; transition: background .2s var(--ease), color .2s var(--ease); }
+  .answers :global(.answer:hover) { background: var(--ink); color: var(--paper); }
+  .answers :global(.answer:focus-visible) { outline: 3px solid var(--ch); outline-offset: 3px; }
+  .answers :global(.answer.picked) { background: var(--ch); color: var(--ch-ink); }
+  .lbl { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--ink-3); margin: 0 0 6px; }
+  .res-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+  .trait-name { font-size: 26px; font-weight: 900; margin: 0; }
+  .trait-name small { font-size: 14px; font-weight: 500; color: var(--ink-3); margin-left: 6px; }
+  .trait-desc { font-size: 16px; margin: 6px 0 18px; }
+  .scores { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .scores li { font-size: 14px; border: 1.5px solid var(--rule); border-radius: 3px; padding: 2px 8px; }
+  .scores li:first-child { border-color: var(--ink); font-weight: 800; }
+  .tie { font-size: 13.5px; color: var(--ink-2); margin: 10px 0 0; }
+  .again { margin-top: 22px; font: 700 14px var(--font); color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 4px; padding: 8px 16px; cursor: pointer; }
+  .again:hover { background: var(--ink); color: var(--paper); }
+  .res-card { display: flex; gap: 18px; align-items: center; }
+  .res-info p { margin: 0 0 4px; font-size: 14.5px; }
+  .res-info .nm { font-size: 22px; font-weight: 900; }
+  .res-info .small { font-size: 12px; color: var(--ink-3); }
+  .types { display: flex; gap: 6px; }
+  .res-starter [data-starter] { min-height: 120px; }
+  @media (max-width: 760px) { .res-top { grid-template-columns: 1fr; gap: 20px; } .q { font-size: 18px; } }
+</style>

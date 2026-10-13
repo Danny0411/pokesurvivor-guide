@@ -1,0 +1,112 @@
+---
+// 18 × 18 相剋表：列為攻擊屬性，欄為防守屬性；格子為單一屬性的招式倍率
+import Type from '../Type.astro';
+import { TYPE_IDS, typeMult, fmt } from '../../lib/game';
+
+// ×1.6 暖色；×0.6、×0.3 冷色；×1 留白
+const tone = (m: number) => (m === 1 ? '' : m > 1 ? 'm16' : m > 0.5 ? 'm06' : 'm03');
+---
+
+<div class="chart-wrap">
+  <table class="chart" data-chart>
+    <caption class="vh">屬性相剋表：列為攻擊屬性，欄為防守屬性，格子為倍率</caption>
+    <thead>
+      <tr>
+        <th scope="col" class="corner">攻擊 ↓<br />防守 →</th>
+        {TYPE_IDS.map((d, c) => (
+          <th scope="col" data-c={c}><Type t={d} /></th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {TYPE_IDS.map((a, r) => (
+        <tr>
+          <th scope="row" data-r={r}><Type t={a} /></th>
+          {TYPE_IDS.map((d, c) => {
+            const m = typeMult(a, [d]);
+            return (
+              <td data-r={r} data-c={c} class:list={[tone(m)]}>
+                {m === 1 ? <span class="vh">×1</span> : <span class="num">×{fmt(m)}</span>}
+              </td>
+            );
+          })}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="legend">
+  <i class="sw m16"></i>×1.6 效果好
+  <i class="sw m06"></i>×0.6 效果不好
+  <i class="sw m03"></i>×0.3 無效
+  <i class="sw"></i>留白為 ×1
+</p>
+
+<script>
+  // 滑鼠移到格子上：標出該列（攻擊屬性）與該欄（防守屬性）
+  const table = document.querySelector<HTMLTableElement>('[data-chart]');
+  if (table) {
+    let hr = -1;
+    let hc = -1;
+    const clear = () => {
+      table.querySelectorAll('.hl, .cross').forEach(e => e.classList.remove('hl', 'cross'));
+      hr = -1;
+      hc = -1;
+    };
+    const mark = (r: number, c: number) => {
+      if (r === hr && c === hc) return;
+      clear();
+      hr = r;
+      hc = c;
+      table.querySelectorAll(`[data-r="${r}"], [data-c="${c}"]`).forEach(e => e.classList.add('hl'));
+      table.querySelector(`td[data-r="${r}"][data-c="${c}"]`)?.classList.add('cross');
+    };
+    table.tBodies[0].addEventListener('mouseover', e => {
+      const td = (e.target as Element).closest('td');
+      if (td) mark(Number(td.dataset.r), Number(td.dataset.c));
+    });
+    table.addEventListener('mouseleave', clear);
+  }
+</script>
+
+<style>
+  .chart-wrap { position: relative;
+    overflow: auto; max-height: min(78vh, 760px); overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch; border-top: 3px solid var(--ch);
+  }
+  .chart { border-collapse: separate; border-spacing: 0; font-size: 13px; }
+  .chart th, .chart td { padding: 0; text-align: center; }
+  .chart thead th {
+    position: sticky; top: 0; z-index: 2; background: var(--paper); padding: 6px 3px;
+    border-bottom: 2px solid var(--ink); vertical-align: middle;
+  }
+  .chart .corner {
+    position: sticky; left: 0; top: 0; z-index: 3; min-width: 88px; padding: 6px 8px; text-align: left;
+    font-size: 11.5px; line-height: 1.35; font-weight: 700; color: var(--ink-2); border-right: 2px solid var(--ink);
+  }
+  .chart tbody th {
+    position: sticky; left: 0; z-index: 1; background: var(--paper); padding: 3px 8px 3px 4px; text-align: left;
+    border-right: 2px solid var(--ink); white-space: nowrap;
+  }
+  .chart td {
+    width: 48px; min-width: 48px; height: 34px; font-size: 13.5px;
+    border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  }
+  .chart :global(.type) { height: 22px; min-width: 0; padding: 0 6px; font-size: 12px; }
+  .chart .num { font-weight: 700; }
+  .chart td.m16 { background: color-mix(in oklab, var(--c-pokemon) 22%, var(--paper)); }
+  .chart td.m06 { background: color-mix(in oklab, var(--c-moves) 14%, var(--paper)); }
+  .chart td.m03 { background: color-mix(in oklab, var(--c-moves) 30%, var(--paper)); }
+  .chart th.hl { background: color-mix(in oklab, var(--sel) 45%, var(--paper)); }
+  .chart td.hl { box-shadow: inset 0 0 0 99px color-mix(in oklab, var(--ink) 9%, transparent); }
+  .chart td.cross { box-shadow: inset 0 0 0 99px color-mix(in oklab, var(--sel) 90%, transparent); color: #151515; }
+
+  .legend { margin: 12px 0 0; font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; }
+  .legend .sw { margin: 0 6px 0 16px; }
+  .legend .sw:first-child { margin-left: 0; }
+  .sw { display: inline-block; width: 13px; height: 13px; border: 1px solid var(--rule); vertical-align: -2px; }
+  .sw.m16 { background: color-mix(in oklab, var(--c-pokemon) 22%, var(--paper)); }
+  .sw.m06 { background: color-mix(in oklab, var(--c-moves) 14%, var(--paper)); }
+  .sw.m03 { background: color-mix(in oklab, var(--c-moves) 30%, var(--paper)); }
+  @media (max-width: 860px) { .chart-wrap { max-height: 70vh; } }
+</style>

@@ -1,0 +1,18 @@
+---
+import WorldPage from '../../../components/world/WorldPage.astro';
+import MapObjects from '../../../components/world/MapObjects.astro';
+import ChestRing from '../../../components/world/ChestRing.astro';
+import Powers from '../../../components/world/Powers.astro';
+const sections = [
+  { id: 'objects', zh: '地圖物件總表' },
+  { id: 'drops', zh: '掉落表' },
+  { id: 'spring-trap', zh: '泉水與陷阱' },
+  { id: 'bigchest', zh: '大寶箱' },
+  { id: 'powers', zh: '傳說之力' },
+];
+---
+<WorldPage title="地圖物件" summary="草叢、岩石、寶箱、祭壇、泉水、大寶箱與陷阱的生命、出現機率、觸發方式與掉落表，以及祭壇給予的傳說之力。數值取自遊戲原始碼。" sections={sections}>
+  <MapObjects />
+  <ChestRing />
+  <Powers />
+</WorldPage>

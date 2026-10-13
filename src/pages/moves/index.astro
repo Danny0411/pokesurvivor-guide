@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import Type from '../../components/Type.astro';
+import Icon from '../../components/Icon.astro';
+import { MOVE_LIST, KINDS, STAT_CARD, TYPE_IDS, typeName, fmt, url } from '../../lib/game';
+const byType = TYPE_IDS.map(t => ({ t, moves: MOVE_LIST.filter(m => m.type === t) })).filter(g => g.moves.length);
+const last = (m: typeof MOVE_LIST[number]) => m.levels[m.levels.length - 1].stats;
+---
+<Base title="招式" description="PokéSurvivor 全部 64 招：每招的屬性、類型、Lv1 與 Lv5 傷害、冷卻、進化與所需能力卡。" chapter="moves">
+  <header class="ch-head">
+    <div class="hd"><h1>招式</h1><p class="count"><b class="num">{MOVE_LIST.length}</b><span>招</span></p></div>
+    <p class="sum">每隻寶可夢的招式池是一般系 8 招，加上自己屬性的招式。每招最高 Lv5；Lv5 時持有指定的能力卡就能進化。點招式名稱看每一級的完整數值。</p>
+    <nav class="sub" aria-label="招式的頁面">
+      <a href={url('/moves/')} aria-current="page">招式一覽</a>
+      <a href={url('/moves/rules/')}>傷害公式與規則</a>
+    </nav>
+  </header>
+  {byType.map(g => (
+    <section class="grp" id={g.t}>
+      <h2 class="band"><span>{typeName(g.t)}屬性</span><small class="num">{g.moves.length} 招</small></h2>
+      <div class="spec-wrap">
+        <table class="spec">
+          <thead><tr><th>招式</th><th>類型</th><th class="r">Lv1 傷害</th><th class="r">Lv5 傷害</th><th class="r">進化傷害</th><th class="r">Lv1 冷卻</th><th>Lv5 進化</th><th>需要</th></tr></thead>
+          <tbody>
+            {g.moves.map(m => (
+              <tr>
+                <th><a href={url(`/moves/${m.id}/`)}>{m.zh}</a></th>
+                <td>{KINDS[m.kind]?.name ?? m.kind}</td>
+                <td class="num">{m.levels[0].stats.dmg != null ? fmt(m.levels[0].stats.dmg) : '—'}</td>
+                <td class="num">{last(m).dmg != null ? fmt(last(m).dmg) : '—'}</td>
+                <td class="num">{m.evo?.stats.dmg != null ? fmt(m.evo.stats.dmg) : '—'}</td>
+                <td class="num">{m.levels[0].stats.cd != null ? `${fmt(m.levels[0].stats.cd)} 秒` : '—'}</td>
+                <td>{m.evo ? (m.evoZh ?? m.evo.name) : '不會進化'}</td>
+                <td>{m.evo ? `${STAT_CARD[m.evo.needs] ?? m.evo.needs}卡` : '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+</Base>
+<style>
+  .hd { display: flex; align-items: flex-end; justify-content: space-between; }
+  h1 { font-size: clamp(32px, 5vw, 56px); letter-spacing: .06em; }
+  .count { margin: 0; display: flex; align-items: baseline; gap: 6px; }
+  .count b { font-size: 56px; font-weight: 800; color: var(--ch); line-height: .9; }
+  .count span { font-weight: 700; color: var(--ink-2); }
+  .sub { display: flex; gap: 8px; margin: 16px 0; }
+  .sub a { font-weight: 700; font-size: 14px; text-decoration: none; padding: 6px 14px; border: 2px solid var(--ink); border-radius: 4px; }
+  .sub a[aria-current='page'] { background: var(--ink); color: var(--paper); }
+  .lead { color: var(--ink-2); }
+  .grp { margin-top: 40px; scroll-margin-top: 76px; }
+  .grp h2 small { font-size: 16px; font-weight: 700; }
+  .spec th a { font-weight: 800; }
+</style>

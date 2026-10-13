@@ -1,0 +1,15 @@
+---
+import WorldPage from '../../../components/world/WorldPage.astro';
+import Terrain from '../../../components/world/Terrain.astro';
+import Weather from '../../../components/world/Weather.astro';
+const sections = [
+  { id: 'liquids', zh: '液體與移動' },
+  { id: 'weather', zh: '天氣一覽' },
+  { id: 'weather-trigger', zh: '觸發與時長' },
+  { id: 'weather-effects', zh: '強度與效果' },
+];
+---
+<WorldPage title="地形與天氣" summary="液體對玩家與敵人的移動速度、傷害與免疫規則，以及五種天氣的觸發、持續時間、屬性倍率與其他效果。" sections={sections}>
+  <Terrain />
+  <Weather />
+</WorldPage>

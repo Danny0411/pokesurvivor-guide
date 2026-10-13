@@ -1,0 +1,11 @@
+---
+import WorldPage from '../../../components/world/WorldPage.astro';
+import Biomes from '../../../components/world/Biomes.astro';
+const sections = [
+  { id: 'biomes', zh: '生態區一覽' },
+  { id: 'arena', zh: '競技場主題' },
+];
+---
+<WorldPage title="生態區與競技場" summary="21 個生態區（3 個手寫、18 個裂隙主題）的液體與樹木樣式，以及 18 種競技場主題的地形門檻與天氣。" sections={sections}>
+  <Biomes />
+</WorldPage>

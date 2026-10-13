@@ -1,0 +1,8 @@
+---
+import { RARITY_COLOR, RARITY_NAME } from '../lib/game';
+interface Props { r: number; label?: boolean }
+const { r, label = false } = Astro.props;
+---
+<span class="rarity" style={`--rc:${RARITY_COLOR[r]}`} title={`${RARITY_NAME[r]}（${r} 星）`} role="img" aria-label={`${RARITY_NAME[r]}，${r} 星`}>
+  {[1, 2, 3, 4, 5].map(i => <i class:list={{ off: i > r }} />)}
+</span>{label && <span class="rarity-name">{RARITY_NAME[r]}</span>}

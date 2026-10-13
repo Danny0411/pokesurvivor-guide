@@ -1,0 +1,81 @@
+---
+import EnemyPage from '../../../components/enemies/EnemyPage.astro';
+import RiftLadder from '../../../components/enemies/RiftLadder.astro';
+import LegendTable from '../../../components/enemies/LegendTable.astro';
+import { D, LEGENDS } from '../../../components/enemies/model';
+import { mmss } from '../../../lib/game';
+
+const R = D.rift;
+const LEG = R.legendWeight;
+const SHINY = Math.round(1 / R.arenaShinyChance);
+---
+<EnemyPage
+  title="裂隙"
+  summary="裂隙的出現判定（成功率階梯）、參數，以及傳說候選名單。判定與競技場的完整規則見總覽頁的「裂隙」一節。"
+  sections={[{ id: 'ladder', zh: '機率階梯' }, { id: 'params', zh: '參數' }, { id: 'legends', zh: '傳說名單' }]}
+>
+  <section class="en-sec" aria-labelledby="ladder">
+    <h2 id="ladder" class="en-h2">機率階梯</h2>
+    <p class="en-lead">
+      裂隙的傳送門由計時器判定。從執行 {mmss(R.firstCheckAfterRunSec)} 開始倒數，第一次判定在 {mmss(R.ladder[0].firstCheckAtRunSec)}，之後每 {R.checkIntervalSec} 秒一次。
+      連續落空時成功率逐次提高，第 {R.ladder.length} 次（{mmss(R.ladder[R.ladder.length - 1].firstCheckAtRunSec)}）必定成功，前提是該次沒有被阻擋。
+    </p>
+    <RiftLadder />
+  </section>
+
+  <section class="en-sec" aria-labelledby="params">
+    <h2 id="params" class="en-h2">參數</h2>
+    <div class="spec-wrap en-scroll">
+      <table class="spec en-kv">
+        <thead><tr><th>項目</th><th>數值</th></tr></thead>
+        <tbody>
+          <tr>
+            <th>判定計時器</th>
+            <td>執行 {R.firstCheckAfterRunSec} 秒後才開始倒數，初值 30 秒，歸零後重設為 30 秒。計時器只在沒有傳送門、不在競技場時前進。</td>
+          </tr>
+          <tr>
+            <th>首領存活時</th>
+            <td>計時器歸零時若場上有存活的首領，跳過該次判定，計時器照常重設。</td>
+          </tr>
+          <tr>
+            <th>判定主體</th>
+            <td>多人模式只由主機判定，並建立傳送門。</td>
+          </tr>
+          <tr>
+            <th>傳送門位置</th>
+            <td>一位存活玩家周圍 {R.placement.radiusMin}–{R.placement.radiusMax} 像素，上下方向壓縮為 {R.placement.ySquash}；最多嘗試 {R.placement.tries} 次，失敗時沒有傳送門。</td>
+          </tr>
+          <tr>
+            <th>傳送門持續與進入</th>
+            <td>持續 {R.portalTtlSec} 秒，最後 1.5 秒淡出。玩家與傳送門中心的距離小於 {R.enterRadiusPx} 像素時進入裂隙。</td>
+          </tr>
+          <tr>
+            <th>競技場</th>
+            <td>半徑 {R.arenaRadiusTiles} 格。戰鬥限時 {R.fightLimitSec} 秒；所有玩家倒地超過 {R.loseAllDeadSec} 秒，或超時，即為失敗。擊敗首領後 {R.winEndSec} 秒離開。</td>
+          </tr>
+          <tr>
+            <th>固定天氣</th>
+            <td>競技場屬性若有固定天氣，會強制 {R.forcedWeatherSec} 秒。</td>
+          </tr>
+          <tr>
+            <th>傳說權重</th>
+            <td>存檔中已擊敗的傳說為 {LEG.alreadyDefeated}，尚未擊敗的為 {LEG.notYetDefeated}。</td>
+          </tr>
+          <tr>
+            <th>閃光</th>
+            <td>競技場首領為閃光的機率為 1/{SHINY}（只在該物種有閃光圖時）。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="en-sec" aria-labelledby="legends">
+    <h2 id="legends" class="en-h2">傳說名單</h2>
+    <p class="en-lead">
+      裂隙的傳說候選是傳說寶可夢中有動畫圖的寶可夢，共 {LEGENDS.length} 隻。玩家進入傳送門時，才從候選中依上表的權重抽出一隻。
+      競技場的屬性是該傳說屬性中隨機一種；一般遊玩時不篩選屬性。
+    </p>
+    <LegendTable />
+  </section>
+</EnemyPage>

@@ -1,0 +1,125 @@
+---
+import RunPage from '../../../components/run/RunPage.astro';
+import LEVELUP from '../../../data/game/LevelUp.json';
+import ZH from '../../../i18n/zh/run.json';
+import { MOVE_LIST, url } from '../../../lib/game';
+
+// 英文名取自遊戲內建的英文譯名表（.cache/）
+const EN: Record<string, string> = {
+  hp: 'Vigor', atk: 'Power', spd: 'Sprint', cd: 'Reflexes', def: 'Armor', rgn: 'Synthesis', mag: 'Magnet', xp: 'Learning', heal: 'Sitrus Berry',
+};
+// 效果與上限（程式碼 G.LevelUp：.cache/）
+const EXACT: Record<string, { exact: string; src: string }> = {
+  hp: { exact: '最大生命 +20，同時回復 20 點生命。', src: '88910–88912' },
+  atk: { exact: '攻擊倍率 ×1.10，乘在所有招式的傷害上。', src: '88916–88918' },
+  spd: { exact: '移動速度 ×1.07。', src: '88923–88925' },
+  cd: { exact: '招式冷卻 ×0.92。', src: '88930–88932' },
+  def: { exact: '減傷 = min(0.7, 減傷 + 0.06)。本卡使減傷值最高為 70%；全部減傷來源合計最高為 80%。', src: '88937–88939、87901' },
+  rgn: { exact: '每秒回復 +0.9。', src: '88944–88946' },
+  mag: { exact: '拾取範圍 ×1.3，作用於所有掉落物。', src: '88950–88952、87788–87815' },
+  xp: { exact: '經驗倍率 ×1.12。', src: '88957–88959' },
+  heal: { exact: '立即回復 45% 最大生命。', src: '88964–88966' },
+};
+const CARDS = LEVELUP.STATS.map(s => {
+  const needs = MOVE_LIST.filter(m => m.evo?.needs === s.id);
+  return {
+    id: s.id,
+    zh: ZH.levelUpStats[s.id].title,
+    es: s.title,
+    en: EN[s.id],
+    max: (s as { max?: number }).max ?? null,
+    ...EXACT[s.id],
+    moves: needs.map(m => ({ id: m.id, zh: m.zh, evo: m.evoZh ?? m.evo?.name ?? '' })),
+  };
+});
+const TOC = [
+  { id: 'flow', text: '每次升級怎麼選' },
+  { id: 'cards', text: '能力卡一覽' },
+  { id: 'evo', text: '進化需要的卡' },
+  { id: 'weights', text: '候選與權重' },
+  { id: 'reroll', text: '換牌（重抽）' },
+];
+---
+<RunPage title="能力卡" summary="每次升級會出現 3 張能力卡，選一張套用。能力卡共 9 種，每種的效果與每局上限如下。招式進化也需要其中某些卡。" toc={TOC}>
+  <h2 id="flow">每次升級怎麼選</h2>
+  <ul>
+    <li>升級時遊戲暫停，顯示 3 張卡，選一張套用。</li>
+    <li>遊戲中沒有跳過的按鈕，必須選一張。</li>
+    <li>同時升好幾級時，會依序顯示每一級的卡。死亡期間不顯示，待處理的等級會保留。</li>
+    <li>若有招式已達 Lv5 且進化條件成立，進化卡一定放在第一張。</li>
+  </ul>
+
+  <h2 id="cards">能力卡一覽</h2>
+  <div class="spec-wrap">
+    <table class="spec">
+      <thead><tr><th>能力卡</th><th>效果</th><th>每局上限</th><th>需要此卡進化的招式</th></tr></thead>
+      <tbody>
+        {CARDS.map(c => (
+          <tr>
+            <th>
+              <span class="nm">{c.zh}</span>
+              <small class="alt">{c.en}<span class="sep">／</span>{c.es}</small>
+            </th>
+            <td>{c.exact}</td>
+            <td class="num">{c.max ? `${c.max} 張` : '無'}</td>
+            <td class="num">{c.moves.length} 招</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="fine">能力卡沒有槽位限制，只有每局上限。各卡的上限是以「取得次數」計算，不是數值上限。</p>
+
+  <h2 id="evo">進化需要的卡</h2>
+  <p>招式達 Lv5、且需要的能力卡已取得至少 1 張時，該招式才會出現進化卡（權重 40）。下列是進化條件指定這張卡的招式，資料來自招式頁的進化資料。</p>
+  {CARDS.map(c => (
+    <>
+      <h3>{c.zh}（{c.en}）<span class="num count">{c.moves.length}</span></h3>
+      {c.moves.length === 0 ? (
+        <p class="none">沒有招式的進化需要這張卡。</p>
+      ) : (
+        <ul class="chips">
+          {c.moves.map(m => (
+            <li><a href={url(`/moves/${m.id}/`)}>{m.zh}</a>{m.evo && <small>進化為 {m.evo}</small>}</li>
+          ))}
+        </ul>
+      )}
+    </>
+  ))}
+
+  <h2 id="weights">候選與權重</h2>
+  <p>每次升級先產生候選，再依權重不放回地抽 3 張。</p>
+  <div class="spec-wrap">
+    <table class="spec">
+      <thead><tr><th>候選</th><th>條件</th><th>權重</th><th>數量</th></tr></thead>
+      <tbody>
+        <tr><th>進化</th><td>招式達 Lv5，且需要的能力卡已取得至少 1 張。</td><td class="num">40</td><td>有符合者時固定放第 1 張，只取第一個符合的招式。</td></tr>
+        <tr><th>新招式</th><td>招式槽未滿（最多 4 組）。可學池為通用招式加上與寶可夢屬性相同的招式，排除已擁有與被禁用的招式；已有 2 招增益類時不再出現增益類。</td><td class="num">10</td><td>從可學池隨機取最多 6 招。</td></tr>
+        <tr><th>招式升級</th><td>已擁有、未達 Lv5 的招式。</td><td class="num">8</td><td>每招 1 張。</td></tr>
+        <tr><th>需要的能力卡</th><td>有招式等著進化的能力卡。</td><td class="num">14</td><td>一定列入，即使已達每局上限。</td></tr>
+        <tr><th>其他能力卡</th><td>未達每局上限的能力卡。</td><td class="num">4 ／ 7</td><td>隨機抽 5 張。招式槽未滿為 4，已滿為 7。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="reroll">換牌（重抽）</h2>
+  <ul>
+    <li>每局開始時有 1 次免費換牌。永久強化「Cambio de cartas」（換牌）每升 1 級，每局多 1 次，最高 5 級，所以每局最多 6 次。</li>
+    <li>換牌會重新抽 3 張。次數用完後換牌按鈕隱藏。按 R 鍵也可以換牌。</li>
+    <li>擊敗首領不再給換牌次數（2026-10-12 的改版，見<a href={url('/changelog/')}>更新紀錄</a>）。遊戲中換牌次數只來自上面兩項。</li>
+  </ul>
+</RunPage>
+
+<style>
+  .nm { font-weight: 900; font-size: 15px; }
+  .alt { display: block; font-weight: 500; font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+  .sep { margin: 0 4px; }
+  .src-col { display: block; margin-top: 2px; font-size: 12px; color: var(--ink-3); }
+  .fine { font-size: 12.5px; color: var(--ink-3); }
+  .count { font-size: 16px; color: var(--ch); margin-left: 6px; }
+  .none { color: var(--ink-3); font-size: 14px; }
+  .chips { list-style: none; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips li { display: inline-flex; align-items: baseline; gap: 6px; border: 1.5px solid var(--rule); border-radius: 3px; padding: 3px 9px; font-size: 14px; }
+  .chips a { font-weight: 700; text-decoration: none; }
+  .chips small { font-size: 12px; color: var(--ink-3); }
+</style>

@@ -1,0 +1,55 @@
+/* 收集與成長子頁共用的排版：區塊標題用章節色底、小節用章節色方塊，與機制頁的 .prose 相同。 */
+.sec { margin-top: 56px; }
+.sec > h2 {
+  font-size: 24px; margin: 0 0 16px; padding: 10px 14px 9px; color: #fff; background-color: var(--ch);
+  position: relative; line-height: 1.25; display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px;
+}
+.sec > h2 .count { font-family: var(--num); font-size: 17px; font-weight: 800; }
+.sec h3 {
+  font-size: 18px; margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--ink);
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px;
+}
+.sec h3::before { content: ''; width: 10px; height: 10px; background: var(--ch); flex: none; align-self: center; }
+.sec h3 small { font-size: 13px; font-weight: 700; color: var(--ink-3); }
+.sec h4 { font-size: 15px; margin: 22px 0 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.sec p { max-width: 72ch; }
+.sec .lead { color: var(--ink-2); }
+.sec .fine { font-size: 13px; color: var(--ink-3); }
+.sec ul.pts { padding-left: 1.3em; margin: 0 0 1em; max-width: 72ch; }
+.sec ul.pts li { margin: .35em 0; }
+.sec ul.pts li::marker { color: var(--ch); }
+.sec .spec-wrap { margin-top: 8px; }
+.sec .formula { margin: 8px 0 12px; }
+.sec .formula code { font-family: var(--num); font-size: 16px; font-weight: 700; background: var(--paper-2); padding: 6px 12px; border-radius: 3px; display: inline-block; }
+.spec th small { display: block; font-weight: 400; font-size: 12px; color: var(--ink-3); }
+.spec th a { text-decoration: none; }
+.spec th a:hover { text-decoration: underline; }
+
+.sec figure { margin: 18px 0 8px; max-width: 880px; }
+.sec figcaption { font-size: 13px; color: var(--ink-3); margin-top: 8px; }
+
+/* 可收合的完整清單 */
+.sec details { margin-top: 12px; }
+.sec details > summary {
+  cursor: pointer; display: inline-block; list-style: none; font-weight: 800; font-size: 14px;
+  padding: 7px 14px; border: 2px solid var(--ink); border-radius: 4px; background: var(--paper);
+}
+.sec details > summary::-webkit-details-marker { display: none; }
+.sec details[open] > summary { background: var(--ink); color: var(--paper); }
+.sec details .grp { margin-top: 6px; }
+
+/* 章節內的跳轉連結（類別、卡池） */
+.jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+.jump a {
+  display: inline-flex; align-items: baseline; gap: 6px; font-weight: 700; font-size: 14px; text-decoration: none;
+  padding: 5px 12px; border: 2px solid var(--ink); border-radius: 4px; background: var(--paper);
+}
+.jump a:hover { background: var(--ink); color: var(--paper); }
+.jump .num { font-size: 15px; }
+
+.src { margin-top: 56px; font-size: 12.5px; color: var(--ink-3); border-top: 1px solid var(--rule); padding-top: 12px; }
+
+@media (max-width: 560px) {
+  .sec > h2 { font-size: 21px; }
+  .sec h3 { font-size: 17px; }
+}

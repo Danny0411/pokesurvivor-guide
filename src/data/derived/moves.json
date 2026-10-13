@@ -1,0 +1,6452 @@
+{
+  "_meta": {
+    "source": "src/data/game/Moves.json（由 .cache/app.pretty.js 匯出）",
+    "codeRefs": {
+      "stats_apply": "app.pretty.js 82144–82149",
+      "instance_and_levelUp": "app.pretty.js 82368–82381",
+      "evolve_and_evoInfo": "app.pretty.js 82394–82409",
+      "kind_ups_table": "app.pretty.js 81250–81371（區域變數 a；行 82143 指派）",
+      "kind_evolution_table": "app.pretty.js 82241–82356（區域變數 l）",
+      "start_by_type": "app.pretty.js 82150–82168（區域變數 d）"
+    },
+    "rounding": "數值保留 12 位有效數字（遊戲內為未捨入的 double）",
+    "note": "升級與進化修正以 apply() 規則處理：MULT 欄位相乘、ADD 欄位相加、其他欄位覆寫。"
+  },
+  "kinds": {
+    "aura": {
+      "ups": [
+        {
+          "t": "+30% radio",
+          "m": {
+            "radius": 1.3
+          }
+        },
+        {
+          "t": "+45% daño",
+          "m": {
+            "dmg": 1.45
+          }
+        },
+        {
+          "t": "Golpea un 40% más a menudo",
+          "m": {
+            "cd": 0.7
+          }
+        },
+        {
+          "t": "+30% radio y +50% daño",
+          "m": {
+            "radius": 1.3,
+            "dmg": 1.5
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,8 daño y un 35% más de radio",
+        "m": {
+          "dmg": 1.8,
+          "radius": 1.35
+        }
+      },
+      "moveCount": 7
+    },
+    "beam": {
+      "ups": [
+        {
+          "t": "+45% daño",
+          "m": {
+            "dmg": 1.45
+          }
+        },
+        {
+          "t": "+30% alcance y grosor",
+          "m": {
+            "radius": 1.3,
+            "width": 1.3
+          }
+        },
+        {
+          "t": "-25% recarga",
+          "m": {
+            "cd": 0.75
+          }
+        },
+        {
+          "t": "+50% daño",
+          "m": {
+            "dmg": 1.5
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,8 daño, rayo un 50% más grueso y más largo",
+        "m": {
+          "dmg": 1.8,
+          "width": 1.5,
+          "radius": 1.2,
+          "cd": 0.85
+        }
+      },
+      "moveCount": 5
+    },
+    "boomerang": {
+      "ups": [
+        {
+          "t": "+1 bumerán",
+          "m": {
+            "count": 1
+          }
+        },
+        {
+          "t": "+45% daño",
+          "m": {
+            "dmg": 1.45
+          }
+        },
+        {
+          "t": "+30% alcance",
+          "m": {
+            "radius": 1.3
+          }
+        },
+        {
+          "t": "+1 bumerán y +40% daño",
+          "m": {
+            "count": 1,
+            "dmg": 1.4
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,8 daño, +1 bumerán y más alcance",
+        "m": {
+          "dmg": 1.8,
+          "count": 1,
+          "radius": 1.2,
+          "size": 1.2
+        }
+      },
+      "moveCount": 3
+    },
+    "buff": {
+      "ups": [
+        {
+          "t": "+1 acumulación máxima",
+          "m": {
+            "stacks": 1
+          }
+        },
+        {
+          "t": "+40% potencia",
+          "m": {
+            "amount": 1.4
+          }
+        },
+        {
+          "t": "+50% duración",
+          "m": {
+            "dur": 1.5
+          }
+        },
+        {
+          "t": "+1 acumulación y +40% potencia",
+          "m": {
+            "stacks": 1,
+            "amount": 1.4
+          }
+        }
+      ],
+      "evolution": null,
+      "moveCount": 5
+    },
+    "chain": {
+      "ups": [
+        {
+          "t": "+2 saltos",
+          "m": {
+            "count": 2
+          }
+        },
+        {
+          "t": "+45% daño",
+          "m": {
+            "dmg": 1.45
+          }
+        },
+        {
+          "t": "-25% recarga",
+          "m": {
+            "cd": 0.75
+          }
+        },
+        {
+          "t": "+2 saltos y +40% daño",
+          "m": {
+            "count": 2,
+            "dmg": 1.4
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,7 daño y +3 saltos",
+        "m": {
+          "dmg": 1.7,
+          "count": 3,
+          "radius": 1.2
+        }
+      },
+      "moveCount": 2
+    },
+    "cone": {
+      "ups": [
+        {
+          "t": "+3 disparos",
+          "m": {
+            "count": 3
+          }
+        },
+        {
+          "t": "+40% daño",
+          "m": {
+            "dmg": 1.4
+          }
+        },
+        {
+          "t": "+30% alcance",
+          "m": {
+            "life": 1.3
+          }
+        },
+        {
+          "t": "+3 disparos y +1 perforación",
+          "m": {
+            "count": 3,
+            "pierce": 1
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,7 daño, +4 disparos y +1 perforación",
+        "m": {
+          "dmg": 1.7,
+          "count": 4,
+          "pierce": 1
+        }
+      },
+      "moveCount": 2
+    },
+    "dash": {
+      "ups": [
+        {
+          "t": "+40% daño",
+          "m": {
+            "dmg": 1.4
+          }
+        },
+        {
+          "t": "+30% distancia",
+          "m": {
+            "radius": 1.3
+          }
+        },
+        {
+          "t": "-25% recarga",
+          "m": {
+            "cd": 0.75
+          }
+        },
+        {
+          "t": "+60% daño y más ancho",
+          "m": {
+            "dmg": 1.6,
+            "width": 1.4
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,9 daño, más distancia y menos recarga",
+        "m": {
+          "dmg": 1.9,
+          "radius": 1.25,
+          "cd": 0.8
+        }
+      },
+      "moveCount": 2
+    },
+    "melee": {
+      "ups": [
+        {
+          "t": "+40% daño",
+          "m": {
+            "dmg": 1.4
+          }
+        },
+        {
+          "t": "+25% alcance",
+          "m": {
+            "radius": 1.25
+          }
+        },
+        {
+          "t": "-25% recarga",
+          "m": {
+            "cd": 0.75
+          }
+        },
+        {
+          "t": "Golpea en 360° y +50% daño",
+          "m": {
+            "arc": 9,
+            "dmg": 1.5
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,9 daño, más alcance y golpea en 360°",
+        "m": {
+          "dmg": 1.9,
+          "radius": 1.3,
+          "arc": 9
+        }
+      },
+      "moveCount": 9
+    },
+    "meteor": {
+      "ups": [
+        {
+          "t": "+1 meteoro",
+          "m": {
+            "count": 1
+          }
+        },
+        {
+          "t": "+45% daño",
+          "m": {
+            "dmg": 1.45
+          }
+        },
+        {
+          "t": "+30% radio",
+          "m": {
+            "radius": 1.3
+          }
+        },
+        {
+          "t": "+2 meteoros y -20% recarga",
+          "m": {
+            "count": 2,
+            "cd": 0.8
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,7 daño, +2 meteoros y más radio",
+        "m": {
+          "dmg": 1.7,
+          "count": 2,
+          "radius": 1.2
+        }
+      },
+      "moveCount": 3
+    },
+    "mine": {
+      "ups": [
+        {
+          "t": "+1 mina",
+          "m": {
+            "count": 1
+          }
+        },
+        {
+          "t": "+50% daño",
+          "m": {
+            "dmg": 1.5
+          }
+        },
+        {
+          "t": "+30% radio de explosión",
+          "m": {
+            "radius": 1.3
+          }
+        },
+        {
+          "t": "+1 mina y -25% recarga",
+          "m": {
+            "count": 1,
+            "cd": 0.75
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,8 daño, +2 minas y explosión más grande",
+        "m": {
+          "dmg": 1.8,
+          "count": 2,
+          "radius": 1.25
+        }
+      },
+      "moveCount": 3
+    },
+    "nova": {
+      "ups": [
+        {
+          "t": "+4 proyectiles",
+          "m": {
+            "count": 4
+          }
+        },
+        {
+          "t": "+40% daño",
+          "m": {
+            "dmg": 1.4
+          }
+        },
+        {
+          "t": "-25% recarga",
+          "m": {
+            "cd": 0.75
+          }
+        },
+        {
+          "t": "+4 proyectiles y +1 perforación",
+          "m": {
+            "count": 4,
+            "pierce": 1
+          }
+        }
+      ],
+      "evolution": {
+        "t": "+6 proyectiles, ×1,6 daño y +1 perforación",
+        "m": {
+          "count": 6,
+          "dmg": 1.6,
+          "pierce": 1
+        }
+      },
+      "moveCount": 7
+    },
+    "orbit": {
+      "ups": [
+        {
+          "t": "+1 orbe",
+          "m": {
+            "count": 1
+          }
+        },
+        {
+          "t": "+55% daño",
+          "m": {
+            "dmg": 1.55
+          }
+        },
+        {
+          "t": "+25% radio y gira más rápido",
+          "m": {
+            "radius": 1.25,
+            "speed": 1.35
+          }
+        },
+        {
+          "t": "+1 orbe y +55% daño",
+          "m": {
+            "count": 1,
+            "dmg": 1.55
+          }
+        }
+      ],
+      "evolution": {
+        "t": "+2 orbes, ×1,7 daño y más radio",
+        "m": {
+          "count": 2,
+          "dmg": 1.7,
+          "radius": 1.15
+        }
+      },
+      "moveCount": 3
+    },
+    "projectile": {
+      "ups": [
+        {
+          "t": "+1 proyectil",
+          "m": {
+            "count": 1,
+            "spread": 1.4
+          }
+        },
+        {
+          "t": "+45% daño",
+          "m": {
+            "dmg": 1.45
+          }
+        },
+        {
+          "t": "-25% recarga",
+          "m": {
+            "cd": 0.75
+          }
+        },
+        {
+          "t": "+1 proyectil y +1 perforación",
+          "m": {
+            "count": 1,
+            "pierce": 1,
+            "spread": 1.2
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,8 daño, +2 proyectiles, +2 perforación y más grandes",
+        "m": {
+          "dmg": 1.8,
+          "count": 2,
+          "pierce": 2,
+          "size": 1.3,
+          "spread": 1.1
+        }
+      },
+      "moveCount": 9
+    },
+    "trail": {
+      "ups": [
+        {
+          "t": "+40% daño",
+          "m": {
+            "dmg": 1.4
+          }
+        },
+        {
+          "t": "+40% duración",
+          "m": {
+            "dur": 1.4
+          }
+        },
+        {
+          "t": "Charcos un 30% más grandes",
+          "m": {
+            "radius": 1.3
+          }
+        },
+        {
+          "t": "+50% daño y +30% radio",
+          "m": {
+            "dmg": 1.5,
+            "radius": 1.3
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,8 daño, charcos más grandes y duraderos",
+        "m": {
+          "dmg": 1.8,
+          "radius": 1.25,
+          "dur": 1.3
+        }
+      },
+      "moveCount": 2
+    },
+    "turret": {
+      "ups": [
+        {
+          "t": "+50% daño",
+          "m": {
+            "dmg": 1.5
+          }
+        },
+        {
+          "t": "Dispara un 35% más rápido",
+          "m": {
+            "rate": 0.74
+          }
+        },
+        {
+          "t": "+1 a la vez",
+          "m": {
+            "count": 1
+          }
+        },
+        {
+          "t": "+50% duración y +40% daño",
+          "m": {
+            "dur": 1.5,
+            "dmg": 1.4
+          }
+        }
+      ],
+      "evolution": {
+        "t": "×1,8 daño, +1 a la vez y dispara más rápido",
+        "m": {
+          "dmg": 1.8,
+          "count": 1,
+          "rate": 0.8
+        }
+      },
+      "moveCount": 2
+    }
+  },
+  "moves": [
+    {
+      "id": "tackle",
+      "name": "Placaje",
+      "type": "normal",
+      "kind": "melee",
+      "desc": "Embiste en arco a todo lo que tengas delante.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.5,
+            "dmg": 16,
+            "radius": 60,
+            "arc": 2.13,
+            "knock": 90
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.5,
+            "dmg": 22.4,
+            "radius": 60,
+            "arc": 2.13,
+            "knock": 90
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+25% alcance",
+          "stats": {
+            "cd": 0.5,
+            "dmg": 22.4,
+            "radius": 75,
+            "arc": 2.13,
+            "knock": 90
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.375,
+            "dmg": 22.4,
+            "radius": 75,
+            "arc": 2.13,
+            "knock": 90
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "Golpea en 360° y +50% daño",
+          "stats": {
+            "cd": 0.375,
+            "dmg": 33.6,
+            "radius": 75,
+            "arc": 19.17,
+            "knock": 90
+          }
+        }
+      ],
+      "evo": {
+        "name": "Derribo",
+        "needs": "hp",
+        "needName": "Vigor",
+        "text": "×1,9 daño, más alcance y golpea en 360°",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.3,
+          "arc": 9
+        },
+        "stats": {
+          "cd": 0.375,
+          "dmg": 63.84,
+          "radius": 97.5,
+          "arc": 172.53,
+          "knock": 90
+        }
+      }
+    },
+    {
+      "id": "quick-attack",
+      "name": "Ataque Rápido",
+      "type": "normal",
+      "kind": "dash",
+      "desc": "Cruzas como un rayo hacia el enemigo y golpeas todo el camino.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.75,
+            "dmg": 20,
+            "radius": 110,
+            "width": 34,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.75,
+            "dmg": 28,
+            "radius": 110,
+            "width": 34,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+30% distancia",
+          "stats": {
+            "cd": 0.75,
+            "dmg": 28,
+            "radius": 143,
+            "width": 34,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.5625,
+            "dmg": 28,
+            "radius": 143,
+            "width": 34,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+60% daño y más ancho",
+          "stats": {
+            "cd": 0.5625,
+            "dmg": 44.8,
+            "radius": 143,
+            "width": 47.6,
+            "knock": 40
+          }
+        }
+      ],
+      "evo": {
+        "name": "Velocidad Extrema",
+        "needs": "spd",
+        "needName": "Carrera",
+        "text": "×1,9 daño, más distancia y menos recarga",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.25,
+          "cd": 0.8
+        },
+        "stats": {
+          "cd": 0.45,
+          "dmg": 85.12,
+          "radius": 178.75,
+          "width": 47.6,
+          "knock": 40
+        }
+      }
+    },
+    {
+      "id": "swords-dance",
+      "name": "Danza Espada",
+      "type": "normal",
+      "kind": "buff",
+      "desc": "No hace daño: acumula ATAQUE mientras esté activo.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.85,
+            "stat": "atk",
+            "amount": 0.13,
+            "dur": 7,
+            "stacks": 5
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 acumulación máxima",
+          "stats": {
+            "cd": 0.85,
+            "stat": "atk",
+            "amount": 0.13,
+            "dur": 7,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% potencia",
+          "stats": {
+            "cd": 0.85,
+            "stat": "atk",
+            "amount": 0.182,
+            "dur": 7,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+50% duración",
+          "stats": {
+            "cd": 0.85,
+            "stat": "atk",
+            "amount": 0.182,
+            "dur": 10.5,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 acumulación y +40% potencia",
+          "stats": {
+            "cd": 0.85,
+            "stat": "atk",
+            "amount": 0.2548,
+            "dur": 10.5,
+            "stacks": 7
+          }
+        }
+      ],
+      "evo": null
+    },
+    {
+      "id": "agility",
+      "name": "Agilidad",
+      "type": "normal",
+      "kind": "buff",
+      "desc": "No hace daño: acumula VELOCIDAD mientras esté activo.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.85,
+            "stat": "spd",
+            "amount": 0.1,
+            "dur": 7,
+            "stacks": 5
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 acumulación máxima",
+          "stats": {
+            "cd": 0.85,
+            "stat": "spd",
+            "amount": 0.1,
+            "dur": 7,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% potencia",
+          "stats": {
+            "cd": 0.85,
+            "stat": "spd",
+            "amount": 0.14,
+            "dur": 7,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+50% duración",
+          "stats": {
+            "cd": 0.85,
+            "stat": "spd",
+            "amount": 0.14,
+            "dur": 10.5,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 acumulación y +40% potencia",
+          "stats": {
+            "cd": 0.85,
+            "stat": "spd",
+            "amount": 0.196,
+            "dur": 10.5,
+            "stacks": 7
+          }
+        }
+      ],
+      "evo": null
+    },
+    {
+      "id": "harden",
+      "name": "Fortaleza",
+      "type": "normal",
+      "kind": "buff",
+      "desc": "No hace daño: acumula DEFENSA mientras esté activo.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.85,
+            "stat": "def",
+            "amount": 0.07,
+            "dur": 7,
+            "stacks": 5
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 acumulación máxima",
+          "stats": {
+            "cd": 0.85,
+            "stat": "def",
+            "amount": 0.07,
+            "dur": 7,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% potencia",
+          "stats": {
+            "cd": 0.85,
+            "stat": "def",
+            "amount": 0.098,
+            "dur": 7,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+50% duración",
+          "stats": {
+            "cd": 0.85,
+            "stat": "def",
+            "amount": 0.098,
+            "dur": 10.5,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 acumulación y +40% potencia",
+          "stats": {
+            "cd": 0.85,
+            "stat": "def",
+            "amount": 0.1372,
+            "dur": 10.5,
+            "stacks": 7
+          }
+        }
+      ],
+      "evo": null
+    },
+    {
+      "id": "ember",
+      "name": "Ascuas",
+      "type": "fire",
+      "kind": "projectile",
+      "desc": "Bola de fuego al enemigo más cercano.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.52,
+            "dmg": 18,
+            "speed": 310,
+            "count": 1,
+            "spread": 0.12,
+            "pierce": 0,
+            "life": 1.6,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 proyectil",
+          "stats": {
+            "cd": 0.52,
+            "dmg": 18,
+            "speed": 310,
+            "count": 2,
+            "spread": 0.168,
+            "pierce": 0,
+            "life": 1.6,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.52,
+            "dmg": 26.1,
+            "speed": 310,
+            "count": 2,
+            "spread": 0.168,
+            "pierce": 0,
+            "life": 1.6,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.39,
+            "dmg": 26.1,
+            "speed": 310,
+            "count": 2,
+            "spread": 0.168,
+            "pierce": 0,
+            "life": 1.6,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 proyectil y +1 perforación",
+          "stats": {
+            "cd": 0.39,
+            "dmg": 26.1,
+            "speed": 310,
+            "count": 3,
+            "spread": 0.2016,
+            "pierce": 1,
+            "life": 1.6,
+            "size": 7,
+            "burn": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Llamarada",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, +2 proyectiles, +2 perforación y más grandes",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "pierce": 2,
+          "size": 1.3,
+          "spread": 1.1
+        },
+        "stats": {
+          "cd": 0.39,
+          "dmg": 46.98,
+          "speed": 310,
+          "count": 5,
+          "spread": 0.22176,
+          "pierce": 3,
+          "life": 1.6,
+          "size": 9.1,
+          "burn": 1
+        }
+      }
+    },
+    {
+      "id": "flamethrower",
+      "name": "Lanzallamas",
+      "type": "fire",
+      "kind": "cone",
+      "desc": "Chorro de llamas en abanico corto que quema.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.7,
+            "dmg": 7,
+            "count": 7,
+            "arc": 0.9,
+            "speed": 380,
+            "life": 0.42,
+            "size": 6,
+            "pierce": 1,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+3 disparos",
+          "stats": {
+            "cd": 0.7,
+            "dmg": 7,
+            "count": 10,
+            "arc": 0.9,
+            "speed": 380,
+            "life": 0.42,
+            "size": 6,
+            "pierce": 1,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.7,
+            "dmg": 9.8,
+            "count": 10,
+            "arc": 0.9,
+            "speed": 380,
+            "life": 0.42,
+            "size": 6,
+            "pierce": 1,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% alcance",
+          "stats": {
+            "cd": 0.7,
+            "dmg": 9.8,
+            "count": 10,
+            "arc": 0.9,
+            "speed": 380,
+            "life": 0.546,
+            "size": 6,
+            "pierce": 1,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+3 disparos y +1 perforación",
+          "stats": {
+            "cd": 0.7,
+            "dmg": 9.8,
+            "count": 13,
+            "arc": 0.9,
+            "speed": 380,
+            "life": 0.546,
+            "size": 6,
+            "pierce": 2,
+            "burn": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Sofoco",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,7 daño, +4 disparos y +1 perforación",
+        "modifiers": {
+          "dmg": 1.7,
+          "count": 4,
+          "pierce": 1
+        },
+        "stats": {
+          "cd": 0.7,
+          "dmg": 16.66,
+          "count": 17,
+          "arc": 0.9,
+          "speed": 380,
+          "life": 0.546,
+          "size": 6,
+          "pierce": 3,
+          "burn": 1
+        }
+      }
+    },
+    {
+      "id": "fire-spin",
+      "name": "Giro Fuego",
+      "type": "fire",
+      "kind": "orbit",
+      "desc": "Llamas que giran a tu alrededor. Defensa constante.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.3,
+            "dmg": 14,
+            "count": 3,
+            "radius": 62,
+            "speed": 2.4,
+            "size": 9,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 orbe",
+          "stats": {
+            "cd": 0.3,
+            "dmg": 14,
+            "count": 4,
+            "radius": 62,
+            "speed": 2.4,
+            "size": 9,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+55% daño",
+          "stats": {
+            "cd": 0.3,
+            "dmg": 21.7,
+            "count": 4,
+            "radius": 62,
+            "speed": 2.4,
+            "size": 9,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+25% radio y gira más rápido",
+          "stats": {
+            "cd": 0.3,
+            "dmg": 21.7,
+            "count": 4,
+            "radius": 77.5,
+            "speed": 3.24,
+            "size": 9,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 orbe y +55% daño",
+          "stats": {
+            "cd": 0.3,
+            "dmg": 33.635,
+            "count": 5,
+            "radius": 77.5,
+            "speed": 3.24,
+            "size": 9,
+            "burn": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Fuego Sagrado",
+        "needs": "rgn",
+        "needName": "Síntesis",
+        "text": "+2 orbes, ×1,7 daño y más radio",
+        "modifiers": {
+          "count": 2,
+          "dmg": 1.7,
+          "radius": 1.15
+        },
+        "stats": {
+          "cd": 0.3,
+          "dmg": 57.1795,
+          "count": 7,
+          "radius": 89.125,
+          "speed": 3.24,
+          "size": 9,
+          "burn": 1
+        }
+      }
+    },
+    {
+      "id": "heat-wave",
+      "name": "Onda Ígnea",
+      "type": "fire",
+      "kind": "nova",
+      "desc": "Explota en llamas en todas las direcciones.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.25,
+            "dmg": 13,
+            "speed": 250,
+            "count": 10,
+            "pierce": 1,
+            "life": 1.1,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+4 proyectiles",
+          "stats": {
+            "cd": 1.25,
+            "dmg": 13,
+            "speed": 250,
+            "count": 14,
+            "pierce": 1,
+            "life": 1.1,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 1.25,
+            "dmg": 18.2,
+            "speed": 250,
+            "count": 14,
+            "pierce": 1,
+            "life": 1.1,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.9375,
+            "dmg": 18.2,
+            "speed": 250,
+            "count": 14,
+            "pierce": 1,
+            "life": 1.1,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+4 proyectiles y +1 perforación",
+          "stats": {
+            "cd": 0.9375,
+            "dmg": 18.2,
+            "speed": 250,
+            "count": 18,
+            "pierce": 2,
+            "life": 1.1,
+            "size": 7,
+            "burn": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Erupción",
+        "needs": "hp",
+        "needName": "Vigor",
+        "text": "+6 proyectiles, ×1,6 daño y +1 perforación",
+        "modifiers": {
+          "count": 6,
+          "dmg": 1.6,
+          "pierce": 1
+        },
+        "stats": {
+          "cd": 0.9375,
+          "dmg": 29.12,
+          "speed": 250,
+          "count": 24,
+          "pierce": 3,
+          "life": 1.1,
+          "size": 7,
+          "burn": 1
+        }
+      }
+    },
+    {
+      "id": "water-gun",
+      "name": "Pistola Agua",
+      "type": "water",
+      "kind": "projectile",
+      "desc": "Chorro perforante. Fiable a cualquier distancia.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.44,
+            "dmg": 14,
+            "speed": 350,
+            "count": 1,
+            "spread": 0.1,
+            "pierce": 1,
+            "life": 1.5,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 proyectil",
+          "stats": {
+            "cd": 0.44,
+            "dmg": 14,
+            "speed": 350,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 1,
+            "life": 1.5,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.44,
+            "dmg": 20.3,
+            "speed": 350,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 1,
+            "life": 1.5,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.33,
+            "dmg": 20.3,
+            "speed": 350,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 1,
+            "life": 1.5,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 proyectil y +1 perforación",
+          "stats": {
+            "cd": 0.33,
+            "dmg": 20.3,
+            "speed": 350,
+            "count": 3,
+            "spread": 0.168,
+            "pierce": 2,
+            "life": 1.5,
+            "size": 6
+          }
+        }
+      ],
+      "evo": {
+        "name": "Escaldar",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, +2 proyectiles, +2 perforación y más grandes",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "pierce": 2,
+          "size": 1.3,
+          "spread": 1.1
+        },
+        "stats": {
+          "cd": 0.33,
+          "dmg": 36.54,
+          "speed": 350,
+          "count": 5,
+          "spread": 0.1848,
+          "pierce": 4,
+          "life": 1.5,
+          "size": 7.8
+        }
+      }
+    },
+    {
+      "id": "bubble",
+      "name": "Burbuja",
+      "type": "water",
+      "kind": "nova",
+      "desc": "Burbujas en abanico que ralentizan a quien tocan.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1,
+            "dmg": 9,
+            "speed": 210,
+            "count": 8,
+            "pierce": 0,
+            "life": 1.3,
+            "size": 8,
+            "slow": 0.45
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+4 proyectiles",
+          "stats": {
+            "cd": 1,
+            "dmg": 9,
+            "speed": 210,
+            "count": 12,
+            "pierce": 0,
+            "life": 1.3,
+            "size": 8,
+            "slow": 0.45
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 1,
+            "dmg": 12.6,
+            "speed": 210,
+            "count": 12,
+            "pierce": 0,
+            "life": 1.3,
+            "size": 8,
+            "slow": 0.45
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.75,
+            "dmg": 12.6,
+            "speed": 210,
+            "count": 12,
+            "pierce": 0,
+            "life": 1.3,
+            "size": 8,
+            "slow": 0.45
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+4 proyectiles y +1 perforación",
+          "stats": {
+            "cd": 0.75,
+            "dmg": 12.6,
+            "speed": 210,
+            "count": 16,
+            "pierce": 1,
+            "life": 1.3,
+            "size": 8,
+            "slow": 0.45
+          }
+        }
+      ],
+      "evo": {
+        "name": "Surf",
+        "needs": "spd",
+        "needName": "Carrera",
+        "text": "+6 proyectiles, ×1,6 daño y +1 perforación",
+        "modifiers": {
+          "count": 6,
+          "dmg": 1.6,
+          "pierce": 1
+        },
+        "stats": {
+          "cd": 0.75,
+          "dmg": 20.16,
+          "speed": 210,
+          "count": 22,
+          "pierce": 2,
+          "life": 1.3,
+          "size": 8,
+          "slow": 0.45
+        }
+      }
+    },
+    {
+      "id": "hydro-pump",
+      "name": "Hidrobomba",
+      "type": "water",
+      "kind": "beam",
+      "desc": "Cañonazo de agua lento pero devastador.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.5,
+            "dmg": 29,
+            "radius": 250,
+            "width": 30
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 1.5,
+            "dmg": 42.05,
+            "radius": 250,
+            "width": 30
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+30% alcance y grosor",
+          "stats": {
+            "cd": 1.5,
+            "dmg": 42.05,
+            "radius": 325,
+            "width": 39
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 1.125,
+            "dmg": 42.05,
+            "radius": 325,
+            "width": 39
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+50% daño",
+          "stats": {
+            "cd": 1.125,
+            "dmg": 63.075,
+            "radius": 325,
+            "width": 39
+          }
+        }
+      ],
+      "evo": {
+        "name": "Hidrocañón",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, rayo un 50% más grueso y más largo",
+        "modifiers": {
+          "dmg": 1.8,
+          "width": 1.5,
+          "radius": 1.2,
+          "cd": 0.85
+        },
+        "stats": {
+          "cd": 0.95625,
+          "dmg": 113.535,
+          "radius": 390,
+          "width": 58.5
+        }
+      }
+    },
+    {
+      "id": "aqua-ring",
+      "name": "Acua Aro",
+      "type": "water",
+      "kind": "buff",
+      "desc": "No hace daño: acumula REGENERACIÓN de vida.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.9,
+            "stat": "regen",
+            "amount": 1.6,
+            "dur": 8,
+            "stacks": 4
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 acumulación máxima",
+          "stats": {
+            "cd": 0.9,
+            "stat": "regen",
+            "amount": 1.6,
+            "dur": 8,
+            "stacks": 5
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% potencia",
+          "stats": {
+            "cd": 0.9,
+            "stat": "regen",
+            "amount": 2.24,
+            "dur": 8,
+            "stacks": 5
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+50% duración",
+          "stats": {
+            "cd": 0.9,
+            "stat": "regen",
+            "amount": 2.24,
+            "dur": 12,
+            "stacks": 5
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 acumulación y +40% potencia",
+          "stats": {
+            "cd": 0.9,
+            "stat": "regen",
+            "amount": 3.136,
+            "dur": 12,
+            "stacks": 6
+          }
+        }
+      ],
+      "evo": null
+    },
+    {
+      "id": "vine-whip",
+      "name": "Látigo Cepa",
+      "type": "grass",
+      "kind": "melee",
+      "desc": "Látigos de largo alcance en arco amplio.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.62,
+            "dmg": 19,
+            "radius": 85,
+            "arc": 1.63,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.62,
+            "dmg": 26.6,
+            "radius": 85,
+            "arc": 1.63,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+25% alcance",
+          "stats": {
+            "cd": 0.62,
+            "dmg": 26.6,
+            "radius": 106.25,
+            "arc": 1.63,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.465,
+            "dmg": 26.6,
+            "radius": 106.25,
+            "arc": 1.63,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "Golpea en 360° y +50% daño",
+          "stats": {
+            "cd": 0.465,
+            "dmg": 39.9,
+            "radius": 106.25,
+            "arc": 14.67,
+            "knock": 60
+          }
+        }
+      ],
+      "evo": {
+        "name": "Latigazo",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,9 daño, más alcance y golpea en 360°",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.3,
+          "arc": 9
+        },
+        "stats": {
+          "cd": 0.465,
+          "dmg": 75.81,
+          "radius": 138.125,
+          "arc": 132.03,
+          "knock": 60
+        }
+      }
+    },
+    {
+      "id": "razor-leaf",
+      "name": "Hoja Afilada",
+      "type": "grass",
+      "kind": "boomerang",
+      "desc": "Dos hojas que van y vuelven cortando a la ida y a la vuelta.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.9,
+            "dmg": 10,
+            "speed": 330,
+            "count": 2,
+            "spread": 0.5,
+            "radius": 210,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 bumerán",
+          "stats": {
+            "cd": 0.9,
+            "dmg": 10,
+            "speed": 330,
+            "count": 3,
+            "spread": 0.5,
+            "radius": 210,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.9,
+            "dmg": 14.5,
+            "speed": 330,
+            "count": 3,
+            "spread": 0.5,
+            "radius": 210,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% alcance",
+          "stats": {
+            "cd": 0.9,
+            "dmg": 14.5,
+            "speed": 330,
+            "count": 3,
+            "spread": 0.5,
+            "radius": 273,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 bumerán y +40% daño",
+          "stats": {
+            "cd": 0.9,
+            "dmg": 20.3,
+            "speed": 330,
+            "count": 4,
+            "spread": 0.5,
+            "radius": 273,
+            "size": 6
+          }
+        }
+      ],
+      "evo": {
+        "name": "Lluevehojas",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,8 daño, +1 bumerán y más alcance",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 1,
+          "radius": 1.2,
+          "size": 1.2
+        },
+        "stats": {
+          "cd": 0.9,
+          "dmg": 36.54,
+          "speed": 330,
+          "count": 5,
+          "spread": 0.5,
+          "radius": 327.6,
+          "size": 7.2
+        }
+      }
+    },
+    {
+      "id": "leaf-storm",
+      "name": "Tormenta Floral",
+      "type": "grass",
+      "kind": "orbit",
+      "desc": "Un ciclón de hojas gira amplio a tu alrededor.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.26,
+            "dmg": 14,
+            "count": 4,
+            "radius": 74,
+            "speed": 2.6,
+            "size": 8
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 orbe",
+          "stats": {
+            "cd": 0.26,
+            "dmg": 14,
+            "count": 5,
+            "radius": 74,
+            "speed": 2.6,
+            "size": 8
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+55% daño",
+          "stats": {
+            "cd": 0.26,
+            "dmg": 21.7,
+            "count": 5,
+            "radius": 74,
+            "speed": 2.6,
+            "size": 8
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+25% radio y gira más rápido",
+          "stats": {
+            "cd": 0.26,
+            "dmg": 21.7,
+            "count": 5,
+            "radius": 92.5,
+            "speed": 3.51,
+            "size": 8
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 orbe y +55% daño",
+          "stats": {
+            "cd": 0.26,
+            "dmg": 33.635,
+            "count": 6,
+            "radius": 92.5,
+            "speed": 3.51,
+            "size": 8
+          }
+        }
+      ],
+      "evo": {
+        "name": "Danza Pétalo",
+        "needs": "rgn",
+        "needName": "Síntesis",
+        "text": "+2 orbes, ×1,7 daño y más radio",
+        "modifiers": {
+          "count": 2,
+          "dmg": 1.7,
+          "radius": 1.15
+        },
+        "stats": {
+          "cd": 0.26,
+          "dmg": 57.1795,
+          "count": 8,
+          "radius": 106.375,
+          "speed": 3.51,
+          "size": 8
+        }
+      }
+    },
+    {
+      "id": "giga-drain",
+      "name": "Hierba Lazo",
+      "type": "grass",
+      "kind": "aura",
+      "desc": "Raíces que atrapan y machacan todo lo que tienes cerca.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.55,
+            "dmg": 9,
+            "radius": 76
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+30% radio",
+          "stats": {
+            "cd": 0.55,
+            "dmg": 9,
+            "radius": 98.8
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.55,
+            "dmg": 13.05,
+            "radius": 98.8
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "Golpea un 40% más a menudo",
+          "stats": {
+            "cd": 0.385,
+            "dmg": 13.05,
+            "radius": 98.8
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+30% radio y +50% daño",
+          "stats": {
+            "cd": 0.385,
+            "dmg": 19.575,
+            "radius": 128.44
+          }
+        }
+      ],
+      "evo": {
+        "name": "Planta Feroz",
+        "needs": "hp",
+        "needName": "Vigor",
+        "text": "×1,8 daño y un 35% más de radio",
+        "modifiers": {
+          "dmg": 1.8,
+          "radius": 1.35
+        },
+        "stats": {
+          "cd": 0.385,
+          "dmg": 35.235,
+          "radius": 173.394
+        }
+      }
+    },
+    {
+      "id": "thunder-shock",
+      "name": "Impactrueno",
+      "type": "electric",
+      "kind": "projectile",
+      "desc": "Descarga rapidísima que atraviesa varios enemigos.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.4,
+            "dmg": 13,
+            "speed": 480,
+            "count": 1,
+            "spread": 0.08,
+            "pierce": 2,
+            "life": 1.1,
+            "size": 5
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 proyectil",
+          "stats": {
+            "cd": 0.4,
+            "dmg": 13,
+            "speed": 480,
+            "count": 2,
+            "spread": 0.112,
+            "pierce": 2,
+            "life": 1.1,
+            "size": 5
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.4,
+            "dmg": 18.85,
+            "speed": 480,
+            "count": 2,
+            "spread": 0.112,
+            "pierce": 2,
+            "life": 1.1,
+            "size": 5
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.3,
+            "dmg": 18.85,
+            "speed": 480,
+            "count": 2,
+            "spread": 0.112,
+            "pierce": 2,
+            "life": 1.1,
+            "size": 5
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 proyectil y +1 perforación",
+          "stats": {
+            "cd": 0.3,
+            "dmg": 18.85,
+            "speed": 480,
+            "count": 3,
+            "spread": 0.1344,
+            "pierce": 3,
+            "life": 1.1,
+            "size": 5
+          }
+        }
+      ],
+      "evo": {
+        "name": "Trueno",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, +2 proyectiles, +2 perforación y más grandes",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "pierce": 2,
+          "size": 1.3,
+          "spread": 1.1
+        },
+        "stats": {
+          "cd": 0.3,
+          "dmg": 33.93,
+          "speed": 480,
+          "count": 5,
+          "spread": 0.14784,
+          "pierce": 5,
+          "life": 1.1,
+          "size": 6.5
+        }
+      }
+    },
+    {
+      "id": "discharge",
+      "name": "Chispazo",
+      "type": "electric",
+      "kind": "aura",
+      "desc": "Campo eléctrico permanente alrededor de ti.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.45,
+            "dmg": 8,
+            "radius": 70
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+30% radio",
+          "stats": {
+            "cd": 0.45,
+            "dmg": 8,
+            "radius": 91
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.45,
+            "dmg": 11.6,
+            "radius": 91
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "Golpea un 40% más a menudo",
+          "stats": {
+            "cd": 0.315,
+            "dmg": 11.6,
+            "radius": 91
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+30% radio y +50% daño",
+          "stats": {
+            "cd": 0.315,
+            "dmg": 17.4,
+            "radius": 118.3
+          }
+        }
+      ],
+      "evo": {
+        "name": "Campo Eléctrico",
+        "needs": "def",
+        "needName": "Coraza",
+        "text": "×1,8 daño y un 35% más de radio",
+        "modifiers": {
+          "dmg": 1.8,
+          "radius": 1.35
+        },
+        "stats": {
+          "cd": 0.315,
+          "dmg": 31.32,
+          "radius": 159.705
+        }
+      }
+    },
+    {
+      "id": "thunderbolt",
+      "name": "Rayo",
+      "type": "electric",
+      "kind": "chain",
+      "desc": "Un rayo que salta de un enemigo a otro.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.95,
+            "dmg": 21,
+            "count": 4,
+            "radius": 140
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+2 saltos",
+          "stats": {
+            "cd": 0.95,
+            "dmg": 21,
+            "count": 6,
+            "radius": 140
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.95,
+            "dmg": 30.45,
+            "count": 6,
+            "radius": 140
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.7125,
+            "dmg": 30.45,
+            "count": 6,
+            "radius": 140
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+2 saltos y +40% daño",
+          "stats": {
+            "cd": 0.7125,
+            "dmg": 42.63,
+            "count": 8,
+            "radius": 140
+          }
+        }
+      ],
+      "evo": {
+        "name": "Electrocañón",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,7 daño y +3 saltos",
+        "modifiers": {
+          "dmg": 1.7,
+          "count": 3,
+          "radius": 1.2
+        },
+        "stats": {
+          "cd": 0.7125,
+          "dmg": 72.471,
+          "count": 11,
+          "radius": 168
+        }
+      }
+    },
+    {
+      "id": "confusion",
+      "name": "Confusión",
+      "type": "psychic",
+      "kind": "projectile",
+      "desc": "Onda que persigue sola a su objetivo.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.58,
+            "dmg": 13,
+            "speed": 280,
+            "count": 1,
+            "spread": 0.1,
+            "pierce": 0,
+            "life": 2.2,
+            "size": 8,
+            "homing": 2
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 proyectil",
+          "stats": {
+            "cd": 0.58,
+            "dmg": 13,
+            "speed": 280,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 0,
+            "life": 2.2,
+            "size": 8,
+            "homing": 2
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.58,
+            "dmg": 18.85,
+            "speed": 280,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 0,
+            "life": 2.2,
+            "size": 8,
+            "homing": 2
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.435,
+            "dmg": 18.85,
+            "speed": 280,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 0,
+            "life": 2.2,
+            "size": 8,
+            "homing": 2
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 proyectil y +1 perforación",
+          "stats": {
+            "cd": 0.435,
+            "dmg": 18.85,
+            "speed": 280,
+            "count": 3,
+            "spread": 0.168,
+            "pierce": 1,
+            "life": 2.2,
+            "size": 8,
+            "homing": 2
+          }
+        }
+      ],
+      "evo": {
+        "name": "Psicocarga",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,8 daño, +2 proyectiles, +2 perforación y más grandes",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "pierce": 2,
+          "size": 1.3,
+          "spread": 1.1
+        },
+        "stats": {
+          "cd": 0.435,
+          "dmg": 33.93,
+          "speed": 280,
+          "count": 5,
+          "spread": 0.1848,
+          "pierce": 3,
+          "life": 2.2,
+          "size": 10.4,
+          "homing": 2
+        }
+      }
+    },
+    {
+      "id": "psybeam",
+      "name": "Psicorrayo",
+      "type": "psychic",
+      "kind": "beam",
+      "desc": "Rayo psíquico ancho y contundente.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.15,
+            "dmg": 17,
+            "radius": 215,
+            "width": 40
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 1.15,
+            "dmg": 24.65,
+            "radius": 215,
+            "width": 40
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+30% alcance y grosor",
+          "stats": {
+            "cd": 1.15,
+            "dmg": 24.65,
+            "radius": 279.5,
+            "width": 52
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.8625,
+            "dmg": 24.65,
+            "radius": 279.5,
+            "width": 52
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+50% daño",
+          "stats": {
+            "cd": 0.8625,
+            "dmg": 36.975,
+            "radius": 279.5,
+            "width": 52
+          }
+        }
+      ],
+      "evo": {
+        "name": "Premonición",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, rayo un 50% más grueso y más largo",
+        "modifiers": {
+          "dmg": 1.8,
+          "width": 1.5,
+          "radius": 1.2,
+          "cd": 0.85
+        },
+        "stats": {
+          "cd": 0.733125,
+          "dmg": 66.555,
+          "radius": 335.4,
+          "width": 78
+        }
+      }
+    },
+    {
+      "id": "psychic",
+      "name": "Psíquico",
+      "type": "psychic",
+      "kind": "nova",
+      "desc": "Estallido mental radial que busca enemigos.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.35,
+            "dmg": 10,
+            "speed": 230,
+            "count": 12,
+            "pierce": 1,
+            "life": 1.6,
+            "size": 7,
+            "homing": 1
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+4 proyectiles",
+          "stats": {
+            "cd": 1.35,
+            "dmg": 10,
+            "speed": 230,
+            "count": 16,
+            "pierce": 1,
+            "life": 1.6,
+            "size": 7,
+            "homing": 1
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 1.35,
+            "dmg": 14,
+            "speed": 230,
+            "count": 16,
+            "pierce": 1,
+            "life": 1.6,
+            "size": 7,
+            "homing": 1
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 1.0125,
+            "dmg": 14,
+            "speed": 230,
+            "count": 16,
+            "pierce": 1,
+            "life": 1.6,
+            "size": 7,
+            "homing": 1
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+4 proyectiles y +1 perforación",
+          "stats": {
+            "cd": 1.0125,
+            "dmg": 14,
+            "speed": 230,
+            "count": 20,
+            "pierce": 2,
+            "life": 1.6,
+            "size": 7,
+            "homing": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Vasta Fuerza",
+        "needs": "mag",
+        "needName": "Imán",
+        "text": "+6 proyectiles, ×1,6 daño y +1 perforación",
+        "modifiers": {
+          "count": 6,
+          "dmg": 1.6,
+          "pierce": 1
+        },
+        "stats": {
+          "cd": 1.0125,
+          "dmg": 22.4,
+          "speed": 230,
+          "count": 26,
+          "pierce": 3,
+          "life": 1.6,
+          "size": 7,
+          "homing": 1
+        }
+      }
+    },
+    {
+      "id": "sludge",
+      "name": "Residuos",
+      "type": "poison",
+      "kind": "projectile",
+      "desc": "Lodo tóxico que envenena al impactar.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.6,
+            "dmg": 17,
+            "speed": 290,
+            "count": 1,
+            "spread": 0.12,
+            "pierce": 0,
+            "life": 1.5,
+            "size": 8,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 proyectil",
+          "stats": {
+            "cd": 0.6,
+            "dmg": 17,
+            "speed": 290,
+            "count": 2,
+            "spread": 0.168,
+            "pierce": 0,
+            "life": 1.5,
+            "size": 8,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.6,
+            "dmg": 24.65,
+            "speed": 290,
+            "count": 2,
+            "spread": 0.168,
+            "pierce": 0,
+            "life": 1.5,
+            "size": 8,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.45,
+            "dmg": 24.65,
+            "speed": 290,
+            "count": 2,
+            "spread": 0.168,
+            "pierce": 0,
+            "life": 1.5,
+            "size": 8,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 proyectil y +1 perforación",
+          "stats": {
+            "cd": 0.45,
+            "dmg": 24.65,
+            "speed": 290,
+            "count": 3,
+            "spread": 0.2016,
+            "pierce": 1,
+            "life": 1.5,
+            "size": 8,
+            "poison": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Bomba Lodo",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, +2 proyectiles, +2 perforación y más grandes",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "pierce": 2,
+          "size": 1.3,
+          "spread": 1.1
+        },
+        "stats": {
+          "cd": 0.45,
+          "dmg": 44.37,
+          "speed": 290,
+          "count": 5,
+          "spread": 0.22176,
+          "pierce": 3,
+          "life": 1.5,
+          "size": 10.4,
+          "poison": 1
+        }
+      }
+    },
+    {
+      "id": "mud-shot",
+      "name": "Disparo Lodo",
+      "type": "ground",
+      "kind": "nova",
+      "desc": "Salpica lodo alrededor y ralentiza.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.1,
+            "dmg": 11,
+            "speed": 200,
+            "count": 7,
+            "pierce": 0,
+            "life": 1,
+            "size": 9,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+4 proyectiles",
+          "stats": {
+            "cd": 1.1,
+            "dmg": 11,
+            "speed": 200,
+            "count": 11,
+            "pierce": 0,
+            "life": 1,
+            "size": 9,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 1.1,
+            "dmg": 15.4,
+            "speed": 200,
+            "count": 11,
+            "pierce": 0,
+            "life": 1,
+            "size": 9,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.825,
+            "dmg": 15.4,
+            "speed": 200,
+            "count": 11,
+            "pierce": 0,
+            "life": 1,
+            "size": 9,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+4 proyectiles y +1 perforación",
+          "stats": {
+            "cd": 0.825,
+            "dmg": 15.4,
+            "speed": 200,
+            "count": 15,
+            "pierce": 1,
+            "life": 1,
+            "size": 9,
+            "slow": 0.4
+          }
+        }
+      ],
+      "evo": {
+        "name": "Tierra Viva",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "+6 proyectiles, ×1,6 daño y +1 perforación",
+        "modifiers": {
+          "count": 6,
+          "dmg": 1.6,
+          "pierce": 1
+        },
+        "stats": {
+          "cd": 0.825,
+          "dmg": 24.64,
+          "speed": 200,
+          "count": 21,
+          "pierce": 2,
+          "life": 1,
+          "size": 9,
+          "slow": 0.4
+        }
+      }
+    },
+    {
+      "id": "gust",
+      "name": "Tornado",
+      "type": "flying",
+      "kind": "orbit",
+      "desc": "Remolinos de viento que te escoltan.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.26,
+            "dmg": 13,
+            "count": 3,
+            "radius": 72,
+            "speed": 2.8,
+            "size": 8,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 orbe",
+          "stats": {
+            "cd": 0.26,
+            "dmg": 13,
+            "count": 4,
+            "radius": 72,
+            "speed": 2.8,
+            "size": 8,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+55% daño",
+          "stats": {
+            "cd": 0.26,
+            "dmg": 20.15,
+            "count": 4,
+            "radius": 72,
+            "speed": 2.8,
+            "size": 8,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+25% radio y gira más rápido",
+          "stats": {
+            "cd": 0.26,
+            "dmg": 20.15,
+            "count": 4,
+            "radius": 90,
+            "speed": 3.78,
+            "size": 8,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 orbe y +55% daño",
+          "stats": {
+            "cd": 0.26,
+            "dmg": 31.2325,
+            "count": 5,
+            "radius": 90,
+            "speed": 3.78,
+            "size": 8,
+            "knock": 40
+          }
+        }
+      ],
+      "evo": {
+        "name": "Vendaval",
+        "needs": "spd",
+        "needName": "Carrera",
+        "text": "+2 orbes, ×1,7 daño y más radio",
+        "modifiers": {
+          "count": 2,
+          "dmg": 1.7,
+          "radius": 1.15
+        },
+        "stats": {
+          "cd": 0.26,
+          "dmg": 53.09525,
+          "count": 7,
+          "radius": 103.5,
+          "speed": 3.78,
+          "size": 8,
+          "knock": 40
+        }
+      }
+    },
+    {
+      "id": "wing-attack",
+      "name": "Ataque Ala",
+      "type": "flying",
+      "kind": "melee",
+      "desc": "Barrido de alas amplio que empuja.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.55,
+            "dmg": 17,
+            "radius": 73,
+            "arc": 2.38,
+            "knock": 70
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.55,
+            "dmg": 23.8,
+            "radius": 73,
+            "arc": 2.38,
+            "knock": 70
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+25% alcance",
+          "stats": {
+            "cd": 0.55,
+            "dmg": 23.8,
+            "radius": 91.25,
+            "arc": 2.38,
+            "knock": 70
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.4125,
+            "dmg": 23.8,
+            "radius": 91.25,
+            "arc": 2.38,
+            "knock": 70
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "Golpea en 360° y +50% daño",
+          "stats": {
+            "cd": 0.4125,
+            "dmg": 35.7,
+            "radius": 91.25,
+            "arc": 21.42,
+            "knock": 70
+          }
+        }
+      ],
+      "evo": {
+        "name": "Pájaro Osado",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,9 daño, más alcance y golpea en 360°",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.3,
+          "arc": 9
+        },
+        "stats": {
+          "cd": 0.4125,
+          "dmg": 67.83,
+          "radius": 118.625,
+          "arc": 192.78,
+          "knock": 70
+        }
+      }
+    },
+    {
+      "id": "body-slam",
+      "name": "Golpe Cuerpo",
+      "type": "normal",
+      "kind": "melee",
+      "desc": "Placaje con todo el peso: lento, corto y brutal.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.95,
+            "dmg": 36,
+            "radius": 58,
+            "arc": 2.75,
+            "knock": 140
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.95,
+            "dmg": 50.4,
+            "radius": 58,
+            "arc": 2.75,
+            "knock": 140
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+25% alcance",
+          "stats": {
+            "cd": 0.95,
+            "dmg": 50.4,
+            "radius": 72.5,
+            "arc": 2.75,
+            "knock": 140
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.7125,
+            "dmg": 50.4,
+            "radius": 72.5,
+            "arc": 2.75,
+            "knock": 140
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "Golpea en 360° y +50% daño",
+          "stats": {
+            "cd": 0.7125,
+            "dmg": 75.6,
+            "radius": 72.5,
+            "arc": 24.75,
+            "knock": 140
+          }
+        }
+      ],
+      "evo": {
+        "name": "Gigaimpacto",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,9 daño, más alcance y golpea en 360°",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.3,
+          "arc": 9
+        },
+        "stats": {
+          "cd": 0.7125,
+          "dmg": 143.64,
+          "radius": 94.25,
+          "arc": 222.75,
+          "knock": 140
+        }
+      }
+    },
+    {
+      "id": "hyper-voice",
+      "name": "Vozarrón",
+      "type": "normal",
+      "kind": "nova",
+      "desc": "Onda sonora que sale en todas direcciones.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.15,
+            "dmg": 12,
+            "speed": 260,
+            "count": 9,
+            "pierce": 1,
+            "life": 0.9,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+4 proyectiles",
+          "stats": {
+            "cd": 1.15,
+            "dmg": 12,
+            "speed": 260,
+            "count": 13,
+            "pierce": 1,
+            "life": 0.9,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 1.15,
+            "dmg": 16.8,
+            "speed": 260,
+            "count": 13,
+            "pierce": 1,
+            "life": 0.9,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.8625,
+            "dmg": 16.8,
+            "speed": 260,
+            "count": 13,
+            "pierce": 1,
+            "life": 0.9,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+4 proyectiles y +1 perforación",
+          "stats": {
+            "cd": 0.8625,
+            "dmg": 16.8,
+            "speed": 260,
+            "count": 17,
+            "pierce": 2,
+            "life": 0.9,
+            "size": 7
+          }
+        }
+      ],
+      "evo": {
+        "name": "Alboroto",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "+6 proyectiles, ×1,6 daño y +1 perforación",
+        "modifiers": {
+          "count": 6,
+          "dmg": 1.6,
+          "pierce": 1
+        },
+        "stats": {
+          "cd": 0.8625,
+          "dmg": 26.88,
+          "speed": 260,
+          "count": 23,
+          "pierce": 3,
+          "life": 0.9,
+          "size": 7
+        }
+      }
+    },
+    {
+      "id": "poison-sting",
+      "name": "Picotazo Veneno",
+      "type": "poison",
+      "kind": "projectile",
+      "desc": "Aguijón rápido que envenena.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.34,
+            "dmg": 8,
+            "speed": 420,
+            "count": 1,
+            "spread": 0.08,
+            "pierce": 0,
+            "life": 1,
+            "size": 4,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 proyectil",
+          "stats": {
+            "cd": 0.34,
+            "dmg": 8,
+            "speed": 420,
+            "count": 2,
+            "spread": 0.112,
+            "pierce": 0,
+            "life": 1,
+            "size": 4,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.34,
+            "dmg": 11.6,
+            "speed": 420,
+            "count": 2,
+            "spread": 0.112,
+            "pierce": 0,
+            "life": 1,
+            "size": 4,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.255,
+            "dmg": 11.6,
+            "speed": 420,
+            "count": 2,
+            "spread": 0.112,
+            "pierce": 0,
+            "life": 1,
+            "size": 4,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 proyectil y +1 perforación",
+          "stats": {
+            "cd": 0.255,
+            "dmg": 11.6,
+            "speed": 420,
+            "count": 3,
+            "spread": 0.1344,
+            "pierce": 1,
+            "life": 1,
+            "size": 4,
+            "poison": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Puya Nociva",
+        "needs": "spd",
+        "needName": "Carrera",
+        "text": "×1,8 daño, +2 proyectiles, +2 perforación y más grandes",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "pierce": 2,
+          "size": 1.3,
+          "spread": 1.1
+        },
+        "stats": {
+          "cd": 0.255,
+          "dmg": 20.88,
+          "speed": 420,
+          "count": 5,
+          "spread": 0.14784,
+          "pierce": 3,
+          "life": 1,
+          "size": 5.2,
+          "poison": 1
+        }
+      }
+    },
+    {
+      "id": "toxic",
+      "name": "Tóxico",
+      "type": "poison",
+      "kind": "trail",
+      "desc": "Vas dejando charcos de veneno que intoxican a quien los pisa.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.3,
+            "dmg": 6,
+            "radius": 26,
+            "dur": 3,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.3,
+            "dmg": 8.4,
+            "radius": 26,
+            "dur": 3,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% duración",
+          "stats": {
+            "cd": 0.3,
+            "dmg": 8.4,
+            "radius": 26,
+            "dur": 4.2,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "Charcos un 30% más grandes",
+          "stats": {
+            "cd": 0.3,
+            "dmg": 8.4,
+            "radius": 33.8,
+            "dur": 4.2,
+            "poison": 1
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+50% daño y +30% radio",
+          "stats": {
+            "cd": 0.3,
+            "dmg": 12.6,
+            "radius": 43.94,
+            "dur": 4.2,
+            "poison": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Gas Venenoso",
+        "needs": "rgn",
+        "needName": "Síntesis",
+        "text": "×1,8 daño, charcos más grandes y duraderos",
+        "modifiers": {
+          "dmg": 1.8,
+          "radius": 1.25,
+          "dur": 1.3
+        },
+        "stats": {
+          "cd": 0.3,
+          "dmg": 22.68,
+          "radius": 54.925,
+          "dur": 5.46,
+          "poison": 1
+        }
+      }
+    },
+    {
+      "id": "bulldoze",
+      "name": "Terratemblor",
+      "type": "ground",
+      "kind": "aura",
+      "desc": "Sacude el suelo: daña y frena a lo cercano.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.7,
+            "dmg": 11,
+            "radius": 80,
+            "slow": 0.35
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+30% radio",
+          "stats": {
+            "cd": 0.7,
+            "dmg": 11,
+            "radius": 104,
+            "slow": 0.35
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.7,
+            "dmg": 15.95,
+            "radius": 104,
+            "slow": 0.35
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "Golpea un 40% más a menudo",
+          "stats": {
+            "cd": 0.49,
+            "dmg": 15.95,
+            "radius": 104,
+            "slow": 0.35
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+30% radio y +50% daño",
+          "stats": {
+            "cd": 0.49,
+            "dmg": 23.925,
+            "radius": 135.2,
+            "slow": 0.35
+          }
+        }
+      ],
+      "evo": {
+        "name": "Terremoto",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño y un 35% más de radio",
+        "modifiers": {
+          "dmg": 1.8,
+          "radius": 1.35
+        },
+        "stats": {
+          "cd": 0.49,
+          "dmg": 43.065,
+          "radius": 182.52,
+          "slow": 0.35
+        }
+      }
+    },
+    {
+      "id": "bug-bite",
+      "name": "Picadura",
+      "type": "bug",
+      "kind": "melee",
+      "desc": "Mordisco rápido en arco corto.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.42,
+            "dmg": 13,
+            "radius": 55,
+            "arc": 2,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.42,
+            "dmg": 18.2,
+            "radius": 55,
+            "arc": 2,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+25% alcance",
+          "stats": {
+            "cd": 0.42,
+            "dmg": 18.2,
+            "radius": 68.75,
+            "arc": 2,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.315,
+            "dmg": 18.2,
+            "radius": 68.75,
+            "arc": 2,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "Golpea en 360° y +50% daño",
+          "stats": {
+            "cd": 0.315,
+            "dmg": 27.3,
+            "radius": 68.75,
+            "arc": 18,
+            "knock": 40
+          }
+        }
+      ],
+      "evo": {
+        "name": "Tijera X",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,9 daño, más alcance y golpea en 360°",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.3,
+          "arc": 9
+        },
+        "stats": {
+          "cd": 0.315,
+          "dmg": 51.87,
+          "radius": 89.375,
+          "arc": 162,
+          "knock": 40
+        }
+      }
+    },
+    {
+      "id": "string-shot",
+      "name": "Disparo Demora",
+      "type": "bug",
+      "kind": "mine",
+      "desc": "Deja telarañas en el suelo que atrapan y frenan mucho al que las pisa.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.1,
+            "dmg": 14,
+            "count": 2,
+            "radius": 56,
+            "dur": 7,
+            "slow": 0.6
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 mina",
+          "stats": {
+            "cd": 1.1,
+            "dmg": 14,
+            "count": 3,
+            "radius": 56,
+            "dur": 7,
+            "slow": 0.6
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+50% daño",
+          "stats": {
+            "cd": 1.1,
+            "dmg": 21,
+            "count": 3,
+            "radius": 56,
+            "dur": 7,
+            "slow": 0.6
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% radio de explosión",
+          "stats": {
+            "cd": 1.1,
+            "dmg": 21,
+            "count": 3,
+            "radius": 72.8,
+            "dur": 7,
+            "slow": 0.6
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 mina y -25% recarga",
+          "stats": {
+            "cd": 0.825,
+            "dmg": 21,
+            "count": 4,
+            "radius": 72.8,
+            "dur": 7,
+            "slow": 0.6
+          }
+        }
+      ],
+      "evo": {
+        "name": "Red Viscosa",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,8 daño, +2 minas y explosión más grande",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "radius": 1.25
+        },
+        "stats": {
+          "cd": 0.825,
+          "dmg": 37.8,
+          "count": 6,
+          "radius": 91,
+          "dur": 7,
+          "slow": 0.6
+        }
+      }
+    },
+    {
+      "id": "bug-buzz",
+      "name": "Zumbido",
+      "type": "bug",
+      "kind": "aura",
+      "desc": "Vibración constante que machaca lo cercano.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.45,
+            "dmg": 8,
+            "radius": 66
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+30% radio",
+          "stats": {
+            "cd": 0.45,
+            "dmg": 8,
+            "radius": 85.8
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.45,
+            "dmg": 11.6,
+            "radius": 85.8
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "Golpea un 40% más a menudo",
+          "stats": {
+            "cd": 0.315,
+            "dmg": 11.6,
+            "radius": 85.8
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+30% radio y +50% daño",
+          "stats": {
+            "cd": 0.315,
+            "dmg": 17.4,
+            "radius": 111.54
+          }
+        }
+      ],
+      "evo": {
+        "name": "Enjambre",
+        "needs": "rgn",
+        "needName": "Síntesis",
+        "text": "×1,8 daño y un 35% más de radio",
+        "modifiers": {
+          "dmg": 1.8,
+          "radius": 1.35
+        },
+        "stats": {
+          "cd": 0.315,
+          "dmg": 31.32,
+          "radius": 150.579
+        }
+      }
+    },
+    {
+      "id": "rock-throw",
+      "name": "Lanzarrocas",
+      "type": "rock",
+      "kind": "projectile",
+      "desc": "Pedrusco pesado que empuja al enemigo.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.7,
+            "dmg": 24,
+            "speed": 260,
+            "count": 1,
+            "spread": 0.12,
+            "pierce": 0,
+            "life": 1.4,
+            "size": 9,
+            "knock": 90
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 proyectil",
+          "stats": {
+            "cd": 0.7,
+            "dmg": 24,
+            "speed": 260,
+            "count": 2,
+            "spread": 0.168,
+            "pierce": 0,
+            "life": 1.4,
+            "size": 9,
+            "knock": 90
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.7,
+            "dmg": 34.8,
+            "speed": 260,
+            "count": 2,
+            "spread": 0.168,
+            "pierce": 0,
+            "life": 1.4,
+            "size": 9,
+            "knock": 90
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.525,
+            "dmg": 34.8,
+            "speed": 260,
+            "count": 2,
+            "spread": 0.168,
+            "pierce": 0,
+            "life": 1.4,
+            "size": 9,
+            "knock": 90
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 proyectil y +1 perforación",
+          "stats": {
+            "cd": 0.525,
+            "dmg": 34.8,
+            "speed": 260,
+            "count": 3,
+            "spread": 0.2016,
+            "pierce": 1,
+            "life": 1.4,
+            "size": 9,
+            "knock": 90
+          }
+        }
+      ],
+      "evo": {
+        "name": "Roca Afilada",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, +2 proyectiles, +2 perforación y más grandes",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "pierce": 2,
+          "size": 1.3,
+          "spread": 1.1
+        },
+        "stats": {
+          "cd": 0.525,
+          "dmg": 62.64,
+          "speed": 260,
+          "count": 5,
+          "spread": 0.22176,
+          "pierce": 3,
+          "life": 1.4,
+          "size": 11.7,
+          "knock": 90
+        }
+      }
+    },
+    {
+      "id": "rock-slide",
+      "name": "Avalancha",
+      "type": "rock",
+      "kind": "meteor",
+      "desc": "Caen rocas del cielo sobre los enemigos cercanos.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.3,
+            "dmg": 21,
+            "count": 3,
+            "radius": 46,
+            "knock": 50
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 meteoro",
+          "stats": {
+            "cd": 1.3,
+            "dmg": 21,
+            "count": 4,
+            "radius": 46,
+            "knock": 50
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 1.3,
+            "dmg": 30.45,
+            "count": 4,
+            "radius": 46,
+            "knock": 50
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% radio",
+          "stats": {
+            "cd": 1.3,
+            "dmg": 30.45,
+            "count": 4,
+            "radius": 59.8,
+            "knock": 50
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+2 meteoros y -20% recarga",
+          "stats": {
+            "cd": 1.04,
+            "dmg": 30.45,
+            "count": 6,
+            "radius": 59.8,
+            "knock": 50
+          }
+        }
+      ],
+      "evo": {
+        "name": "Trampa Rocas",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,7 daño, +2 meteoros y más radio",
+        "modifiers": {
+          "dmg": 1.7,
+          "count": 2,
+          "radius": 1.2
+        },
+        "stats": {
+          "cd": 1.04,
+          "dmg": 51.765,
+          "count": 8,
+          "radius": 71.76,
+          "knock": 50
+        }
+      }
+    },
+    {
+      "id": "ice-beam",
+      "name": "Rayo Hielo",
+      "type": "ice",
+      "kind": "beam",
+      "desc": "Rayo helado que congela casi del todo.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.1,
+            "dmg": 20,
+            "radius": 220,
+            "width": 30,
+            "slow": 0.7
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 1.1,
+            "dmg": 29,
+            "radius": 220,
+            "width": 30,
+            "slow": 0.7
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+30% alcance y grosor",
+          "stats": {
+            "cd": 1.1,
+            "dmg": 29,
+            "radius": 286,
+            "width": 39,
+            "slow": 0.7
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.825,
+            "dmg": 29,
+            "radius": 286,
+            "width": 39,
+            "slow": 0.7
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+50% daño",
+          "stats": {
+            "cd": 0.825,
+            "dmg": 43.5,
+            "radius": 286,
+            "width": 39,
+            "slow": 0.7
+          }
+        }
+      ],
+      "evo": {
+        "name": "Ventisca",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, rayo un 50% más grueso y más largo",
+        "modifiers": {
+          "dmg": 1.8,
+          "width": 1.5,
+          "radius": 1.2,
+          "cd": 0.85
+        },
+        "stats": {
+          "cd": 0.70125,
+          "dmg": 78.3,
+          "radius": 343.2,
+          "width": 58.5,
+          "slow": 0.7
+        }
+      }
+    },
+    {
+      "id": "powder-snow",
+      "name": "Nieve Polvo",
+      "type": "ice",
+      "kind": "aura",
+      "desc": "Ventisca a tu alrededor que ralentiza.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.55,
+            "dmg": 8,
+            "radius": 76,
+            "slow": 0.45
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+30% radio",
+          "stats": {
+            "cd": 0.55,
+            "dmg": 8,
+            "radius": 98.8,
+            "slow": 0.45
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.55,
+            "dmg": 11.6,
+            "radius": 98.8,
+            "slow": 0.45
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "Golpea un 40% más a menudo",
+          "stats": {
+            "cd": 0.385,
+            "dmg": 11.6,
+            "radius": 98.8,
+            "slow": 0.45
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+30% radio y +50% daño",
+          "stats": {
+            "cd": 0.385,
+            "dmg": 17.4,
+            "radius": 128.44,
+            "slow": 0.45
+          }
+        }
+      ],
+      "evo": {
+        "name": "Viento Hielo",
+        "needs": "spd",
+        "needName": "Carrera",
+        "text": "×1,8 daño y un 35% más de radio",
+        "modifiers": {
+          "dmg": 1.8,
+          "radius": 1.35
+        },
+        "stats": {
+          "cd": 0.385,
+          "dmg": 31.32,
+          "radius": 173.394,
+          "slow": 0.45
+        }
+      }
+    },
+    {
+      "id": "karate-chop",
+      "name": "Golpe Kárate",
+      "type": "fighting",
+      "kind": "melee",
+      "desc": "Golpe seco y potente al frente.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.5,
+            "dmg": 22,
+            "radius": 63,
+            "arc": 1.5,
+            "knock": 110
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.5,
+            "dmg": 30.8,
+            "radius": 63,
+            "arc": 1.5,
+            "knock": 110
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+25% alcance",
+          "stats": {
+            "cd": 0.5,
+            "dmg": 30.8,
+            "radius": 78.75,
+            "arc": 1.5,
+            "knock": 110
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.375,
+            "dmg": 30.8,
+            "radius": 78.75,
+            "arc": 1.5,
+            "knock": 110
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "Golpea en 360° y +50% daño",
+          "stats": {
+            "cd": 0.375,
+            "dmg": 46.2,
+            "radius": 78.75,
+            "arc": 13.5,
+            "knock": 110
+          }
+        }
+      ],
+      "evo": {
+        "name": "A Bocajarro",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,9 daño, más alcance y golpea en 360°",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.3,
+          "arc": 9
+        },
+        "stats": {
+          "cd": 0.375,
+          "dmg": 87.78,
+          "radius": 102.375,
+          "arc": 121.5,
+          "knock": 110
+        }
+      }
+    },
+    {
+      "id": "aura-sphere",
+      "name": "Esfera Aural",
+      "type": "fighting",
+      "kind": "projectile",
+      "desc": "Esfera de energía que nunca falla.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.62,
+            "dmg": 17,
+            "speed": 300,
+            "count": 1,
+            "spread": 0.1,
+            "pierce": 0,
+            "life": 2,
+            "size": 8,
+            "homing": 4
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 proyectil",
+          "stats": {
+            "cd": 0.62,
+            "dmg": 17,
+            "speed": 300,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 0,
+            "life": 2,
+            "size": 8,
+            "homing": 4
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.62,
+            "dmg": 24.65,
+            "speed": 300,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 0,
+            "life": 2,
+            "size": 8,
+            "homing": 4
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.465,
+            "dmg": 24.65,
+            "speed": 300,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 0,
+            "life": 2,
+            "size": 8,
+            "homing": 4
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 proyectil y +1 perforación",
+          "stats": {
+            "cd": 0.465,
+            "dmg": 24.65,
+            "speed": 300,
+            "count": 3,
+            "spread": 0.168,
+            "pierce": 1,
+            "life": 2,
+            "size": 8,
+            "homing": 4
+          }
+        }
+      ],
+      "evo": {
+        "name": "Onda Certera",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,8 daño, +2 proyectiles, +2 perforación y más grandes",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "pierce": 2,
+          "size": 1.3,
+          "spread": 1.1
+        },
+        "stats": {
+          "cd": 0.465,
+          "dmg": 44.37,
+          "speed": 300,
+          "count": 5,
+          "spread": 0.1848,
+          "pierce": 3,
+          "life": 2,
+          "size": 10.4,
+          "homing": 4
+        }
+      }
+    },
+    {
+      "id": "lick",
+      "name": "Lengüetazo",
+      "type": "ghost",
+      "kind": "melee",
+      "desc": "Lametazo espectral que paraliza un poco.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.48,
+            "dmg": 14,
+            "radius": 60,
+            "arc": 2.25,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.48,
+            "dmg": 19.6,
+            "radius": 60,
+            "arc": 2.25,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+25% alcance",
+          "stats": {
+            "cd": 0.48,
+            "dmg": 19.6,
+            "radius": 75,
+            "arc": 2.25,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.36,
+            "dmg": 19.6,
+            "radius": 75,
+            "arc": 2.25,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "Golpea en 360° y +50% daño",
+          "stats": {
+            "cd": 0.36,
+            "dmg": 29.4,
+            "radius": 75,
+            "arc": 20.25,
+            "slow": 0.4
+          }
+        }
+      ],
+      "evo": {
+        "name": "Puño Sombra",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,9 daño, más alcance y golpea en 360°",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.3,
+          "arc": 9
+        },
+        "stats": {
+          "cd": 0.36,
+          "dmg": 55.86,
+          "radius": 97.5,
+          "arc": 182.25,
+          "slow": 0.4
+        }
+      }
+    },
+    {
+      "id": "shadow-ball",
+      "name": "Bola Sombra",
+      "type": "ghost",
+      "kind": "projectile",
+      "desc": "Esfera oscura que atraviesa a varios.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.66,
+            "dmg": 19,
+            "speed": 280,
+            "count": 1,
+            "spread": 0.1,
+            "pierce": 2,
+            "life": 1.6,
+            "size": 9
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 proyectil",
+          "stats": {
+            "cd": 0.66,
+            "dmg": 19,
+            "speed": 280,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 2,
+            "life": 1.6,
+            "size": 9
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.66,
+            "dmg": 27.55,
+            "speed": 280,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 2,
+            "life": 1.6,
+            "size": 9
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.495,
+            "dmg": 27.55,
+            "speed": 280,
+            "count": 2,
+            "spread": 0.14,
+            "pierce": 2,
+            "life": 1.6,
+            "size": 9
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 proyectil y +1 perforación",
+          "stats": {
+            "cd": 0.495,
+            "dmg": 27.55,
+            "speed": 280,
+            "count": 3,
+            "spread": 0.168,
+            "pierce": 3,
+            "life": 1.6,
+            "size": 9
+          }
+        }
+      ],
+      "evo": {
+        "name": "Golpe Fantasma",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,8 daño, +2 proyectiles, +2 perforación y más grandes",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "pierce": 2,
+          "size": 1.3,
+          "spread": 1.1
+        },
+        "stats": {
+          "cd": 0.495,
+          "dmg": 49.59,
+          "speed": 280,
+          "count": 5,
+          "spread": 0.1848,
+          "pierce": 5,
+          "life": 1.6,
+          "size": 11.7
+        }
+      }
+    },
+    {
+      "id": "dragon-rage",
+      "name": "Furia Dragón",
+      "type": "dragon",
+      "kind": "beam",
+      "desc": "Llamarada dracónica en línea recta.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1,
+            "dmg": 24,
+            "radius": 230,
+            "width": 34
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 1,
+            "dmg": 34.8,
+            "radius": 230,
+            "width": 34
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+30% alcance y grosor",
+          "stats": {
+            "cd": 1,
+            "dmg": 34.8,
+            "radius": 299,
+            "width": 44.2
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.75,
+            "dmg": 34.8,
+            "radius": 299,
+            "width": 44.2
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+50% daño",
+          "stats": {
+            "cd": 0.75,
+            "dmg": 52.2,
+            "radius": 299,
+            "width": 44.2
+          }
+        }
+      ],
+      "evo": {
+        "name": "Cometa Draco",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, rayo un 50% más grueso y más largo",
+        "modifiers": {
+          "dmg": 1.8,
+          "width": 1.5,
+          "radius": 1.2,
+          "cd": 0.85
+        },
+        "stats": {
+          "cd": 0.6375,
+          "dmg": 93.96,
+          "radius": 358.8,
+          "width": 66.3
+        }
+      }
+    },
+    {
+      "id": "dragon-dance",
+      "name": "Danza Dragón",
+      "type": "dragon",
+      "kind": "buff",
+      "desc": "No hace daño: acumula ATAQUE más rápido que Danza Espada.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.7,
+            "stat": "atk",
+            "amount": 0.11,
+            "dur": 7,
+            "stacks": 5
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 acumulación máxima",
+          "stats": {
+            "cd": 0.7,
+            "stat": "atk",
+            "amount": 0.11,
+            "dur": 7,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% potencia",
+          "stats": {
+            "cd": 0.7,
+            "stat": "atk",
+            "amount": 0.154,
+            "dur": 7,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+50% duración",
+          "stats": {
+            "cd": 0.7,
+            "stat": "atk",
+            "amount": 0.154,
+            "dur": 10.5,
+            "stacks": 6
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 acumulación y +40% potencia",
+          "stats": {
+            "cd": 0.7,
+            "stat": "atk",
+            "amount": 0.2156,
+            "dur": 10.5,
+            "stacks": 7
+          }
+        }
+      ],
+      "evo": null
+    },
+    {
+      "id": "fairy-wind",
+      "name": "Viento Feérico",
+      "type": "fairy",
+      "kind": "nova",
+      "desc": "Brisa mágica en todas direcciones.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1,
+            "dmg": 11,
+            "speed": 230,
+            "count": 10,
+            "pierce": 0,
+            "life": 1.2,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+4 proyectiles",
+          "stats": {
+            "cd": 1,
+            "dmg": 11,
+            "speed": 230,
+            "count": 14,
+            "pierce": 0,
+            "life": 1.2,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 1,
+            "dmg": 15.4,
+            "speed": 230,
+            "count": 14,
+            "pierce": 0,
+            "life": 1.2,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.75,
+            "dmg": 15.4,
+            "speed": 230,
+            "count": 14,
+            "pierce": 0,
+            "life": 1.2,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+4 proyectiles y +1 perforación",
+          "stats": {
+            "cd": 0.75,
+            "dmg": 15.4,
+            "speed": 230,
+            "count": 18,
+            "pierce": 1,
+            "life": 1.2,
+            "size": 7
+          }
+        }
+      ],
+      "evo": {
+        "name": "Fuerza Lunar",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "+6 proyectiles, ×1,6 daño y +1 perforación",
+        "modifiers": {
+          "count": 6,
+          "dmg": 1.6,
+          "pierce": 1
+        },
+        "stats": {
+          "cd": 0.75,
+          "dmg": 24.64,
+          "speed": 230,
+          "count": 24,
+          "pierce": 2,
+          "life": 1.2,
+          "size": 7
+        }
+      }
+    },
+    {
+      "id": "dazzling-gleam",
+      "name": "Brillo Mágico",
+      "type": "fairy",
+      "kind": "aura",
+      "desc": "Destello a tu alrededor.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.5,
+            "dmg": 9,
+            "radius": 72
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+30% radio",
+          "stats": {
+            "cd": 0.5,
+            "dmg": 9,
+            "radius": 93.6
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.5,
+            "dmg": 13.05,
+            "radius": 93.6
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "Golpea un 40% más a menudo",
+          "stats": {
+            "cd": 0.35,
+            "dmg": 13.05,
+            "radius": 93.6
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+30% radio y +50% daño",
+          "stats": {
+            "cd": 0.35,
+            "dmg": 19.575,
+            "radius": 121.68
+          }
+        }
+      ],
+      "evo": {
+        "name": "Campo de Niebla",
+        "needs": "rgn",
+        "needName": "Síntesis",
+        "text": "×1,8 daño y un 35% más de radio",
+        "modifiers": {
+          "dmg": 1.8,
+          "radius": 1.35
+        },
+        "stats": {
+          "cd": 0.35,
+          "dmg": 35.235,
+          "radius": 164.268
+        }
+      }
+    },
+    {
+      "id": "metal-claw",
+      "name": "Garra Metal",
+      "type": "steel",
+      "kind": "melee",
+      "desc": "Zarpazo de acero en arco.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.5,
+            "dmg": 18,
+            "radius": 63,
+            "arc": 2,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.5,
+            "dmg": 25.2,
+            "radius": 63,
+            "arc": 2,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+25% alcance",
+          "stats": {
+            "cd": 0.5,
+            "dmg": 25.2,
+            "radius": 78.75,
+            "arc": 2,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.375,
+            "dmg": 25.2,
+            "radius": 78.75,
+            "arc": 2,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "Golpea en 360° y +50% daño",
+          "stats": {
+            "cd": 0.375,
+            "dmg": 37.8,
+            "radius": 78.75,
+            "arc": 18,
+            "knock": 60
+          }
+        }
+      ],
+      "evo": {
+        "name": "Cabeza de Hierro",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,9 daño, más alcance y golpea en 360°",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.3,
+          "arc": 9
+        },
+        "stats": {
+          "cd": 0.375,
+          "dmg": 71.82,
+          "radius": 102.375,
+          "arc": 162,
+          "knock": 60
+        }
+      }
+    },
+    {
+      "id": "flash-cannon",
+      "name": "Foco Resplandor",
+      "type": "steel",
+      "kind": "beam",
+      "desc": "Rayo de luz metálica que perfora.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.05,
+            "dmg": 23,
+            "radius": 220,
+            "width": 30
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 1.05,
+            "dmg": 33.35,
+            "radius": 220,
+            "width": 30
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+30% alcance y grosor",
+          "stats": {
+            "cd": 1.05,
+            "dmg": 33.35,
+            "radius": 286,
+            "width": 39
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.7875,
+            "dmg": 33.35,
+            "radius": 286,
+            "width": 39
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+50% daño",
+          "stats": {
+            "cd": 0.7875,
+            "dmg": 50.025,
+            "radius": 286,
+            "width": 39
+          }
+        }
+      ],
+      "evo": {
+        "name": "Rayo Metálico",
+        "needs": "def",
+        "needName": "Coraza",
+        "text": "×1,8 daño, rayo un 50% más grueso y más largo",
+        "modifiers": {
+          "dmg": 1.8,
+          "width": 1.5,
+          "radius": 1.2,
+          "cd": 0.85
+        },
+        "stats": {
+          "cd": 0.669375,
+          "dmg": 90.045,
+          "radius": 343.2,
+          "width": 58.5
+        }
+      }
+    },
+    {
+      "id": "bite",
+      "name": "Mordisco",
+      "type": "dark",
+      "kind": "melee",
+      "desc": "Dentellada rápida que hace retroceder.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.45,
+            "dmg": 17,
+            "radius": 58,
+            "arc": 1.88,
+            "knock": 70
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.45,
+            "dmg": 23.8,
+            "radius": 58,
+            "arc": 1.88,
+            "knock": 70
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+25% alcance",
+          "stats": {
+            "cd": 0.45,
+            "dmg": 23.8,
+            "radius": 72.5,
+            "arc": 1.88,
+            "knock": 70
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.3375,
+            "dmg": 23.8,
+            "radius": 72.5,
+            "arc": 1.88,
+            "knock": 70
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "Golpea en 360° y +50% daño",
+          "stats": {
+            "cd": 0.3375,
+            "dmg": 35.7,
+            "radius": 72.5,
+            "arc": 16.92,
+            "knock": 70
+          }
+        }
+      ],
+      "evo": {
+        "name": "Triturar",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,9 daño, más alcance y golpea en 360°",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.3,
+          "arc": 9
+        },
+        "stats": {
+          "cd": 0.3375,
+          "dmg": 67.83,
+          "radius": 94.25,
+          "arc": 152.28,
+          "knock": 70
+        }
+      }
+    },
+    {
+      "id": "dark-pulse",
+      "name": "Pulso Umbrío",
+      "type": "dark",
+      "kind": "nova",
+      "desc": "Onda de energía oscura en todas direcciones.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.15,
+            "dmg": 14,
+            "speed": 240,
+            "count": 10,
+            "pierce": 1,
+            "life": 1.1,
+            "size": 8
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+4 proyectiles",
+          "stats": {
+            "cd": 1.15,
+            "dmg": 14,
+            "speed": 240,
+            "count": 14,
+            "pierce": 1,
+            "life": 1.1,
+            "size": 8
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 1.15,
+            "dmg": 19.6,
+            "speed": 240,
+            "count": 14,
+            "pierce": 1,
+            "life": 1.1,
+            "size": 8
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.8625,
+            "dmg": 19.6,
+            "speed": 240,
+            "count": 14,
+            "pierce": 1,
+            "life": 1.1,
+            "size": 8
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+4 proyectiles y +1 perforación",
+          "stats": {
+            "cd": 0.8625,
+            "dmg": 19.6,
+            "speed": 240,
+            "count": 18,
+            "pierce": 2,
+            "life": 1.1,
+            "size": 8
+          }
+        }
+      ],
+      "evo": {
+        "name": "Alarido",
+        "needs": "spd",
+        "needName": "Carrera",
+        "text": "+6 proyectiles, ×1,6 daño y +1 perforación",
+        "modifiers": {
+          "count": 6,
+          "dmg": 1.6,
+          "pierce": 1
+        },
+        "stats": {
+          "cd": 0.8625,
+          "dmg": 31.36,
+          "speed": 240,
+          "count": 24,
+          "pierce": 3,
+          "life": 1.1,
+          "size": 8
+        }
+      }
+    },
+    {
+      "id": "night-shade",
+      "name": "Tinieblas",
+      "type": "dark",
+      "kind": "aura",
+      "desc": "Una sombra te rodea y consume lo cercano.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.5,
+            "dmg": 9,
+            "radius": 72
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+30% radio",
+          "stats": {
+            "cd": 0.5,
+            "dmg": 9,
+            "radius": 93.6
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.5,
+            "dmg": 13.05,
+            "radius": 93.6
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "Golpea un 40% más a menudo",
+          "stats": {
+            "cd": 0.35,
+            "dmg": 13.05,
+            "radius": 93.6
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+30% radio y +50% daño",
+          "stats": {
+            "cd": 0.35,
+            "dmg": 19.575,
+            "radius": 121.68
+          }
+        }
+      ],
+      "evo": {
+        "name": "Pesadilla",
+        "needs": "rgn",
+        "needName": "Síntesis",
+        "text": "×1,8 daño y un 35% más de radio",
+        "modifiers": {
+          "dmg": 1.8,
+          "radius": 1.35
+        },
+        "stats": {
+          "cd": 0.35,
+          "dmg": 35.235,
+          "radius": 164.268
+        }
+      }
+    },
+    {
+      "id": "bonemerang",
+      "name": "Huesomerang",
+      "type": "ground",
+      "kind": "boomerang",
+      "desc": "Un hueso que va y vuelve golpeando fuerte.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.95,
+            "dmg": 16,
+            "speed": 300,
+            "count": 1,
+            "radius": 230,
+            "size": 8,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 bumerán",
+          "stats": {
+            "cd": 0.95,
+            "dmg": 16,
+            "speed": 300,
+            "count": 2,
+            "radius": 230,
+            "size": 8,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.95,
+            "dmg": 23.2,
+            "speed": 300,
+            "count": 2,
+            "radius": 230,
+            "size": 8,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% alcance",
+          "stats": {
+            "cd": 0.95,
+            "dmg": 23.2,
+            "speed": 300,
+            "count": 2,
+            "radius": 299,
+            "size": 8,
+            "knock": 40
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 bumerán y +40% daño",
+          "stats": {
+            "cd": 0.95,
+            "dmg": 32.48,
+            "speed": 300,
+            "count": 3,
+            "radius": 299,
+            "size": 8,
+            "knock": 40
+          }
+        }
+      ],
+      "evo": {
+        "name": "Ataque Óseo",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, +1 bumerán y más alcance",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 1,
+          "radius": 1.2,
+          "size": 1.2
+        },
+        "stats": {
+          "cd": 0.95,
+          "dmg": 58.464,
+          "speed": 300,
+          "count": 4,
+          "radius": 358.8,
+          "size": 9.6,
+          "knock": 40
+        }
+      }
+    },
+    {
+      "id": "psycho-cut",
+      "name": "Psicocorte",
+      "type": "psychic",
+      "kind": "boomerang",
+      "desc": "Cuchillas psíquicas que vuelven a ti.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.8,
+            "dmg": 9,
+            "speed": 360,
+            "count": 2,
+            "spread": 0.6,
+            "radius": 200,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 bumerán",
+          "stats": {
+            "cd": 0.8,
+            "dmg": 9,
+            "speed": 360,
+            "count": 3,
+            "spread": 0.6,
+            "radius": 200,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.8,
+            "dmg": 13.05,
+            "speed": 360,
+            "count": 3,
+            "spread": 0.6,
+            "radius": 200,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% alcance",
+          "stats": {
+            "cd": 0.8,
+            "dmg": 13.05,
+            "speed": 360,
+            "count": 3,
+            "spread": 0.6,
+            "radius": 260,
+            "size": 7
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 bumerán y +40% daño",
+          "stats": {
+            "cd": 0.8,
+            "dmg": 18.27,
+            "speed": 360,
+            "count": 4,
+            "spread": 0.6,
+            "radius": 260,
+            "size": 7
+          }
+        }
+      ],
+      "evo": {
+        "name": "Psicocolmillo",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,8 daño, +1 bumerán y más alcance",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 1,
+          "radius": 1.2,
+          "size": 1.2
+        },
+        "stats": {
+          "cd": 0.8,
+          "dmg": 32.886,
+          "speed": 360,
+          "count": 5,
+          "spread": 0.6,
+          "radius": 312,
+          "size": 8.4
+        }
+      }
+    },
+    {
+      "id": "spikes",
+      "name": "Púas",
+      "type": "ground",
+      "kind": "mine",
+      "desc": "Siembra púas que estallan al pisarlas.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.2,
+            "dmg": 18,
+            "count": 2,
+            "radius": 60,
+            "dur": 8
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 mina",
+          "stats": {
+            "cd": 1.2,
+            "dmg": 18,
+            "count": 3,
+            "radius": 60,
+            "dur": 8
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+50% daño",
+          "stats": {
+            "cd": 1.2,
+            "dmg": 27,
+            "count": 3,
+            "radius": 60,
+            "dur": 8
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% radio de explosión",
+          "stats": {
+            "cd": 1.2,
+            "dmg": 27,
+            "count": 3,
+            "radius": 78,
+            "dur": 8
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 mina y -25% recarga",
+          "stats": {
+            "cd": 0.9,
+            "dmg": 27,
+            "count": 4,
+            "radius": 78,
+            "dur": 8
+          }
+        }
+      ],
+      "evo": {
+        "name": "Fisura",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,8 daño, +2 minas y explosión más grande",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "radius": 1.25
+        },
+        "stats": {
+          "cd": 0.9,
+          "dmg": 48.6,
+          "count": 6,
+          "radius": 97.5,
+          "dur": 8
+        }
+      }
+    },
+    {
+      "id": "toxic-spikes",
+      "name": "Púas Tóxicas",
+      "type": "poison",
+      "kind": "mine",
+      "desc": "Púas venenosas que envenenan mucho al estallar.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.1,
+            "dmg": 11,
+            "count": 2,
+            "radius": 56,
+            "dur": 8,
+            "poison": 2
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 mina",
+          "stats": {
+            "cd": 1.1,
+            "dmg": 11,
+            "count": 3,
+            "radius": 56,
+            "dur": 8,
+            "poison": 2
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+50% daño",
+          "stats": {
+            "cd": 1.1,
+            "dmg": 16.5,
+            "count": 3,
+            "radius": 56,
+            "dur": 8,
+            "poison": 2
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% radio de explosión",
+          "stats": {
+            "cd": 1.1,
+            "dmg": 16.5,
+            "count": 3,
+            "radius": 72.8,
+            "dur": 8,
+            "poison": 2
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+1 mina y -25% recarga",
+          "stats": {
+            "cd": 0.825,
+            "dmg": 16.5,
+            "count": 4,
+            "radius": 72.8,
+            "dur": 8,
+            "poison": 2
+          }
+        }
+      ],
+      "evo": {
+        "name": "Lanza Mugre",
+        "needs": "rgn",
+        "needName": "Síntesis",
+        "text": "×1,8 daño, +2 minas y explosión más grande",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 2,
+          "radius": 1.25
+        },
+        "stats": {
+          "cd": 0.825,
+          "dmg": 29.7,
+          "count": 6,
+          "radius": 91,
+          "dur": 8,
+          "poison": 2
+        }
+      }
+    },
+    {
+      "id": "hail",
+      "name": "Granizo",
+      "type": "ice",
+      "kind": "meteor",
+      "desc": "Bolas de hielo caen sobre los enemigos y los frenan.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.2,
+            "dmg": 18,
+            "count": 4,
+            "radius": 40,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 meteoro",
+          "stats": {
+            "cd": 1.2,
+            "dmg": 18,
+            "count": 5,
+            "radius": 40,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 1.2,
+            "dmg": 26.1,
+            "count": 5,
+            "radius": 40,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% radio",
+          "stats": {
+            "cd": 1.2,
+            "dmg": 26.1,
+            "count": 5,
+            "radius": 52,
+            "slow": 0.4
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+2 meteoros y -20% recarga",
+          "stats": {
+            "cd": 0.96,
+            "dmg": 26.1,
+            "count": 7,
+            "radius": 52,
+            "slow": 0.4
+          }
+        }
+      ],
+      "evo": {
+        "name": "Alud",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,7 daño, +2 meteoros y más radio",
+        "modifiers": {
+          "dmg": 1.7,
+          "count": 2,
+          "radius": 1.2
+        },
+        "stats": {
+          "cd": 0.96,
+          "dmg": 44.37,
+          "count": 9,
+          "radius": 62.4,
+          "slow": 0.4
+        }
+      }
+    },
+    {
+      "id": "meteor-mash",
+      "name": "Puño Meteoro",
+      "type": "steel",
+      "kind": "meteor",
+      "desc": "Dos meteoros de acero que aplastan donde caen.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 1.4,
+            "dmg": 34,
+            "count": 2,
+            "radius": 54,
+            "knock": 80
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+1 meteoro",
+          "stats": {
+            "cd": 1.4,
+            "dmg": 34,
+            "count": 3,
+            "radius": 54,
+            "knock": 80
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 1.4,
+            "dmg": 49.3,
+            "count": 3,
+            "radius": 54,
+            "knock": 80
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% radio",
+          "stats": {
+            "cd": 1.4,
+            "dmg": 49.3,
+            "count": 3,
+            "radius": 70.2,
+            "knock": 80
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+2 meteoros y -20% recarga",
+          "stats": {
+            "cd": 1.12,
+            "dmg": 49.3,
+            "count": 5,
+            "radius": 70.2,
+            "knock": 80
+          }
+        }
+      ],
+      "evo": {
+        "name": "Bomba Imán",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,7 daño, +2 meteoros y más radio",
+        "modifiers": {
+          "dmg": 1.7,
+          "count": 2,
+          "radius": 1.2
+        },
+        "stats": {
+          "cd": 1.12,
+          "dmg": 83.81,
+          "count": 7,
+          "radius": 84.24,
+          "knock": 80
+        }
+      }
+    },
+    {
+      "id": "will-o-wisp",
+      "name": "Fuego Fatuo",
+      "type": "fire",
+      "kind": "turret",
+      "desc": "Deja una llama flotante que dispara sola y quema.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 3.5,
+            "dmg": 15,
+            "rate": 0.55,
+            "dur": 6,
+            "count": 1,
+            "range": 300,
+            "speed": 300,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+50% daño",
+          "stats": {
+            "cd": 3.5,
+            "dmg": 22.5,
+            "rate": 0.55,
+            "dur": 6,
+            "count": 1,
+            "range": 300,
+            "speed": 300,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "Dispara un 35% más rápido",
+          "stats": {
+            "cd": 3.5,
+            "dmg": 22.5,
+            "rate": 0.407,
+            "dur": 6,
+            "count": 1,
+            "range": 300,
+            "speed": 300,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+1 a la vez",
+          "stats": {
+            "cd": 3.5,
+            "dmg": 22.5,
+            "rate": 0.407,
+            "dur": 6,
+            "count": 2,
+            "range": 300,
+            "speed": 300,
+            "size": 7,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+50% duración y +40% daño",
+          "stats": {
+            "cd": 3.5,
+            "dmg": 31.5,
+            "rate": 0.407,
+            "dur": 9,
+            "count": 2,
+            "range": 300,
+            "speed": 300,
+            "size": 7,
+            "burn": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Infierno",
+        "needs": "cd",
+        "needName": "Reflejos",
+        "text": "×1,8 daño, +1 a la vez y dispara más rápido",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 1,
+          "rate": 0.8
+        },
+        "stats": {
+          "cd": 3.5,
+          "dmg": 56.7,
+          "rate": 0.3256,
+          "dur": 9,
+          "count": 3,
+          "range": 300,
+          "speed": 300,
+          "size": 7,
+          "burn": 1
+        }
+      }
+    },
+    {
+      "id": "substitute",
+      "name": "Sustituto",
+      "type": "normal",
+      "kind": "turret",
+      "desc": "Un muñeco que se queda disparando por ti.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 4,
+            "dmg": 14,
+            "rate": 0.4,
+            "dur": 6,
+            "count": 1,
+            "range": 280,
+            "speed": 320,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+50% daño",
+          "stats": {
+            "cd": 4,
+            "dmg": 21,
+            "rate": 0.4,
+            "dur": 6,
+            "count": 1,
+            "range": 280,
+            "speed": 320,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "Dispara un 35% más rápido",
+          "stats": {
+            "cd": 4,
+            "dmg": 21,
+            "rate": 0.296,
+            "dur": 6,
+            "count": 1,
+            "range": 280,
+            "speed": 320,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+1 a la vez",
+          "stats": {
+            "cd": 4,
+            "dmg": 21,
+            "rate": 0.296,
+            "dur": 6,
+            "count": 2,
+            "range": 280,
+            "speed": 320,
+            "size": 6
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+50% duración y +40% daño",
+          "stats": {
+            "cd": 4,
+            "dmg": 29.4,
+            "rate": 0.296,
+            "dur": 9,
+            "count": 2,
+            "range": 280,
+            "speed": 320,
+            "size": 6
+          }
+        }
+      ],
+      "evo": {
+        "name": "Doble Equipo",
+        "needs": "def",
+        "needName": "Coraza",
+        "text": "×1,8 daño, +1 a la vez y dispara más rápido",
+        "modifiers": {
+          "dmg": 1.8,
+          "count": 1,
+          "rate": 0.8
+        },
+        "stats": {
+          "cd": 4,
+          "dmg": 52.92,
+          "rate": 0.2368,
+          "dur": 9,
+          "count": 3,
+          "range": 280,
+          "speed": 320,
+          "size": 6
+        }
+      }
+    },
+    {
+      "id": "aerial-ace",
+      "name": "Golpe Aéreo",
+      "type": "flying",
+      "kind": "dash",
+      "desc": "Te lanzas en picado y cortas todo lo que cruzas.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.75,
+            "dmg": 18,
+            "radius": 120,
+            "width": 40,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.75,
+            "dmg": 25.2,
+            "radius": 120,
+            "width": 40,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+30% distancia",
+          "stats": {
+            "cd": 0.75,
+            "dmg": 25.2,
+            "radius": 156,
+            "width": 40,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.5625,
+            "dmg": 25.2,
+            "radius": 156,
+            "width": 40,
+            "knock": 60
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+60% daño y más ancho",
+          "stats": {
+            "cd": 0.5625,
+            "dmg": 40.32,
+            "radius": 156,
+            "width": 56,
+            "knock": 60
+          }
+        }
+      ],
+      "evo": {
+        "name": "Acróbata",
+        "needs": "spd",
+        "needName": "Carrera",
+        "text": "×1,9 daño, más distancia y menos recarga",
+        "modifiers": {
+          "dmg": 1.9,
+          "radius": 1.25,
+          "cd": 0.8
+        },
+        "stats": {
+          "cd": 0.45,
+          "dmg": 76.608,
+          "radius": 195,
+          "width": 56,
+          "knock": 60
+        }
+      }
+    },
+    {
+      "id": "flame-wheel",
+      "name": "Rueda Fuego",
+      "type": "fire",
+      "kind": "trail",
+      "desc": "Corres envuelto en fuego y dejas un rastro de llamas.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.28,
+            "dmg": 10,
+            "radius": 28,
+            "dur": 2.6,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.28,
+            "dmg": 14,
+            "radius": 28,
+            "dur": 2.6,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% duración",
+          "stats": {
+            "cd": 0.28,
+            "dmg": 14,
+            "radius": 28,
+            "dur": 3.64,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "Charcos un 30% más grandes",
+          "stats": {
+            "cd": 0.28,
+            "dmg": 14,
+            "radius": 36.4,
+            "dur": 3.64,
+            "burn": 1
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+50% daño y +30% radio",
+          "stats": {
+            "cd": 0.28,
+            "dmg": 21,
+            "radius": 47.32,
+            "dur": 3.64,
+            "burn": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Envite Ígneo",
+        "needs": "spd",
+        "needName": "Carrera",
+        "text": "×1,8 daño, charcos más grandes y duraderos",
+        "modifiers": {
+          "dmg": 1.8,
+          "radius": 1.25,
+          "dur": 1.3
+        },
+        "stats": {
+          "cd": 0.28,
+          "dmg": 37.8,
+          "radius": 59.15,
+          "dur": 4.732,
+          "burn": 1
+        }
+      }
+    },
+    {
+      "id": "bubble-beam",
+      "name": "Rayo Burbuja",
+      "type": "water",
+      "kind": "cone",
+      "desc": "Chorro de burbujas en abanico corto que frena.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.65,
+            "dmg": 6,
+            "count": 7,
+            "arc": 1,
+            "speed": 340,
+            "life": 0.45,
+            "size": 6,
+            "slow": 0.3
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+3 disparos",
+          "stats": {
+            "cd": 0.65,
+            "dmg": 6,
+            "count": 10,
+            "arc": 1,
+            "speed": 340,
+            "life": 0.45,
+            "size": 6,
+            "slow": 0.3
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+40% daño",
+          "stats": {
+            "cd": 0.65,
+            "dmg": 8.4,
+            "count": 10,
+            "arc": 1,
+            "speed": 340,
+            "life": 0.45,
+            "size": 6,
+            "slow": 0.3
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "+30% alcance",
+          "stats": {
+            "cd": 0.65,
+            "dmg": 8.4,
+            "count": 10,
+            "arc": 1,
+            "speed": 340,
+            "life": 0.585,
+            "size": 6,
+            "slow": 0.3
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+3 disparos y +1 perforación",
+          "stats": {
+            "cd": 0.65,
+            "dmg": 8.4,
+            "count": 13,
+            "arc": 1,
+            "speed": 340,
+            "life": 0.585,
+            "size": 6,
+            "slow": 0.3,
+            "pierce": 1
+          }
+        }
+      ],
+      "evo": {
+        "name": "Acua Cola",
+        "needs": "atk",
+        "needName": "Potencia",
+        "text": "×1,7 daño, +4 disparos y +1 perforación",
+        "modifiers": {
+          "dmg": 1.7,
+          "count": 4,
+          "pierce": 1
+        },
+        "stats": {
+          "cd": 0.65,
+          "dmg": 14.28,
+          "count": 17,
+          "arc": 1,
+          "speed": 340,
+          "life": 0.585,
+          "size": 6,
+          "slow": 0.3,
+          "pierce": 2
+        }
+      }
+    },
+    {
+      "id": "hex",
+      "name": "Infortunio",
+      "type": "ghost",
+      "kind": "chain",
+      "desc": "Maldición que salta entre enemigos. Mucho más daño si están quemados, envenenados o frenados.",
+      "maxLvl": 5,
+      "levels": [
+        {
+          "lvl": 1,
+          "upText": null,
+          "stats": {
+            "cd": 0.9,
+            "dmg": 17,
+            "count": 4,
+            "radius": 150,
+            "hex": 1.7
+          }
+        },
+        {
+          "lvl": 2,
+          "upText": "+2 saltos",
+          "stats": {
+            "cd": 0.9,
+            "dmg": 17,
+            "count": 6,
+            "radius": 150,
+            "hex": 1.7
+          }
+        },
+        {
+          "lvl": 3,
+          "upText": "+45% daño",
+          "stats": {
+            "cd": 0.9,
+            "dmg": 24.65,
+            "count": 6,
+            "radius": 150,
+            "hex": 1.7
+          }
+        },
+        {
+          "lvl": 4,
+          "upText": "-25% recarga",
+          "stats": {
+            "cd": 0.675,
+            "dmg": 24.65,
+            "count": 6,
+            "radius": 150,
+            "hex": 1.7
+          }
+        },
+        {
+          "lvl": 5,
+          "upText": "+2 saltos y +40% daño",
+          "stats": {
+            "cd": 0.675,
+            "dmg": 34.51,
+            "count": 8,
+            "radius": 150,
+            "hex": 1.7
+          }
+        }
+      ],
+      "evo": {
+        "name": "Poltergeist",
+        "needs": "mag",
+        "needName": "Imán",
+        "text": "×1,7 daño y +3 saltos",
+        "modifiers": {
+          "dmg": 1.7,
+          "count": 3,
+          "radius": 1.2
+        },
+        "stats": {
+          "cd": 0.675,
+          "dmg": 58.667,
+          "count": 11,
+          "radius": 180,
+          "hex": 1.7
+        }
+      }
+    }
+  ],
+  "pool": {
+    "normal": [
+      "tackle",
+      "quick-attack",
+      "swords-dance",
+      "agility",
+      "harden",
+      "body-slam",
+      "hyper-voice",
+      "substitute"
+    ],
+    "fire": [
+      "ember",
+      "flamethrower",
+      "fire-spin",
+      "heat-wave",
+      "will-o-wisp",
+      "flame-wheel"
+    ],
+    "water": [
+      "water-gun",
+      "bubble",
+      "hydro-pump",
+      "aqua-ring",
+      "bubble-beam"
+    ],
+    "grass": [
+      "vine-whip",
+      "razor-leaf",
+      "leaf-storm",
+      "giga-drain"
+    ],
+    "electric": [
+      "thunder-shock",
+      "discharge",
+      "thunderbolt"
+    ],
+    "psychic": [
+      "confusion",
+      "psybeam",
+      "psychic",
+      "psycho-cut"
+    ],
+    "poison": [
+      "sludge",
+      "poison-sting",
+      "toxic",
+      "toxic-spikes"
+    ],
+    "ground": [
+      "mud-shot",
+      "bulldoze",
+      "bonemerang",
+      "spikes"
+    ],
+    "flying": [
+      "gust",
+      "wing-attack",
+      "aerial-ace"
+    ],
+    "bug": [
+      "bug-bite",
+      "string-shot",
+      "bug-buzz"
+    ],
+    "rock": [
+      "rock-throw",
+      "rock-slide"
+    ],
+    "ice": [
+      "ice-beam",
+      "powder-snow",
+      "hail"
+    ],
+    "fighting": [
+      "karate-chop",
+      "aura-sphere"
+    ],
+    "ghost": [
+      "lick",
+      "shadow-ball",
+      "hex"
+    ],
+    "dragon": [
+      "dragon-rage",
+      "dragon-dance"
+    ],
+    "fairy": [
+      "fairy-wind",
+      "dazzling-gleam"
+    ],
+    "steel": [
+      "metal-claw",
+      "flash-cannon",
+      "meteor-mash"
+    ],
+    "dark": [
+      "bite",
+      "dark-pulse",
+      "night-shade"
+    ]
+  },
+  "startByType": {
+    "fire": "ember",
+    "water": "water-gun",
+    "grass": "vine-whip",
+    "electric": "thunder-shock",
+    "psychic": "confusion",
+    "poison": "sludge",
+    "ground": "mud-shot",
+    "flying": "gust",
+    "bug": "bug-bite",
+    "rock": "rock-throw",
+    "ice": "ice-beam",
+    "fighting": "karate-chop",
+    "ghost": "shadow-ball",
+    "dragon": "dragon-rage",
+    "fairy": "fairy-wind",
+    "steel": "metal-claw",
+    "dark": "bite",
+    "normal": "tackle"
+  },
+  "starters": [
+    {
+      "dex": 1,
+      "start": "vine-whip"
+    },
+    {
+      "dex": 4,
+      "start": "ember"
+    },
+    {
+      "dex": 7,
+      "start": "water-gun"
+    },
+    {
+      "dex": 152,
+      "start": "vine-whip"
+    },
+    {
+      "dex": 155,
+      "start": "ember"
+    },
+    {
+      "dex": 158,
+      "start": "water-gun"
+    },
+    {
+      "dex": 252,
+      "start": "razor-leaf"
+    },
+    {
+      "dex": 255,
+      "start": "ember"
+    },
+    {
+      "dex": 258,
+      "start": "water-gun"
+    },
+    {
+      "dex": 387,
+      "start": "vine-whip"
+    },
+    {
+      "dex": 390,
+      "start": "ember"
+    },
+    {
+      "dex": 393,
+      "start": "bubble"
+    },
+    {
+      "dex": 495,
+      "start": "razor-leaf"
+    },
+    {
+      "dex": 498,
+      "start": "ember"
+    },
+    {
+      "dex": 501,
+      "start": "water-gun"
+    },
+    {
+      "dex": 650,
+      "start": "vine-whip"
+    },
+    {
+      "dex": 653,
+      "start": "ember"
+    },
+    {
+      "dex": 656,
+      "start": "water-gun"
+    },
+    {
+      "dex": 722,
+      "start": "razor-leaf"
+    },
+    {
+      "dex": 725,
+      "start": "ember"
+    },
+    {
+      "dex": 728,
+      "start": "bubble"
+    },
+    {
+      "dex": 810,
+      "start": "vine-whip"
+    },
+    {
+      "dex": 813,
+      "start": "ember"
+    },
+    {
+      "dex": 816,
+      "start": "water-gun"
+    },
+    {
+      "dex": 906,
+      "start": "razor-leaf"
+    },
+    {
+      "dex": 909,
+      "start": "ember"
+    },
+    {
+      "dex": 912,
+      "start": "water-gun"
+    },
+    {
+      "dex": 54,
+      "start": "confusion"
+    },
+    {
+      "dex": 79,
+      "start": "confusion"
+    }
+  ],
+  "statNames": {
+    "hp": "Vigor",
+    "atk": "Potencia",
+    "spd": "Carrera",
+    "cd": "Reflejos",
+    "def": "Coraza",
+    "rgn": "Síntesis",
+    "mag": "Imán",
+    "xp": "Aprendizaje"
+  }
+}

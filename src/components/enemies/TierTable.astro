@@ -1,0 +1,42 @@
+---
+// 梯次表：開始時間、種族值範圍、基礎數值、同時出場種數，以及符合條件的寶可夢數量。
+import { TIERS, TIER_POOL } from './model';
+import { mmss } from '../../lib/game';
+---
+<div class="spec-wrap en-scroll">
+  <table class="spec">
+    <caption>出怪梯次</caption>
+    <thead>
+      <tr>
+        <th>梯次</th>
+        <th class="r">開始</th>
+        <th class="r">種族值範圍</th>
+        <th class="r">基礎生命</th>
+        <th class="r">基礎速度</th>
+        <th class="r">基礎傷害</th>
+        <th class="r">基礎經驗</th>
+        <th class="r">同時出場</th>
+        <th class="r">符合條件</th>
+      </tr>
+    </thead>
+    <tbody>
+      {TIERS.map((t, i) => (
+        <tr>
+          <th>梯次 {i}</th>
+          <td class="num">{mmss(t.from)}</td>
+          <td class="num">{t.bst[0]}–{t.bst[1]}</td>
+          <td class="num">{t.hp}</td>
+          <td class="num">{t.spd}</td>
+          <td class="num">{t.dmg}</td>
+          <td class="num">{t.xp}</td>
+          <td class="num">{t.cast} 種</td>
+          <td class="num">{TIER_POOL[i].length} 種</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="en-fine">
+  「符合條件」指稀有度低於 5、種族值在該梯次範圍內、且有動畫圖的寶可夢；同一隻可能同時符合多個梯次。
+  同時出場為名單的種數，名單每場重抽。基礎數值套用到各物種時還會依種族值與行為調整，公式見總覽頁的「一般敵人」。
+</p>

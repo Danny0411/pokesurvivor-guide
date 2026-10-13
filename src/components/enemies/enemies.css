@@ -1,0 +1,39 @@
+/* 敵人與裂隙頁共用的版面，class 一律加 en- 前綴；章節色 --ch 只用在標題色帶與分隔線 */
+.en-h2 {
+  font-size: 24px; margin: 56px 0 16px; padding: 10px 14px 9px; color: #fff; background-color: var(--ch);
+  position: relative; overflow: hidden;
+}
+.en-h2::after {
+  content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 38%;
+  background-image: radial-gradient(circle, #ffffff59 1.1px, transparent 1.4px); background-size: 6px 6px;
+  mask-image: linear-gradient(90deg, transparent, #000);
+}
+.en-h3 {
+  font-size: 18px; margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--ink);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.en-h3::before { content: ''; width: 10px; height: 10px; background: var(--ch); flex: none; }
+.en-h3 small { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.en-lead { color: var(--ink-2); margin: 0 0 14px; max-width: 72ch; }
+.en-fine { font-size: 12.5px; color: var(--ink-3); margin: 10px 0 0; max-width: 80ch; }
+.en-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
+.en-fig { margin: 0; }
+.en-cap { font-size: 12.5px; color: var(--ink-3); margin: 8px 0 0; max-width: 80ch; }
+.en-more { margin-top: 12px; }
+.en-more > summary {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none;
+  font-weight: 700; font-size: 14px; padding: 7px 14px; border: 2px solid var(--ink); border-radius: 4px;
+}
+.en-more > summary::-webkit-details-marker { display: none; }
+.en-more > summary::before { content: '+'; font: 800 16px/1 var(--num); }
+.en-more[open] > summary::before { content: '−'; }
+.en-more[open] > summary { margin-bottom: 12px; }
+.en-nm { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.en-nm a { font-weight: 700; text-decoration: none; }
+.en-nm a:hover { text-decoration: underline; }
+.en-note {
+  margin: 14px 0 0; padding: 10px 14px; background: var(--paper-2); border-radius: 2px; font-size: 14px; color: var(--ink-2); max-width: 80ch;
+}
+.en-kv td, .en-kv th { vertical-align: top; }
+.en-kv tbody th { white-space: normal; min-width: 7em; }
+.en-types { display: inline-flex; flex-wrap: wrap; gap: 4px; }

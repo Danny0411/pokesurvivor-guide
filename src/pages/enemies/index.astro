@@ -1,0 +1,29 @@
+---
+import Chapter from '../../components/Chapter.astro';
+import Timeline from '../../components/enemies/Timeline.astro';
+import TierTable from '../../components/enemies/TierTable.astro';
+import ScalingChart from '../../components/enemies/ScalingChart.astro';
+import { SUBS } from '../../components/enemies/model';
+import '../../components/enemies/enemies.css';
+---
+<Chapter doc="enemies" chapter="enemies" sub={SUBS}>
+  <div slot="before">
+    <section class="en-sec" aria-labelledby="timeline">
+      <h2 id="timeline" class="en-h2">一場的時間線</h2>
+      <p class="en-lead">橫軸是執行時間，從 0:00 到 16:00。出怪梯次、首領、裂隙判定、天氣與隨機事件的開始時間都標在同一把尺上。</p>
+      <Timeline />
+    </section>
+
+    <section class="en-sec" aria-labelledby="tiers">
+      <h2 id="tiers" class="en-h2">出怪梯次</h2>
+      <p class="en-lead">六個梯次依執行時間切換。梯次決定出怪的種族值範圍與基礎數值。</p>
+      <TierTable />
+    </section>
+
+    <section class="en-sec" aria-labelledby="scaling">
+      <h2 id="scaling" class="en-h2">強度成長</h2>
+      <p class="en-lead">一般敵人與首領的生命、傷害倍率，從 0 分到 30 分。60 分之後另有晚期倍率，列在表的下半部。</p>
+      <ScalingChart />
+    </section>
+  </div>
+</Chapter>

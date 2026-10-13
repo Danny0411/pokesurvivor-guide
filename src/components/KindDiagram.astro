@@ -1,0 +1,106 @@
+---
+// 招式類型的動畫示意圖。所有招式共用同一個比例尺（遊戲 1 像素 = 0.7 單位），範圍可以直接比較。
+import { typeColor } from '../lib/game';
+interface Props { kind: string; stats: Record<string, any>; type: string }
+const { kind, stats, type } = Astro.props;
+const S = 0.7;
+const c = typeColor(type);
+const R = Math.min(130, (stats.radius ?? 80) * S);
+const arcDeg = Math.min(360, ((stats.arc ?? 2) * 180) / Math.PI);
+const W = 320, H = 220, cx = 160, cy = 120;
+// 扇形路徑
+function wedge(r: number, deg: number, dirDeg = 0) {
+  if (deg >= 359) return `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0`;
+  const a0 = ((dirDeg - deg / 2) * Math.PI) / 180, a1 = ((dirDeg + deg / 2) * Math.PI) / 180;
+  const p = (a: number) => `${(cx + Math.cos(a) * r).toFixed(1)} ${(cy + Math.sin(a) * r).toFixed(1)}`;
+  return `M${cx} ${cy}L${p(a0)}A${r} ${r} 0 ${deg > 180 ? 1 : 0} 1 ${p(a1)}Z`;
+}
+const count = Math.max(1, Math.min(6, Math.round(stats.count ?? 1)));
+const reach = Math.min(140, (stats.speed ?? 300) * (stats.life ?? 0.6) * S);
+const zoneR = ['cone', 'projectile'].includes(kind) ? reach : kind === 'turret' ? Math.min(140, (stats.range ?? 300) * S) : R;
+const shots = kind === 'cone' ? Math.max(3, count) : count;
+const foes = [[250, 70], [262, 150], [214, 186], [92, 60], [70, 170]];
+---
+<svg class="kd" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="招式範圍示意動畫" style={`--c:${c}`}>
+  <defs>
+    <pattern id={`g-${kind}`} width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="7" cy="7" r="1" class="dot" /></pattern>
+  </defs>
+  <rect width={W} height={H} fill={`url(#g-${kind})`} />
+  <line x1="12" y1={H - 14} x2={12 + 100 * S} y2={H - 14} class="scale" />
+  <text x="12" y={H - 20} class="lbl">100 px</text>
+
+  <g class="zone" aria-hidden="true">
+    {(kind === 'melee' || kind === 'cone') && <path d={wedge(zoneR, kind === 'cone' ? Math.min(arcDeg, 120) : arcDeg)} />}
+    {['nova', 'aura', 'orbit', 'buff', 'mine', 'meteor'].includes(kind) && <circle cx={cx} cy={cy} r={kind === 'buff' ? 18 : zoneR} />}
+    {kind === 'turret' && <circle cx="118" cy="78" r={zoneR} />}
+    {kind === 'projectile' && <line x1={cx} y1={cy} x2={cx + zoneR} y2={cy} />}
+    {kind === 'beam' && <rect x={cx} y={cy - Math.max(3, (stats.width ?? 22) * S) / 2} width={Math.min(150, R)} height={Math.max(3, (stats.width ?? 22) * S)} />}
+    {kind === 'chain' && <polyline points={`${cx},${cy} 250,70 262,150 214,186`} />}
+  </g>
+  <text x={W - 10} y="18" class="lbl r">{kind === 'cone' ? `${Math.round(Math.min(arcDeg, 360))}° · 射程 ${Math.round(zoneR / S)} px` : kind === 'melee' ? `${arcDeg >= 359 ? 360 : Math.round(arcDeg)}° · 半徑 ${Math.round(R / S)} px` : kind === 'projectile' ? `射程 ${Math.round(zoneR / S)} px` : kind === 'turret' ? `索敵 ${Math.round(zoneR / S)} px` : kind === 'buff' ? '施放在自己身上' : `${Math.round(R / S)} px`}</text>
+
+  {kind === 'melee' && <path d={wedge(R, arcDeg)} class="fx sweep" />}
+  {kind === 'dash' && <g class="dash"><rect x={cx} y={cy - (stats.width ?? 34) * S / 2} width={R} height={(stats.width ?? 34) * S} class="fx" /><g class="streak"><circle cx={cx} cy={cy} r="7" class="me-ghost" /></g></g>}
+  {kind === 'buff' && <g>{[0, 1, 2].map(i => <circle cx={cx} cy={cy} r="18" class="fx ring" style={`animation-delay:${i * 0.5}s`} />)}</g>}
+  {(kind === 'projectile' || kind === 'cone') && <g>{Array.from({ length: shots }, (_, i) => {
+    const spread = kind === 'cone' ? Math.min(arcDeg, 120) : 10 * (shots - 1);
+    const ang = -spread / 2 + (shots > 1 ? (spread * i) / (shots - 1) : 0);
+    return <g transform={`rotate(${ang} ${cx} ${cy})`}><circle cx={cx} cy={cy} r={kind === 'cone' ? 4 : Math.max(3, (stats.size ?? 6) * S)} class="fx shot" style={`--d:${Math.min(140, (stats.speed ?? 300) * (stats.life ?? 0.6) * S)}px;animation-delay:${i * 0.06}s`} /></g>;
+  })}</g>}
+  {kind === 'orbit' && <g class="spin">{Array.from({ length: count }, (_, i) => <circle cx={cx + R} cy={cy} r={Math.max(5, (stats.size ?? 9) * S)} class="fx" transform={`rotate(${(360 / count) * i} ${cx} ${cy})`} />)}<circle cx={cx} cy={cy} r={R} class="path" /></g>}
+  {kind === 'nova' && <circle cx={cx} cy={cy} r={R} class="fx nova" />}
+  {kind === 'beam' && <rect x={cx} y={cy - Math.max(3, (stats.width ?? 22) * S) / 2} width={Math.min(150, R)} height={Math.max(3, (stats.width ?? 22) * S)} class="fx beam" />}
+  {kind === 'aura' && <g><circle cx={cx} cy={cy} r={R} class="fx aura" /><circle cx={cx} cy={cy} r={R} class="path" /></g>}
+  {kind === 'boomerang' && <g><path d={`M${cx} ${cy} Q ${cx + R} ${cy - 40} ${cx + R} ${cy} T ${cx} ${cy}`} class="path" /><circle r="6" class="fx"><animateMotion dur="1.6s" repeatCount="indefinite" path={`M${cx} ${cy} Q ${cx + R} ${cy - 40} ${cx + R} ${cy} T ${cx} ${cy}`} /></circle></g>}
+  {kind === 'chain' && <polyline points={`${cx},${cy} 250,70 262,150 214,186`} class="fx bolt" />}
+  {kind === 'trail' && <g>{[0, 1, 2, 3, 4].map(i => <circle cx={60 + i * 24} cy={cy + 30} r={Math.max(6, R * 0.5)} class="fx puddle" style={`animation-delay:${i * 0.35}s`} />)}</g>}
+  {kind === 'mine' && <g>{[[118, 80], [205, 160], [130, 170]].map(([x, y], i) => <g><circle cx={x} cy={y} r={Math.max(10, R)} class="fx boom" style={`animation-delay:${i * 0.6}s`} /><rect x={x - 4} y={y - 4} width="8" height="8" class="mine" /></g>)}</g>}
+  {kind === 'meteor' && <g><line x1="300" y1="0" x2="250" y2="70" class="fall" /><circle cx="250" cy="70" r={Math.max(12, R)} class="fx boom" /></g>}
+  {kind === 'turret' && <g><rect x="110" y="70" width="16" height="16" class="mine" /><circle cx="118" cy="78" r="4" class="fx shot2" /></g>}
+
+  {foes.map(([x, y]) => <circle cx={x} cy={y} r="7" class="foe" />)}
+  <g class:list={['me', { move: kind === 'trail' }]}><circle cx={kind === 'trail' ? 60 : cx} cy={kind === 'trail' ? cy + 30 : cy} r="8" class="me-c" /></g>
+</svg>
+<style>
+  .kd { display: block; width: 100%; height: auto; border: 2px solid var(--ink); background: var(--paper); }
+  .kd :global(.dot) { fill: var(--rule); }
+  .kd :global(.scale) { stroke: var(--ink-2); stroke-width: 2; }
+  .kd :global(.lbl) { font: 700 10px var(--num); fill: var(--ink-2); }
+  .kd :global(.lbl.r) { text-anchor: end; font-size: 12px; fill: var(--ink); }
+  .kd :global(.zone) > * { fill: color-mix(in oklab, var(--c) 14%, transparent); stroke: var(--c); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .kd :global(.zone) line, .kd :global(.zone) polyline { fill: none; }
+  .kd :global(.foe) { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+  .kd :global(.me-c) { fill: var(--ink); }
+  .kd :global(.me-ghost) { fill: var(--ink); opacity: .35; }
+  .kd :global(.fx) { fill: color-mix(in oklab, var(--c) 45%, transparent); stroke: var(--c); stroke-width: 2; }
+  .kd :global(.path) { fill: none; stroke: var(--c); stroke-width: 1.5; stroke-dasharray: 4 4; opacity: .7; }
+  .kd :global(.mine) { fill: var(--ink); }
+  .kd :global(.fall) { stroke: var(--c); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 90; animation: fall 1.6s var(--ease) infinite; }
+  .kd :global(.bolt) { fill: none; stroke-width: 3; stroke-linejoin: bevel; stroke-dasharray: 260; animation: bolt 1.4s steps(12) infinite; }
+  .kd :global(.sweep) { transform-origin: 160px 120px; animation: sweep 1.2s var(--ease) infinite; }
+  .kd :global(.ring) { transform-origin: 160px 120px; animation: ring 1.5s ease-out infinite; }
+  .kd :global(.shot) { animation: shot 1.2s cubic-bezier(.3,.6,.4,1) infinite; }
+  .kd :global(.shot2) { animation: shot2 .8s linear infinite; }
+  .kd :global(.spin) { transform-origin: 160px 120px; animation: spin 2.4s linear infinite; }
+  .kd :global(.nova) { transform-origin: 160px 120px; animation: nova 1.4s var(--ease) infinite; }
+  .kd :global(.beam) { transform-origin: 160px 120px; animation: beam 1.6s var(--ease) infinite; }
+  .kd :global(.aura) { transform-origin: 160px 120px; animation: aura 2s ease-in-out infinite; }
+  .kd :global(.puddle) { animation: puddle 1.75s ease-out infinite; opacity: 0; }
+  .kd :global(.boom) { transform-box: fill-box; transform-origin: center; animation: boom 1.8s var(--ease) infinite; }
+  .kd :global(.dash .streak) { animation: dash 1.2s var(--ease) infinite; }
+  .kd :global(.move) { animation: walk 1.75s linear infinite; }
+  @keyframes sweep { 0% { opacity: 0; transform: rotate(-40deg) scale(.6); } 30% { opacity: 1; } 70% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+  @keyframes ring { from { transform: scale(.6); opacity: 1; } to { transform: scale(2.2); opacity: 0; } }
+  @keyframes shot { from { transform: translateX(0); opacity: 1; } 85% { opacity: 1; } to { transform: translateX(var(--d)); opacity: 0; } }
+  @keyframes shot2 { from { transform: translate(0, 0); } to { transform: translate(130px, -6px); opacity: 0; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes nova { from { transform: scale(.1); opacity: 1; } to { transform: scale(1); opacity: 0; } }
+  @keyframes beam { 0% { transform: scaleX(0); opacity: 1; } 40% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+  @keyframes aura { 50% { opacity: .55; } }
+  @keyframes puddle { 0% { opacity: 0; } 15% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes boom { 0%, 40% { transform: scale(0); opacity: 0; } 55% { opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+  @keyframes fall { 0% { stroke-dashoffset: 90; } 50%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+  @keyframes bolt { from { stroke-dashoffset: 260; } 60% { stroke-dashoffset: 0; opacity: 1; } to { opacity: 0; } }
+  @keyframes dash { from { transform: translateX(0); } to { transform: translateX(110px); opacity: 0; } }
+  @keyframes walk { from { transform: translateX(0); } to { transform: translateX(100px); } }
+</style>

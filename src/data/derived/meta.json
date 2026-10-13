@@ -1,0 +1,3171 @@
+{
+  "_generatedBy": "tools/derive-meta.cjs",
+  "_build": {
+    "source": "js/app.min.js?v=dc3ae9bbfb",
+    "extractedAt": "2026-10-13T03:36:12.370Z"
+  },
+  "_note": "數值由 src/data/game 的 JSON 推導；_src 指向 .cache/app.pretty.js 的行號（有快取時精確查行，否則為範圍）。",
+  "currencies": {
+    "coins": {
+      "start_balance_new_account": 500,
+      "_src": "app.pretty.js:79597, 80178 (START_COINS)"
+    },
+    "t1": {
+      "start_balance": 0,
+      "_src": "app.pretty.js:79606-79609"
+    },
+    "t10": {
+      "start_balance": 0,
+      "_src": "app.pretty.js:79606-79609"
+    }
+  },
+  "upgrades": {
+    "_src_list": "app.pretty.js:83235-83339",
+    "_src_cost": "app.pretty.js:83345 (cost), per-Pokémon 儲存 app.pretty.js:80130-80132",
+    "_src_perks": "app.pretty.js:83349 (perks)",
+    "cost_formula": "費用(id, lv) = 10 * Math.round(base * grow^lv / 10)；lv 為目前等級（0 起算），即升到 lv+1 的價格",
+    "per_pokemon": true,
+    "list": [
+      {
+        "id": "hp",
+        "name_es": "Vitalidad",
+        "unit_es": "+8 vida",
+        "icon": "heart",
+        "max_level": 10,
+        "base": 60,
+        "grow": 1.35,
+        "cost_per_level": [
+          60,
+          80,
+          110,
+          150,
+          200,
+          270,
+          360,
+          490,
+          660,
+          890
+        ],
+        "cumulative_cost": [
+          60,
+          140,
+          250,
+          400,
+          600,
+          870,
+          1230,
+          1720,
+          2380,
+          3270
+        ],
+        "total_cost_to_max": 3270,
+        "perk_key": "hp",
+        "perk_formula": "8 * k",
+        "perk_value_by_level": [
+          0,
+          8,
+          16,
+          24,
+          32,
+          40,
+          48,
+          56,
+          64,
+          72,
+          80
+        ],
+        "_src": "app.pretty.js:83236"
+      },
+      {
+        "id": "atk",
+        "name_es": "Fuerza",
+        "unit_es": "+4% daño",
+        "icon": "fist",
+        "max_level": 10,
+        "base": 80,
+        "grow": 1.38,
+        "cost_per_level": [
+          80,
+          110,
+          150,
+          210,
+          290,
+          400,
+          550,
+          760,
+          1050,
+          1450
+        ],
+        "cumulative_cost": [
+          80,
+          190,
+          340,
+          550,
+          840,
+          1240,
+          1790,
+          2550,
+          3600,
+          5050
+        ],
+        "total_cost_to_max": 5050,
+        "perk_key": "atkMul",
+        "perk_formula": "1 + 0.04 * k",
+        "perk_value_by_level": [
+          1,
+          1.04,
+          1.08,
+          1.12,
+          1.16,
+          1.2,
+          1.24,
+          1.28,
+          1.32,
+          1.36,
+          1.4
+        ],
+        "_src": "app.pretty.js:83244"
+      },
+      {
+        "id": "spd",
+        "name_es": "Zancada",
+        "unit_es": "+3% velocidad",
+        "icon": "boot",
+        "max_level": 8,
+        "base": 70,
+        "grow": 1.4,
+        "cost_per_level": [
+          70,
+          100,
+          140,
+          190,
+          270,
+          380,
+          530,
+          740
+        ],
+        "cumulative_cost": [
+          70,
+          170,
+          310,
+          500,
+          770,
+          1150,
+          1680,
+          2420
+        ],
+        "total_cost_to_max": 2420,
+        "perk_key": "spdMul",
+        "perk_formula": "1 + 0.03 * k",
+        "perk_value_by_level": [
+          1,
+          1.03,
+          1.06,
+          1.09,
+          1.12,
+          1.15,
+          1.18,
+          1.21,
+          1.24
+        ],
+        "_src": "app.pretty.js:83252"
+      },
+      {
+        "id": "cd",
+        "name_es": "Reflejos",
+        "unit_es": "-3% recarga",
+        "icon": "clock",
+        "max_level": 8,
+        "base": 90,
+        "grow": 1.42,
+        "cost_per_level": [
+          90,
+          130,
+          180,
+          260,
+          370,
+          520,
+          740,
+          1050
+        ],
+        "cumulative_cost": [
+          90,
+          220,
+          400,
+          660,
+          1030,
+          1550,
+          2290,
+          3340
+        ],
+        "total_cost_to_max": 3340,
+        "perk_key": "cdMul",
+        "perk_formula": "1 - 0.03 * k",
+        "perk_value_by_level": [
+          1,
+          0.97,
+          0.94,
+          0.91,
+          0.88,
+          0.85,
+          0.82,
+          0.79,
+          0.76
+        ],
+        "_src": "app.pretty.js:83260"
+      },
+      {
+        "id": "def",
+        "name_es": "Coraza",
+        "unit_es": "+2% defensa",
+        "icon": "shield",
+        "max_level": 8,
+        "base": 80,
+        "grow": 1.4,
+        "cost_per_level": [
+          80,
+          110,
+          160,
+          220,
+          310,
+          430,
+          600,
+          840
+        ],
+        "cumulative_cost": [
+          80,
+          190,
+          350,
+          570,
+          880,
+          1310,
+          1910,
+          2750
+        ],
+        "total_cost_to_max": 2750,
+        "perk_key": "dmgReduce",
+        "perk_formula": "0.02 * k",
+        "perk_value_by_level": [
+          0,
+          0.02,
+          0.04,
+          0.06,
+          0.08,
+          0.1,
+          0.12,
+          0.14,
+          0.16
+        ],
+        "_src": "app.pretty.js:83268"
+      },
+      {
+        "id": "regen",
+        "name_es": "Síntesis",
+        "unit_es": "+0.2 vida/s",
+        "icon": "sprout",
+        "max_level": 5,
+        "base": 120,
+        "grow": 1.5,
+        "cost_per_level": [
+          120,
+          180,
+          270,
+          410,
+          610
+        ],
+        "cumulative_cost": [
+          120,
+          300,
+          570,
+          980,
+          1590
+        ],
+        "total_cost_to_max": 1590,
+        "perk_key": "regen",
+        "perk_formula": "0.2 * k",
+        "perk_value_by_level": [
+          0,
+          0.2,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ],
+        "_src": "app.pretty.js:83276"
+      },
+      {
+        "id": "magnet",
+        "name_es": "Imán",
+        "unit_es": "+12% recogida",
+        "icon": "magnet",
+        "max_level": 6,
+        "base": 50,
+        "grow": 1.4,
+        "cost_per_level": [
+          50,
+          70,
+          100,
+          140,
+          190,
+          270
+        ],
+        "cumulative_cost": [
+          50,
+          120,
+          220,
+          360,
+          550,
+          820
+        ],
+        "total_cost_to_max": 820,
+        "perk_key": "magnetMul",
+        "perk_formula": "1 + 0.12 * k",
+        "perk_value_by_level": [
+          1,
+          1.12,
+          1.24,
+          1.36,
+          1.48,
+          1.6,
+          1.72
+        ],
+        "_src": "app.pretty.js:83284"
+      },
+      {
+        "id": "xp",
+        "name_es": "Sabiduría",
+        "unit_es": "+5% experiencia",
+        "icon": "book",
+        "max_level": 8,
+        "base": 100,
+        "grow": 1.42,
+        "cost_per_level": [
+          100,
+          140,
+          200,
+          290,
+          410,
+          580,
+          820,
+          1160
+        ],
+        "cumulative_cost": [
+          100,
+          240,
+          440,
+          730,
+          1140,
+          1720,
+          2540,
+          3700
+        ],
+        "total_cost_to_max": 3700,
+        "perk_key": "xpMul",
+        "perk_formula": "1 + 0.05 * k",
+        "perk_value_by_level": [
+          1,
+          1.05,
+          1.1,
+          1.15,
+          1.2,
+          1.25,
+          1.3,
+          1.35,
+          1.4
+        ],
+        "_src": "app.pretty.js:83292"
+      },
+      {
+        "id": "coins",
+        "name_es": "Fortuna",
+        "unit_es": "+8% Pokémonedas",
+        "icon": "coin",
+        "max_level": 8,
+        "base": 120,
+        "grow": 1.45,
+        "cost_per_level": [
+          120,
+          170,
+          250,
+          370,
+          530,
+          770,
+          1120,
+          1620
+        ],
+        "cumulative_cost": [
+          120,
+          290,
+          540,
+          910,
+          1440,
+          2210,
+          3330,
+          4950
+        ],
+        "total_cost_to_max": 4950,
+        "perk_key": "coinMul",
+        "perk_formula": "1 + 0.08 * k",
+        "perk_value_by_level": [
+          1,
+          1.08,
+          1.16,
+          1.24,
+          1.32,
+          1.4,
+          1.48,
+          1.56,
+          1.64
+        ],
+        "_src": "app.pretty.js:83300"
+      },
+      {
+        "id": "moves",
+        "name_es": "Repertorio",
+        "unit_es": "Empiezas con 2 movimientos",
+        "icon": "cards",
+        "max_level": 1,
+        "base": 1500,
+        "grow": 1,
+        "cost_per_level": [
+          1500
+        ],
+        "cumulative_cost": [
+          1500
+        ],
+        "total_cost_to_max": 1500,
+        "perk_key": "startMoves",
+        "perk_formula": "1 + k",
+        "perk_value_by_level": [
+          1,
+          2
+        ],
+        "_src": "app.pretty.js:83308"
+      },
+      {
+        "id": "crit",
+        "name_es": "Golpe Crítico",
+        "unit_es": "+3% de críticos (x1,5 de daño)",
+        "icon": "star",
+        "max_level": 10,
+        "base": 90,
+        "grow": 1.4,
+        "cost_per_level": [
+          90,
+          130,
+          180,
+          250,
+          350,
+          480,
+          680,
+          950,
+          1330,
+          1860
+        ],
+        "cumulative_cost": [
+          90,
+          220,
+          400,
+          650,
+          1000,
+          1480,
+          2160,
+          3110,
+          4440,
+          6300
+        ],
+        "total_cost_to_max": 6300,
+        "perk_key": "crit",
+        "perk_formula": "0.03 * k",
+        "perk_value_by_level": [
+          0,
+          0.03,
+          0.06,
+          0.09,
+          0.12,
+          0.15,
+          0.18,
+          0.21,
+          0.24,
+          0.27,
+          0.3
+        ],
+        "_src": "app.pretty.js:83316"
+      },
+      {
+        "id": "reroll",
+        "name_es": "Cambio de cartas",
+        "unit_es": "+1 cambio de cartas de nivel por run",
+        "icon": "up",
+        "max_level": 5,
+        "base": 150,
+        "grow": 1.6,
+        "cost_per_level": [
+          150,
+          240,
+          380,
+          610,
+          980
+        ],
+        "cumulative_cost": [
+          150,
+          390,
+          770,
+          1380,
+          2360
+        ],
+        "total_cost_to_max": 2360,
+        "perk_key": "rerolls",
+        "perk_formula": "k",
+        "perk_value_by_level": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "_src": "app.pretty.js:83324"
+      },
+      {
+        "id": "ban",
+        "name_es": "Veto",
+        "unit_es": "Bloquea 1 movimiento: no te sale en las cartas",
+        "icon": "ban",
+        "max_level": 3,
+        "base": 300,
+        "grow": 1.9,
+        "cost_per_level": [
+          300,
+          570,
+          1080
+        ],
+        "cumulative_cost": [
+          300,
+          870,
+          1950
+        ],
+        "total_cost_to_max": 1950,
+        "perk_key": "bans",
+        "perk_formula": "k",
+        "perk_value_by_level": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "_src": "app.pretty.js:83332"
+      }
+    ]
+  },
+  "gacha": {
+    "rates_pct": [
+      {
+        "rarity": 1,
+        "pct": 45,
+        "name_es": "Común",
+        "color": "#9fb1c9"
+      },
+      {
+        "rarity": 2,
+        "pct": 30,
+        "name_es": "Poco común",
+        "color": "#5fe08a"
+      },
+      {
+        "rarity": 3,
+        "pct": 17,
+        "name_es": "Rara",
+        "color": "#4fb4ff"
+      },
+      {
+        "rarity": 4,
+        "pct": 6.5,
+        "name_es": "Épica",
+        "color": "#c47bff"
+      },
+      {
+        "rarity": 5,
+        "pct": 1.5,
+        "name_es": "Legendaria",
+        "color": "#ffcb3d"
+      }
+    ],
+    "rates_sum": 100,
+    "_src_rates": "app.pretty.js:89080-89086",
+    "pity_5_threshold": 70,
+    "pity_rule": "pity[gen] 在每抽前 +1；達到 PITY_5 時該抽強制 5★，抽到 5★ 後歸零（pity 依 banner/gen 分開）",
+    "_src_pity": "app.pretty.js:89134 (PITY_5), app.pretty.js:89195, 89199, 89204 (pity 邏輯)",
+    "shiny_rate": 0.01,
+    "shiny_roll": "Math.random() < 0.01，且該寶可夢需 SPRITE_META[dex].sh 為真（958/966 隻有閃光圖）",
+    "_src_shiny": "app.pretty.js:89135, 89206-89210; app.pretty.js:80849-80852 (hasShiny)",
+    "cost": {
+      "single_x1": {
+        "t1": 1
+      },
+      "ten_x10_with_t1": {
+        "t1": 10
+      },
+      "ten_x10_with_t10_ticket": {
+        "t10": 1
+      },
+      "_src": "app.pretty.js:89067-89079 (costOf)"
+    },
+    "refund_by_rarity": {
+      "1": 15,
+      "2": 30,
+      "3": 60,
+      "4": 120,
+      "5": 300
+    },
+    "refund_rule": "重複（非閃光）：REFUND[rarity] 寶可幣；新寶可夢或新閃光：0",
+    "shiny_duplicate_refund_branch": "程式碼 89216 含 3 * REFUND[rarity] 分支，但依 89206-89210 的重抽邏輯，閃光一定是新閃光，此分支不會觸發",
+    "_src_refund": "app.pretty.js:89087-89093 (REFUND), app.pretty.js:89213-89222 (結算)",
+    "ten_pull_guarantee": "第 10 抽（僅 ×10）若前 9 抽都不是 4★+，改用 d(4)：只在 4★、5★ 之間抽（RATES 6.5:1.5）",
+    "_src_ten": "app.pretty.js:89199, 89121-89126",
+    "rarity_names": {
+      "1": "Común",
+      "2": "Poco común",
+      "3": "Rara",
+      "4": "Épica",
+      "5": "Legendaria"
+    },
+    "rarity_colors": {
+      "1": "#9fb1c9",
+      "2": "#5fe08a",
+      "3": "#4fb4ff",
+      "4": "#c47bff",
+      "5": "#ffcb3d"
+    },
+    "banners": [
+      {
+        "gen": 1,
+        "name_es": "Kanto",
+        "pool_size_by_rarity": {
+          "1": 35,
+          "2": 41,
+          "3": 38,
+          "4": 31,
+          "5": 6
+        },
+        "pool_size_total": 151,
+        "dex_count_in_gen": 151,
+        "shiny_eligible_by_rarity": {
+          "1": 35,
+          "2": 41,
+          "3": 38,
+          "4": 31,
+          "5": 6
+        },
+        "shiny_eligible_total": 151,
+        "effective_rates_single_pull": {
+          "1": 0.45,
+          "2": 0.3,
+          "3": 0.17,
+          "4": 0.065,
+          "5": 0.015
+        },
+        "shiny_per_pull_approx": 0.01,
+        "ten_pull": {
+          "p_at_least_one_4plus": 1,
+          "p_at_least_one_5": 0.221717,
+          "tenth_slot_when_no_4plus_before": {
+            "4": 0.8125,
+            "5": 0.1875
+          }
+        },
+        "featured_dex": [
+          150,
+          149,
+          151
+        ],
+        "featured_names_es": [
+          "Mewtwo",
+          "Dragonite",
+          "Mew"
+        ],
+        "_src": "app.pretty.js:89151-89187 (banner), app.pretty.js:89100-89102 (pool), app.pretty.js:89189-89191 (featured)"
+      },
+      {
+        "gen": 2,
+        "name_es": "Johto",
+        "pool_size_by_rarity": {
+          "1": 25,
+          "2": 21,
+          "3": 29,
+          "4": 18,
+          "5": 7
+        },
+        "pool_size_total": 100,
+        "dex_count_in_gen": 100,
+        "shiny_eligible_by_rarity": {
+          "1": 25,
+          "2": 21,
+          "3": 29,
+          "4": 18,
+          "5": 7
+        },
+        "shiny_eligible_total": 100,
+        "effective_rates_single_pull": {
+          "1": 0.45,
+          "2": 0.3,
+          "3": 0.17,
+          "4": 0.065,
+          "5": 0.015
+        },
+        "shiny_per_pull_approx": 0.01,
+        "ten_pull": {
+          "p_at_least_one_4plus": 1,
+          "p_at_least_one_5": 0.221717,
+          "tenth_slot_when_no_4plus_before": {
+            "4": 0.8125,
+            "5": 0.1875
+          }
+        },
+        "featured_dex": [
+          249,
+          250,
+          248
+        ],
+        "featured_names_es": [
+          "Lugia",
+          "Ho-Oh",
+          "Tyranitar"
+        ],
+        "_src": "app.pretty.js:89151-89187 (banner), app.pretty.js:89100-89102 (pool), app.pretty.js:89189-89191 (featured)"
+      },
+      {
+        "gen": 3,
+        "name_es": "Hoenn",
+        "pool_size_by_rarity": {
+          "1": 41,
+          "2": 25,
+          "3": 44,
+          "4": 12,
+          "5": 13
+        },
+        "pool_size_total": 135,
+        "dex_count_in_gen": 135,
+        "shiny_eligible_by_rarity": {
+          "1": 41,
+          "2": 25,
+          "3": 44,
+          "4": 12,
+          "5": 13
+        },
+        "shiny_eligible_total": 135,
+        "effective_rates_single_pull": {
+          "1": 0.45,
+          "2": 0.3,
+          "3": 0.17,
+          "4": 0.065,
+          "5": 0.015
+        },
+        "shiny_per_pull_approx": 0.01,
+        "ten_pull": {
+          "p_at_least_one_4plus": 1,
+          "p_at_least_one_5": 0.221717,
+          "tenth_slot_when_no_4plus_before": {
+            "4": 0.8125,
+            "5": 0.1875
+          }
+        },
+        "featured_dex": [
+          384,
+          289,
+          382
+        ],
+        "featured_names_es": [
+          "Rayquaza",
+          "Slaking",
+          "Kyogre"
+        ],
+        "_src": "app.pretty.js:89151-89187 (banner), app.pretty.js:89100-89102 (pool), app.pretty.js:89189-89191 (featured)"
+      },
+      {
+        "gen": 4,
+        "name_es": "Sinnoh",
+        "pool_size_by_rarity": {
+          "1": 20,
+          "2": 20,
+          "3": 20,
+          "4": 32,
+          "5": 15
+        },
+        "pool_size_total": 107,
+        "dex_count_in_gen": 107,
+        "shiny_eligible_by_rarity": {
+          "1": 20,
+          "2": 20,
+          "3": 20,
+          "4": 32,
+          "5": 15
+        },
+        "shiny_eligible_total": 107,
+        "effective_rates_single_pull": {
+          "1": 0.45,
+          "2": 0.3,
+          "3": 0.17,
+          "4": 0.065,
+          "5": 0.015
+        },
+        "shiny_per_pull_approx": 0.01,
+        "ten_pull": {
+          "p_at_least_one_4plus": 1,
+          "p_at_least_one_5": 0.221717,
+          "tenth_slot_when_no_4plus_before": {
+            "4": 0.8125,
+            "5": 0.1875
+          }
+        },
+        "featured_dex": [
+          493,
+          483,
+          484
+        ],
+        "featured_names_es": [
+          "Arceus",
+          "Dialga",
+          "Palkia"
+        ],
+        "_src": "app.pretty.js:89151-89187 (banner), app.pretty.js:89100-89102 (pool), app.pretty.js:89189-89191 (featured)"
+      },
+      {
+        "gen": 5,
+        "name_es": "Teselia",
+        "pool_size_by_rarity": {
+          "1": 36,
+          "2": 27,
+          "3": 38,
+          "4": 26,
+          "5": 14
+        },
+        "pool_size_total": 141,
+        "dex_count_in_gen": 141,
+        "shiny_eligible_by_rarity": {
+          "1": 35,
+          "2": 27,
+          "3": 38,
+          "4": 26,
+          "5": 14
+        },
+        "shiny_eligible_total": 140,
+        "effective_rates_single_pull": {
+          "1": 0.45,
+          "2": 0.3,
+          "3": 0.17,
+          "4": 0.065,
+          "5": 0.015
+        },
+        "shiny_per_pull_approx": 0.009875,
+        "ten_pull": {
+          "p_at_least_one_4plus": 1,
+          "p_at_least_one_5": 0.221717,
+          "tenth_slot_when_no_4plus_before": {
+            "4": 0.8125,
+            "5": 0.1875
+          }
+        },
+        "featured_dex": [
+          643,
+          644,
+          646
+        ],
+        "featured_names_es": [
+          "Reshiram",
+          "Zekrom",
+          "Kyurem"
+        ],
+        "_src": "app.pretty.js:89151-89187 (banner), app.pretty.js:89100-89102 (pool), app.pretty.js:89189-89191 (featured)"
+      },
+      {
+        "gen": 6,
+        "name_es": "Kalos",
+        "pool_size_by_rarity": {
+          "1": 15,
+          "2": 17,
+          "3": 14,
+          "4": 17,
+          "5": 7
+        },
+        "pool_size_total": 70,
+        "dex_count_in_gen": 70,
+        "shiny_eligible_by_rarity": {
+          "1": 15,
+          "2": 17,
+          "3": 14,
+          "4": 17,
+          "5": 7
+        },
+        "shiny_eligible_total": 70,
+        "effective_rates_single_pull": {
+          "1": 0.45,
+          "2": 0.3,
+          "3": 0.17,
+          "4": 0.065,
+          "5": 0.015
+        },
+        "shiny_per_pull_approx": 0.01,
+        "ten_pull": {
+          "p_at_least_one_4plus": 1,
+          "p_at_least_one_5": 0.221717,
+          "tenth_slot_when_no_4plus_before": {
+            "4": 0.8125,
+            "5": 0.1875
+          }
+        },
+        "featured_dex": [
+          716,
+          717,
+          706
+        ],
+        "featured_names_es": [
+          "Xerneas",
+          "Yveltal",
+          "Goodra"
+        ],
+        "_src": "app.pretty.js:89151-89187 (banner), app.pretty.js:89100-89102 (pool), app.pretty.js:89189-89191 (featured)"
+      },
+      {
+        "gen": 7,
+        "name_es": "Alola",
+        "pool_size_by_rarity": {
+          "1": 14,
+          "2": 9,
+          "3": 23,
+          "4": 20,
+          "5": 17
+        },
+        "pool_size_total": 83,
+        "dex_count_in_gen": 83,
+        "shiny_eligible_by_rarity": {
+          "1": 14,
+          "2": 9,
+          "3": 23,
+          "4": 20,
+          "5": 17
+        },
+        "shiny_eligible_total": 83,
+        "effective_rates_single_pull": {
+          "1": 0.45,
+          "2": 0.3,
+          "3": 0.17,
+          "4": 0.065,
+          "5": 0.015
+        },
+        "shiny_per_pull_approx": 0.01,
+        "ten_pull": {
+          "p_at_least_one_4plus": 1,
+          "p_at_least_one_5": 0.221717,
+          "tenth_slot_when_no_4plus_before": {
+            "4": 0.8125,
+            "5": 0.1875
+          }
+        },
+        "featured_dex": [
+          791,
+          792,
+          784
+        ],
+        "featured_names_es": [
+          "Solgaleo",
+          "Lunala",
+          "Kommo-o"
+        ],
+        "_src": "app.pretty.js:89151-89187 (banner), app.pretty.js:89100-89102 (pool), app.pretty.js:89189-89191 (featured)"
+      },
+      {
+        "gen": 8,
+        "name_es": "Galar",
+        "pool_size_by_rarity": {
+          "1": 23,
+          "2": 4,
+          "3": 23,
+          "4": 25,
+          "5": 12
+        },
+        "pool_size_total": 87,
+        "dex_count_in_gen": 87,
+        "shiny_eligible_by_rarity": {
+          "1": 22,
+          "2": 4,
+          "3": 21,
+          "4": 25,
+          "5": 11
+        },
+        "shiny_eligible_total": 83,
+        "effective_rates_single_pull": {
+          "1": 0.45,
+          "2": 0.3,
+          "3": 0.17,
+          "4": 0.065,
+          "5": 0.015
+        },
+        "shiny_per_pull_approx": 0.009644,
+        "ten_pull": {
+          "p_at_least_one_4plus": 1,
+          "p_at_least_one_5": 0.221717,
+          "tenth_slot_when_no_4plus_before": {
+            "4": 0.8125,
+            "5": 0.1875
+          }
+        },
+        "featured_dex": [
+          890,
+          888,
+          889
+        ],
+        "featured_names_es": [
+          "Eternatus",
+          "Zacian",
+          "Zamazenta"
+        ],
+        "_src": "app.pretty.js:89151-89187 (banner), app.pretty.js:89100-89102 (pool), app.pretty.js:89189-89191 (featured)"
+      },
+      {
+        "gen": 9,
+        "name_es": "Paldea",
+        "pool_size_by_rarity": {
+          "1": 24,
+          "2": 7,
+          "3": 19,
+          "4": 30,
+          "5": 12
+        },
+        "pool_size_total": 92,
+        "dex_count_in_gen": 92,
+        "shiny_eligible_by_rarity": {
+          "1": 24,
+          "2": 6,
+          "3": 18,
+          "4": 30,
+          "5": 11
+        },
+        "shiny_eligible_total": 89,
+        "effective_rates_single_pull": {
+          "1": 0.45,
+          "2": 0.3,
+          "3": 0.17,
+          "4": 0.065,
+          "5": 0.015
+        },
+        "shiny_per_pull_approx": 0.009469,
+        "ten_pull": {
+          "p_at_least_one_4plus": 1,
+          "p_at_least_one_5": 0.221717,
+          "tenth_slot_when_no_4plus_before": {
+            "4": 0.8125,
+            "5": 0.1875
+          }
+        },
+        "featured_dex": [
+          1007,
+          998,
+          1018
+        ],
+        "featured_names_es": [
+          "Koraidon",
+          "Baxcalibur",
+          "Archaludon"
+        ],
+        "_src": "app.pretty.js:89151-89187 (banner), app.pretty.js:89100-89102 (pool), app.pretty.js:89189-89191 (featured)"
+      }
+    ],
+    "fallback_triggered_in_data": false,
+    "_src_fallback": "app.pretty.js:89104-89118 (o)"
+  },
+  "missions": {
+    "daily": [
+      {
+        "id": "kill",
+        "scope": "daily",
+        "ev": "kill",
+        "param": null,
+        "mode": null,
+        "goals": [
+          300,
+          500,
+          800
+        ],
+        "tiers": 3,
+        "reward": {
+          "t1": 2,
+          "coins": 150
+        },
+        "_src": "app.pretty.js:83482"
+      },
+      {
+        "id": "killType",
+        "scope": "daily",
+        "ev": "kill",
+        "param": "type",
+        "mode": null,
+        "goals": [
+          30,
+          50,
+          80
+        ],
+        "tiers": 3,
+        "reward": {
+          "t1": 2,
+          "coins": 200
+        },
+        "_src": "app.pretty.js:83491"
+      },
+      {
+        "id": "survive",
+        "scope": "daily",
+        "ev": "runEnd",
+        "param": null,
+        "mode": "max",
+        "goals": [
+          5,
+          7,
+          9
+        ],
+        "tiers": 3,
+        "reward": {
+          "t1": 3,
+          "coins": 200
+        },
+        "_src": "app.pretty.js:83502"
+      },
+      {
+        "id": "level",
+        "scope": "daily",
+        "ev": "runEnd",
+        "param": null,
+        "mode": "max",
+        "goals": [
+          8,
+          12,
+          15
+        ],
+        "tiers": 3,
+        "reward": {
+          "t1": 2,
+          "coins": 200
+        },
+        "_src": "app.pretty.js:83513"
+      },
+      {
+        "id": "boss",
+        "scope": "daily",
+        "ev": "kill",
+        "param": null,
+        "mode": null,
+        "goals": [
+          1,
+          2
+        ],
+        "tiers": 2,
+        "reward": {
+          "t1": 3,
+          "coins": 250
+        },
+        "_src": "app.pretty.js:83524"
+      },
+      {
+        "id": "chest",
+        "scope": "daily",
+        "ev": "chest",
+        "param": null,
+        "mode": null,
+        "goals": [
+          1,
+          2
+        ],
+        "tiers": 2,
+        "reward": {
+          "t1": 2,
+          "coins": 200
+        },
+        "_src": "app.pretty.js:83534"
+      },
+      {
+        "id": "coins",
+        "scope": "daily",
+        "ev": "runEnd",
+        "param": null,
+        "mode": null,
+        "goals": [
+          100,
+          200,
+          300
+        ],
+        "tiers": 3,
+        "reward": {
+          "t1": 2,
+          "coins": 150
+        },
+        "_src": "app.pretty.js:83543"
+      },
+      {
+        "id": "playType",
+        "scope": "daily",
+        "ev": "runEnd",
+        "param": "type",
+        "mode": "max",
+        "goals": [
+          3
+        ],
+        "tiers": 1,
+        "reward": {
+          "t1": 3,
+          "coins": 200
+        },
+        "_src": "app.pretty.js:83553"
+      },
+      {
+        "id": "item",
+        "scope": "daily",
+        "ev": "item",
+        "param": null,
+        "mode": null,
+        "goals": [
+          1
+        ],
+        "tiers": 1,
+        "reward": {
+          "t1": 2,
+          "coins": 150
+        },
+        "_src": "app.pretty.js:83566"
+      },
+      {
+        "id": "evolve",
+        "scope": "daily",
+        "ev": "evolve",
+        "param": null,
+        "mode": null,
+        "goals": [
+          1
+        ],
+        "tiers": 1,
+        "reward": {
+          "t1": 3,
+          "coins": 250
+        },
+        "_src": "app.pretty.js:83575"
+      }
+    ],
+    "weekly": [
+      {
+        "id": "wkill",
+        "scope": "weekly",
+        "ev": "kill",
+        "param": null,
+        "mode": null,
+        "goals": [
+          4000,
+          6000
+        ],
+        "tiers": 2,
+        "reward": {
+          "t10": 1,
+          "coins": 800
+        },
+        "_src": "app.pretty.js:83585"
+      },
+      {
+        "id": "wrift",
+        "scope": "weekly",
+        "ev": "rift",
+        "param": null,
+        "mode": null,
+        "goals": [
+          1,
+          2
+        ],
+        "tiers": 2,
+        "reward": {
+          "t10": 1,
+          "coins": 1000
+        },
+        "_src": "app.pretty.js:83594"
+      },
+      {
+        "id": "wboss",
+        "scope": "weekly",
+        "ev": "kill",
+        "param": null,
+        "mode": null,
+        "goals": [
+          4,
+          6
+        ],
+        "tiers": 2,
+        "reward": {
+          "t10": 1,
+          "coins": 900
+        },
+        "_src": "app.pretty.js:83603"
+      },
+      {
+        "id": "wsurvive",
+        "scope": "weekly",
+        "ev": "runEnd",
+        "param": null,
+        "mode": "max",
+        "goals": [
+          12,
+          15
+        ],
+        "tiers": 2,
+        "reward": {
+          "t10": 1,
+          "coins": 1000
+        },
+        "_src": "app.pretty.js:83613"
+      },
+      {
+        "id": "wevolve",
+        "scope": "weekly",
+        "ev": "evolve",
+        "param": null,
+        "mode": null,
+        "goals": [
+          3,
+          5
+        ],
+        "tiers": 2,
+        "reward": {
+          "t10": 1,
+          "coins": 900
+        },
+        "_src": "app.pretty.js:83624"
+      },
+      {
+        "id": "wdaily",
+        "scope": "weekly",
+        "ev": "missionDone",
+        "param": null,
+        "mode": null,
+        "goals": [
+          8,
+          12
+        ],
+        "tiers": 2,
+        "reward": {
+          "t10": 1,
+          "coins": 800
+        },
+        "_src": "app.pretty.js:83633"
+      }
+    ],
+    "_src": "app.pretty.js:83478-83650"
+  },
+  "achievements": {
+    "count": 127,
+    "categories": [
+      {
+        "id": "coleccion",
+        "name_es": "Colección"
+      },
+      {
+        "id": "supervivencia",
+        "name_es": "Supervivencia"
+      },
+      {
+        "id": "combate",
+        "name_es": "Combate"
+      },
+      {
+        "id": "grietas",
+        "name_es": "Grietas"
+      },
+      {
+        "id": "legendarios",
+        "name_es": "Legendarios"
+      },
+      {
+        "id": "otros",
+        "name_es": "Misiones y más"
+      }
+    ],
+    "by_category": {
+      "coleccion": 11,
+      "supervivencia": 7,
+      "combate": 11,
+      "grietas": 3,
+      "legendarios": 90,
+      "otros": 5
+    },
+    "list": [
+      {
+        "id": "own1",
+        "cat": "coleccion",
+        "tier": 1,
+        "goal": 1,
+        "reward": {
+          "coins": 100
+        },
+        "name_es": "Primer compañero",
+        "desc_es": "Ten 1 Pokémon.",
+        "title": null,
+        "_src": "app.pretty.js:83657"
+      },
+      {
+        "id": "own10",
+        "cat": "coleccion",
+        "tier": 1,
+        "goal": 10,
+        "reward": {
+          "t1": 2
+        },
+        "name_es": "Pequeño equipo",
+        "desc_es": "Ten 10 Pokémon.",
+        "title": null,
+        "_src": "app.pretty.js:83668"
+      },
+      {
+        "id": "own50",
+        "cat": "coleccion",
+        "tier": 2,
+        "goal": 50,
+        "reward": {
+          "t1": 5
+        },
+        "name_es": "Coleccionista",
+        "desc_es": "Ten 50 Pokémon.",
+        "title": "Coleccionista",
+        "_src": "app.pretty.js:83679"
+      },
+      {
+        "id": "own100",
+        "cat": "coleccion",
+        "tier": 2,
+        "goal": 100,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Cien amigos",
+        "desc_es": "Ten 100 Pokémon.",
+        "title": null,
+        "_src": "app.pretty.js:83691"
+      },
+      {
+        "id": "own250",
+        "cat": "coleccion",
+        "tier": 3,
+        "goal": 250,
+        "reward": {
+          "t10": 2
+        },
+        "name_es": "Maestro Pokémon",
+        "desc_es": "Ten 250 Pokémon.",
+        "title": "Maestro Pokémon",
+        "_src": "app.pretty.js:83702"
+      },
+      {
+        "id": "own500",
+        "cat": "coleccion",
+        "tier": 3,
+        "goal": 500,
+        "reward": {
+          "t10": 3
+        },
+        "name_es": "Enciclopedia",
+        "desc_es": "Ten 500 Pokémon.",
+        "title": null,
+        "_src": "app.pretty.js:83714"
+      },
+      {
+        "id": "ownAll",
+        "cat": "coleccion",
+        "tier": 3,
+        "goal": 966,
+        "reward": {
+          "t10": 10
+        },
+        "name_es": "Profesor Pokémon",
+        "desc_es": "Ten los 966 Pokémon del juego.",
+        "title": "Profesor Pokémon",
+        "_src": "app.pretty.js:83725"
+      },
+      {
+        "id": "shiny1",
+        "cat": "coleccion",
+        "tier": 1,
+        "goal": 1,
+        "reward": {
+          "t1": 3
+        },
+        "name_es": "Algo brilla",
+        "desc_es": "Consigue 1 shiny.",
+        "title": "Brillante",
+        "_src": "app.pretty.js:83737"
+      },
+      {
+        "id": "shiny5",
+        "cat": "coleccion",
+        "tier": 2,
+        "goal": 5,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Ojo para el brillo",
+        "desc_es": "Consigue 5 shinies.",
+        "title": null,
+        "_src": "app.pretty.js:83749"
+      },
+      {
+        "id": "shiny20",
+        "cat": "coleccion",
+        "tier": 3,
+        "goal": 20,
+        "reward": {
+          "t10": 2
+        },
+        "name_es": "Cazashinies",
+        "desc_es": "Consigue 20 shinies.",
+        "title": "Cazashinies",
+        "_src": "app.pretty.js:83760"
+      },
+      {
+        "id": "pulls100",
+        "cat": "coleccion",
+        "tier": 2,
+        "goal": 100,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Tragaperras",
+        "desc_es": "Haz 100 tiradas en el gacha.",
+        "title": "Afortunado",
+        "_src": "app.pretty.js:83772"
+      },
+      {
+        "id": "time5",
+        "cat": "supervivencia",
+        "tier": 1,
+        "goal": 5,
+        "reward": {
+          "coins": 200
+        },
+        "name_es": "Calentando",
+        "desc_es": "Aguanta 5 minutos.",
+        "title": null,
+        "_src": "app.pretty.js:83784"
+      },
+      {
+        "id": "time10",
+        "cat": "supervivencia",
+        "tier": 2,
+        "goal": 10,
+        "reward": {
+          "t1": 4
+        },
+        "name_es": "Duro de pelar",
+        "desc_es": "Aguanta 10 minutos.",
+        "title": null,
+        "_src": "app.pretty.js:83795"
+      },
+      {
+        "id": "time15",
+        "cat": "supervivencia",
+        "tier": 2,
+        "goal": 15,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Resistente",
+        "desc_es": "Aguanta 15 minutos.",
+        "title": null,
+        "_src": "app.pretty.js:83806"
+      },
+      {
+        "id": "time20",
+        "cat": "supervivencia",
+        "tier": 3,
+        "goal": 20,
+        "reward": {
+          "t10": 2
+        },
+        "name_es": "Superviviente",
+        "desc_es": "Aguanta 20 minutos.",
+        "title": "Superviviente",
+        "_src": "app.pretty.js:83817"
+      },
+      {
+        "id": "lvl20",
+        "cat": "supervivencia",
+        "tier": 1,
+        "goal": 15,
+        "reward": {
+          "t1": 2
+        },
+        "name_es": "Creciendo",
+        "desc_es": "Llega al nivel 15 en una run.",
+        "title": null,
+        "_src": "app.pretty.js:83829"
+      },
+      {
+        "id": "lvl40",
+        "cat": "supervivencia",
+        "tier": 3,
+        "goal": 30,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Imparable",
+        "desc_es": "Llega al nivel 30 en una run.",
+        "title": "Imparable",
+        "_src": "app.pretty.js:83840"
+      },
+      {
+        "id": "runs50",
+        "cat": "supervivencia",
+        "tier": 2,
+        "goal": 50,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Explorador",
+        "desc_es": "Juega 50 runs.",
+        "title": "Explorador",
+        "_src": "app.pretty.js:83852"
+      },
+      {
+        "id": "kills1k",
+        "cat": "combate",
+        "tier": 1,
+        "goal": 1000,
+        "reward": {
+          "t1": 2
+        },
+        "name_es": "Primeros combates",
+        "desc_es": "Derrota a 1.000 Pokémon.",
+        "title": null,
+        "_src": "app.pretty.js:83864"
+      },
+      {
+        "id": "kills10k",
+        "cat": "combate",
+        "tier": 2,
+        "goal": 10000,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Veterano",
+        "desc_es": "Derrota a 10.000 Pokémon.",
+        "title": "Veterano",
+        "_src": "app.pretty.js:83875"
+      },
+      {
+        "id": "kills100k",
+        "cat": "combate",
+        "tier": 3,
+        "goal": 100000,
+        "reward": {
+          "t10": 3
+        },
+        "name_es": "Leyenda viva",
+        "desc_es": "Derrota a 100.000 Pokémon.",
+        "title": "Leyenda viva",
+        "_src": "app.pretty.js:83887"
+      },
+      {
+        "id": "boss1",
+        "cat": "combate",
+        "tier": 1,
+        "goal": 1,
+        "reward": {
+          "t1": 2
+        },
+        "name_es": "Matagigantes",
+        "desc_es": "Derrota a un jefe.",
+        "title": null,
+        "_src": "app.pretty.js:83899"
+      },
+      {
+        "id": "boss25",
+        "cat": "combate",
+        "tier": 2,
+        "goal": 25,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Cazajefes",
+        "desc_es": "Derrota a 25 jefes.",
+        "title": "Cazajefes",
+        "_src": "app.pretty.js:83910"
+      },
+      {
+        "id": "boss100",
+        "cat": "combate",
+        "tier": 3,
+        "goal": 100,
+        "reward": {
+          "t10": 2
+        },
+        "name_es": "Terror de los jefes",
+        "desc_es": "Derrota a 100 jefes.",
+        "title": null,
+        "_src": "app.pretty.js:83922"
+      },
+      {
+        "id": "evo1",
+        "cat": "combate",
+        "tier": 1,
+        "goal": 1,
+        "reward": {
+          "t1": 3
+        },
+        "name_es": "Evolución",
+        "desc_es": "Evoluciona un movimiento.",
+        "title": null,
+        "_src": "app.pretty.js:83933"
+      },
+      {
+        "id": "evo25",
+        "cat": "combate",
+        "tier": 2,
+        "goal": 25,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Evolucionista",
+        "desc_es": "Evoluciona 25 movimientos.",
+        "title": "Evolucionista",
+        "_src": "app.pretty.js:83944"
+      },
+      {
+        "id": "evoAll",
+        "cat": "combate",
+        "tier": 3,
+        "goal": 59,
+        "reward": {
+          "t10": 3
+        },
+        "name_es": "Maestro de movimientos",
+        "desc_es": "Evoluciona los 59 movimientos distintos.",
+        "title": "Maestro de movimientos",
+        "_src": "app.pretty.js:83956"
+      },
+      {
+        "id": "items5",
+        "cat": "combate",
+        "tier": 1,
+        "goal": 5,
+        "reward": {
+          "t1": 3
+        },
+        "name_es": "Bolsa llena",
+        "desc_es": "Encuentra 5 objetos distintos.",
+        "title": null,
+        "_src": "app.pretty.js:83968"
+      },
+      {
+        "id": "itemsAll",
+        "cat": "combate",
+        "tier": 2,
+        "goal": 11,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Coleccionista de objetos",
+        "desc_es": "Encuentra los 11 objetos.",
+        "title": "Anticuario",
+        "_src": "app.pretty.js:83979"
+      },
+      {
+        "id": "rift1",
+        "cat": "grietas",
+        "tier": 1,
+        "goal": 1,
+        "reward": {
+          "t1": 3
+        },
+        "name_es": "Al otro lado",
+        "desc_es": "Gana tu primera pelea en una grieta.",
+        "title": "Valiente",
+        "_src": "app.pretty.js:83991"
+      },
+      {
+        "id": "rift10",
+        "cat": "grietas",
+        "tier": 2,
+        "goal": 10,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Saltagrietas",
+        "desc_es": "Gana 10 peleas en grietas.",
+        "title": null,
+        "_src": "app.pretty.js:84003"
+      },
+      {
+        "id": "arenas",
+        "cat": "grietas",
+        "tier": 3,
+        "goal": 18,
+        "reward": {
+          "t10": 2
+        },
+        "name_es": "Viajero de grietas",
+        "desc_es": "Gana en las 18 arenas (una por tipo).",
+        "title": "Viajero de grietas",
+        "_src": "app.pretty.js:84014"
+      },
+      {
+        "id": "leg10",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 10,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Cazalegendarios",
+        "desc_es": "Vence a 10 legendarios distintos.",
+        "title": "Cazalegendarios",
+        "_src": "app.pretty.js:84026"
+      },
+      {
+        "id": "leg30",
+        "cat": "legendarios",
+        "tier": 3,
+        "goal": 30,
+        "reward": {
+          "t10": 2
+        },
+        "name_es": "Domador de mitos",
+        "desc_es": "Vence a 30 legendarios distintos.",
+        "title": null,
+        "_src": "app.pretty.js:84038"
+      },
+      {
+        "id": "legAll",
+        "cat": "legendarios",
+        "tier": 3,
+        "goal": 87,
+        "reward": {
+          "t10": 5
+        },
+        "name_es": "Leyenda",
+        "desc_es": "Vence a los 87 legendarios.",
+        "title": "Leyenda",
+        "_src": "app.pretty.js:84049"
+      },
+      {
+        "id": "mis10",
+        "cat": "otros",
+        "tier": 1,
+        "goal": 10,
+        "reward": {
+          "t1": 3
+        },
+        "name_es": "Cumplidor",
+        "desc_es": "Completa 10 misiones.",
+        "title": null,
+        "_src": "app.pretty.js:84061"
+      },
+      {
+        "id": "mis50",
+        "cat": "otros",
+        "tier": 2,
+        "goal": 50,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Constante",
+        "desc_es": "Completa 50 misiones.",
+        "title": "Constante",
+        "_src": "app.pretty.js:84072"
+      },
+      {
+        "id": "mis200",
+        "cat": "otros",
+        "tier": 3,
+        "goal": 200,
+        "reward": {
+          "t10": 3
+        },
+        "name_es": "Incansable",
+        "desc_es": "Completa 200 misiones.",
+        "title": null,
+        "_src": "app.pretty.js:84084"
+      },
+      {
+        "id": "group1",
+        "cat": "otros",
+        "tier": 1,
+        "goal": 1,
+        "reward": {
+          "t1": 2
+        },
+        "name_es": "En compañía",
+        "desc_es": "Juega una partida en grupo.",
+        "title": null,
+        "_src": "app.pretty.js:84095"
+      },
+      {
+        "id": "group10",
+        "cat": "otros",
+        "tier": 2,
+        "goal": 10,
+        "reward": {
+          "t10": 1
+        },
+        "name_es": "Compañero fiel",
+        "desc_es": "Juega 10 partidas en grupo.",
+        "title": "Compañero fiel",
+        "_src": "app.pretty.js:84106"
+      },
+      {
+        "id": "leg_144",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Articuno",
+        "desc_es": "Derrota a Articuno en una grieta.",
+        "title": null,
+        "dex": 144,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_145",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Zapdos",
+        "desc_es": "Derrota a Zapdos en una grieta.",
+        "title": null,
+        "dex": 145,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_146",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Moltres",
+        "desc_es": "Derrota a Moltres en una grieta.",
+        "title": null,
+        "dex": 146,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_150",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Mewtwo",
+        "desc_es": "Derrota a Mewtwo en una grieta.",
+        "title": null,
+        "dex": 150,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_151",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Mew",
+        "desc_es": "Derrota a Mew en una grieta.",
+        "title": null,
+        "dex": 151,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_243",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Raikou",
+        "desc_es": "Derrota a Raikou en una grieta.",
+        "title": null,
+        "dex": 243,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_244",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Entei",
+        "desc_es": "Derrota a Entei en una grieta.",
+        "title": null,
+        "dex": 244,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_245",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Suicune",
+        "desc_es": "Derrota a Suicune en una grieta.",
+        "title": null,
+        "dex": 245,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_249",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Lugia",
+        "desc_es": "Derrota a Lugia en una grieta.",
+        "title": null,
+        "dex": 249,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_250",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Ho-Oh",
+        "desc_es": "Derrota a Ho-Oh en una grieta.",
+        "title": null,
+        "dex": 250,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_251",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Celebi",
+        "desc_es": "Derrota a Celebi en una grieta.",
+        "title": null,
+        "dex": 251,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_377",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Regirock",
+        "desc_es": "Derrota a Regirock en una grieta.",
+        "title": null,
+        "dex": 377,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_378",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Regice",
+        "desc_es": "Derrota a Regice en una grieta.",
+        "title": null,
+        "dex": 378,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_379",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Registeel",
+        "desc_es": "Derrota a Registeel en una grieta.",
+        "title": null,
+        "dex": 379,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_380",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Latias",
+        "desc_es": "Derrota a Latias en una grieta.",
+        "title": null,
+        "dex": 380,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_381",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Latios",
+        "desc_es": "Derrota a Latios en una grieta.",
+        "title": null,
+        "dex": 381,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_382",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Kyogre",
+        "desc_es": "Derrota a Kyogre en una grieta.",
+        "title": null,
+        "dex": 382,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_383",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Groudon",
+        "desc_es": "Derrota a Groudon en una grieta.",
+        "title": null,
+        "dex": 383,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_384",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Rayquaza",
+        "desc_es": "Derrota a Rayquaza en una grieta.",
+        "title": null,
+        "dex": 384,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_385",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Jirachi",
+        "desc_es": "Derrota a Jirachi en una grieta.",
+        "title": null,
+        "dex": 385,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_386",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Deoxys",
+        "desc_es": "Derrota a Deoxys en una grieta.",
+        "title": null,
+        "dex": 386,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_480",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Uxie",
+        "desc_es": "Derrota a Uxie en una grieta.",
+        "title": null,
+        "dex": 480,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_481",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Mesprit",
+        "desc_es": "Derrota a Mesprit en una grieta.",
+        "title": null,
+        "dex": 481,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_482",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Azelf",
+        "desc_es": "Derrota a Azelf en una grieta.",
+        "title": null,
+        "dex": 482,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_483",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Dialga",
+        "desc_es": "Derrota a Dialga en una grieta.",
+        "title": null,
+        "dex": 483,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_484",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Palkia",
+        "desc_es": "Derrota a Palkia en una grieta.",
+        "title": null,
+        "dex": 484,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_485",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Heatran",
+        "desc_es": "Derrota a Heatran en una grieta.",
+        "title": null,
+        "dex": 485,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_486",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Regigigas",
+        "desc_es": "Derrota a Regigigas en una grieta.",
+        "title": null,
+        "dex": 486,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_487",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Giratina",
+        "desc_es": "Derrota a Giratina en una grieta.",
+        "title": null,
+        "dex": 487,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_488",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Cresselia",
+        "desc_es": "Derrota a Cresselia en una grieta.",
+        "title": null,
+        "dex": 488,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_489",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Phione",
+        "desc_es": "Derrota a Phione en una grieta.",
+        "title": null,
+        "dex": 489,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_490",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Manaphy",
+        "desc_es": "Derrota a Manaphy en una grieta.",
+        "title": null,
+        "dex": 490,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_491",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Darkrai",
+        "desc_es": "Derrota a Darkrai en una grieta.",
+        "title": null,
+        "dex": 491,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_492",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Shaymin",
+        "desc_es": "Derrota a Shaymin en una grieta.",
+        "title": null,
+        "dex": 492,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_493",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Arceus",
+        "desc_es": "Derrota a Arceus en una grieta.",
+        "title": null,
+        "dex": 493,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_494",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Victini",
+        "desc_es": "Derrota a Victini en una grieta.",
+        "title": null,
+        "dex": 494,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_638",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Cobalion",
+        "desc_es": "Derrota a Cobalion en una grieta.",
+        "title": null,
+        "dex": 638,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_639",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Terrakion",
+        "desc_es": "Derrota a Terrakion en una grieta.",
+        "title": null,
+        "dex": 639,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_640",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Virizion",
+        "desc_es": "Derrota a Virizion en una grieta.",
+        "title": null,
+        "dex": 640,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_641",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Tornadus",
+        "desc_es": "Derrota a Tornadus en una grieta.",
+        "title": null,
+        "dex": 641,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_642",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Thundurus",
+        "desc_es": "Derrota a Thundurus en una grieta.",
+        "title": null,
+        "dex": 642,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_643",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Reshiram",
+        "desc_es": "Derrota a Reshiram en una grieta.",
+        "title": null,
+        "dex": 643,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_644",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Zekrom",
+        "desc_es": "Derrota a Zekrom en una grieta.",
+        "title": null,
+        "dex": 644,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_645",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Landorus",
+        "desc_es": "Derrota a Landorus en una grieta.",
+        "title": null,
+        "dex": 645,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_646",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Kyurem",
+        "desc_es": "Derrota a Kyurem en una grieta.",
+        "title": null,
+        "dex": 646,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_647",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Keldeo",
+        "desc_es": "Derrota a Keldeo en una grieta.",
+        "title": null,
+        "dex": 647,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_648",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Meloetta",
+        "desc_es": "Derrota a Meloetta en una grieta.",
+        "title": null,
+        "dex": 648,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_649",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Genesect",
+        "desc_es": "Derrota a Genesect en una grieta.",
+        "title": null,
+        "dex": 649,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_716",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Xerneas",
+        "desc_es": "Derrota a Xerneas en una grieta.",
+        "title": null,
+        "dex": 716,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_717",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Yveltal",
+        "desc_es": "Derrota a Yveltal en una grieta.",
+        "title": null,
+        "dex": 717,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_718",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Zygarde",
+        "desc_es": "Derrota a Zygarde en una grieta.",
+        "title": null,
+        "dex": 718,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_719",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Diancie",
+        "desc_es": "Derrota a Diancie en una grieta.",
+        "title": null,
+        "dex": 719,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_720",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Hoopa",
+        "desc_es": "Derrota a Hoopa en una grieta.",
+        "title": null,
+        "dex": 720,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_721",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Volcanion",
+        "desc_es": "Derrota a Volcanion en una grieta.",
+        "title": null,
+        "dex": 721,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_772",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Código Cero",
+        "desc_es": "Derrota a Código Cero en una grieta.",
+        "title": null,
+        "dex": 772,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_773",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Silvally",
+        "desc_es": "Derrota a Silvally en una grieta.",
+        "title": null,
+        "dex": 773,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_785",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Tapu Koko",
+        "desc_es": "Derrota a Tapu Koko en una grieta.",
+        "title": null,
+        "dex": 785,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_786",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Tapu Lele",
+        "desc_es": "Derrota a Tapu Lele en una grieta.",
+        "title": null,
+        "dex": 786,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_787",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Tapu Bulu",
+        "desc_es": "Derrota a Tapu Bulu en una grieta.",
+        "title": null,
+        "dex": 787,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_788",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Tapu Fini",
+        "desc_es": "Derrota a Tapu Fini en una grieta.",
+        "title": null,
+        "dex": 788,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_789",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Cosmog",
+        "desc_es": "Derrota a Cosmog en una grieta.",
+        "title": null,
+        "dex": 789,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_790",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Cosmoem",
+        "desc_es": "Derrota a Cosmoem en una grieta.",
+        "title": null,
+        "dex": 790,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_791",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Solgaleo",
+        "desc_es": "Derrota a Solgaleo en una grieta.",
+        "title": null,
+        "dex": 791,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_792",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Lunala",
+        "desc_es": "Derrota a Lunala en una grieta.",
+        "title": null,
+        "dex": 792,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_800",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Necrozma",
+        "desc_es": "Derrota a Necrozma en una grieta.",
+        "title": null,
+        "dex": 800,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_801",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Magearna",
+        "desc_es": "Derrota a Magearna en una grieta.",
+        "title": null,
+        "dex": 801,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_802",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Marshadow",
+        "desc_es": "Derrota a Marshadow en una grieta.",
+        "title": null,
+        "dex": 802,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_807",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Zeraora",
+        "desc_es": "Derrota a Zeraora en una grieta.",
+        "title": null,
+        "dex": 807,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_808",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Meltan",
+        "desc_es": "Derrota a Meltan en una grieta.",
+        "title": null,
+        "dex": 808,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_809",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Melmetal",
+        "desc_es": "Derrota a Melmetal en una grieta.",
+        "title": null,
+        "dex": 809,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_888",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Zacian",
+        "desc_es": "Derrota a Zacian en una grieta.",
+        "title": null,
+        "dex": 888,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_889",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Zamazenta",
+        "desc_es": "Derrota a Zamazenta en una grieta.",
+        "title": null,
+        "dex": 889,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_890",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Eternatus",
+        "desc_es": "Derrota a Eternatus en una grieta.",
+        "title": null,
+        "dex": 890,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_891",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Kubfu",
+        "desc_es": "Derrota a Kubfu en una grieta.",
+        "title": null,
+        "dex": 891,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_892",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Urshifu",
+        "desc_es": "Derrota a Urshifu en una grieta.",
+        "title": null,
+        "dex": 892,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_894",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Regieleki",
+        "desc_es": "Derrota a Regieleki en una grieta.",
+        "title": null,
+        "dex": 894,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_895",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Regidrago",
+        "desc_es": "Derrota a Regidrago en una grieta.",
+        "title": null,
+        "dex": 895,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_896",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Glastrier",
+        "desc_es": "Derrota a Glastrier en una grieta.",
+        "title": null,
+        "dex": 896,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_897",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Spectrier",
+        "desc_es": "Derrota a Spectrier en una grieta.",
+        "title": null,
+        "dex": 897,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_898",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Calyrex",
+        "desc_es": "Derrota a Calyrex en una grieta.",
+        "title": null,
+        "dex": 898,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_905",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Enamorus",
+        "desc_es": "Derrota a Enamorus en una grieta.",
+        "title": null,
+        "dex": 905,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_1004",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Chi-Yu",
+        "desc_es": "Derrota a Chi-Yu en una grieta.",
+        "title": null,
+        "dex": 1004,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_1007",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Koraidon",
+        "desc_es": "Derrota a Koraidon en una grieta.",
+        "title": null,
+        "dex": 1007,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_1015",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Munkidori",
+        "desc_es": "Derrota a Munkidori en una grieta.",
+        "title": null,
+        "dex": 1015,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_1016",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Fezandipiti",
+        "desc_es": "Derrota a Fezandipiti en una grieta.",
+        "title": null,
+        "dex": 1016,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_1017",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Ogerpon",
+        "desc_es": "Derrota a Ogerpon en una grieta.",
+        "title": null,
+        "dex": 1017,
+        "_src": "app.pretty.js:83650-84150"
+      },
+      {
+        "id": "leg_1024",
+        "cat": "legendarios",
+        "tier": 2,
+        "goal": 1,
+        "reward": {
+          "t1": 1
+        },
+        "name_es": "Vence a Terapagos",
+        "desc_es": "Derrota a Terapagos en una grieta.",
+        "title": null,
+        "dex": 1024,
+        "_src": "app.pretty.js:83650-84150"
+      }
+    ],
+    "_src": "app.pretty.js:83650-84150"
+  },
+  "changelog": {
+    "count": 7,
+    "version_field": null,
+    "entries": [
+      {
+        "d": "2026-10-13",
+        "_src": "app.pretty.js:84161"
+      },
+      {
+        "d": "2026-10-12",
+        "_src": "app.pretty.js:84167"
+      },
+      {
+        "d": "2026-10-11",
+        "_src": "app.pretty.js:84205"
+      },
+      {
+        "d": "2026-10-10",
+        "_src": "app.pretty.js:84224"
+      },
+      {
+        "d": "2026-10-09",
+        "_src": "app.pretty.js:84242"
+      },
+      {
+        "d": "2026-10-08",
+        "_src": "app.pretty.js:84254"
+      },
+      {
+        "d": "2026-10-07",
+        "_src": "app.pretty.js:84267"
+      }
+    ],
+    "_src": "app.pretty.js:84160-84272"
+  }
+}

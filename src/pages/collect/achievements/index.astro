@@ -1,0 +1,101 @@
+---
+// 成就：全部成就的條件、獎勵與稱號，依類別分組；傳說寶可夢成就附該寶可夢的 Sprite。
+// 清單來自 src/data/derived/meta.json（由 AchDefs.json 推導）；名稱、條件與稱號來自 src/i18n/zh/meta.json。
+import Base from '../../../layouts/Base.astro';
+import ChapterHead from '../../../components/collect/ChapterHead.astro';
+import Sprite from '../../../components/Sprite.astro';
+import { COLLECT_SUB } from '../../../components/collect/nav';
+import { POKEMON_BY, url } from '../../../lib/game';
+import { thumbScale } from '../../../components/collect/thumb';
+import META from '../../../data/derived/meta.json';
+import Z from '../../../i18n/zh/meta.json';
+import '../../../components/collect/collect.css';
+
+const comma = (n: number) => n.toLocaleString('en-US');
+const rewardText = (r: Record<string, number>) => [
+  r.t1 ? `抽獎券 ${r.t1}` : '',
+  r.t10 ? `×10 抽獎券 ${r.t10}` : '',
+  r.coins ? `寶可幣 ${comma(r.coins)}` : '',
+].filter(Boolean).join('、');
+
+// 稱號取各成就自己的 title 欄位（與 derived 的稱號集合一一對應）。
+// Z.titles 表的 shiny1、itemsAll、mis50 與這裡不同，見回報。
+const ZA = Z.achievements as Record<string, { name: string; desc: string; title?: string }>;
+const ZC = Z.achievement_categories as Record<string, string>;
+
+const items = (META.achievements.list as any[]).map(a => ({
+  id: a.id as string,
+  cat: a.cat as string,
+  dex: a.dex as number | undefined,
+  name: ZA[a.id].name,
+  desc: ZA[a.id].desc,
+  reward: rewardText(a.reward),
+  title: ZA[a.id].title ?? null,
+}));
+const cats = META.achievements.categories.map(c => ({
+  id: c.id,
+  zh: ZC[c.id],
+  items: items.filter(i => i.cat === c.id),
+}));
+const handwritten = items.filter(i => !i.id.startsWith('leg_')).length;
+const titleCount = items.filter(i => i.title).length;
+---
+<Base title="成就" description="PokéSurvivor 成就：全部 127 個成就的條件、獎勵與稱號，依類別分組，傳說寶可夢成就附寶可夢動畫。" chapter="collect">
+  <ChapterHead chapter="collect" title="成就" summary={`共 ${items.length} 個成就：${handwritten} 個手寫，另有 ${items.length - handwritten} 個傳說寶可夢成就（每隻一個）。達成後自動發放獎勵，沒有領取步驟；${titleCount} 個成就附有稱號。`} sub={COLLECT_SUB} />
+
+  <ul class="jump" aria-label="成就類別">
+    {cats.map(c => <li><a href={`#cat-${c.id}`}>{c.zh}<span class="num">{c.items.length}</span></a></li>)}
+  </ul>
+
+  {cats.map(c => {
+    const hand = c.items.filter(i => !i.id.startsWith('leg_'));
+    const legs = c.items.filter(i => i.id.startsWith('leg_'));
+    return (
+      <section class="sec" id={`cat-${c.id}`} aria-labelledby={`h-cat-${c.id}`}>
+        <h2 id={`h-cat-${c.id}`}>{c.zh}<span class="count">{c.items.length}</span></h2>
+        <div class="spec-wrap">
+          <table class="spec">
+            <thead><tr><th>成就</th><th>條件</th><th>獎勵</th><th>稱號</th></tr></thead>
+            <tbody>
+              {hand.map(i => (
+                <tr>
+                  <th>{i.name}</th>
+                  <td>{i.desc}</td>
+                  <td>{i.reward}</td>
+                  <td>{i.title ?? '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {legs.length > 0 && (
+          <>
+            <h3 id={`h-legs-${c.id}`}>每隻傳說寶可夢一個 <small>{legs.length} 個，達成條件是在裂隙中擊敗該寶可夢</small></h3>
+            <ul class="legs">
+              {legs.map(i => (
+                <li>
+                  <a href={url(`/pokemon/${i.dex}/`)}>
+                    <span class="th"><Sprite dex={i.dex!} scale={thumbScale(POKEMON_BY[i.dex!])} /></span>
+                    <span class="tx"><b>{i.name}</b><small>{i.reward}</small></span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </section>
+    );
+  })}
+
+  <p class="src">本頁每一項敘述都對照過遊戲程式碼；標示「程式碼未明確」的部分是遊戲沒有明確定義的地方。</p>
+</Base>
+
+<style>
+  .legs { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); border-top: 1px solid var(--rule); }
+  .legs a { display: flex; align-items: center; gap: 10px; padding: 6px 8px 6px 0; text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .legs a:hover { background: var(--ch-tint); }
+  .th { width: 56px; height: 56px; display: grid; place-items: center; overflow: hidden; flex: none; }
+  .tx { display: grid; min-width: 0; }
+  .tx b { font-size: 14px; }
+  .tx small { font-size: 12px; color: var(--ink-3); }
+</style>

@@ -1,0 +1,130 @@
+---
+// 永久升級：規則、13 項強化的效果、每級數值與最高等級，以及每一級的費用與累計費用。
+// 費用與效果依 app.pretty.js 83345–83366（G.Upgrades.cost / perks）；基礎值與成長係數來自 src/data/game/Upgrades.json。
+import Base from '../../../layouts/Base.astro';
+import ChapterHead from '../../../components/collect/ChapterHead.astro';
+import { COLLECT_SUB } from '../../../components/collect/nav';
+import { fmt } from '../../../lib/game';
+import UPG from '../../../data/game/Upgrades.json';
+import Z from '../../../i18n/zh/meta.json';
+import '../../../components/collect/collect.css';
+
+const comma = (n: number) => n.toLocaleString('en-US');
+
+// 與 G.Upgrades.cost 相同：lv 為目前等級（從 0 起算），結果是升到 lv + 1 的價格
+const cost = (base: number, grow: number, lv: number) => 10 * Math.round((base * Math.pow(grow, lv)) / 10);
+
+// 與 G.Upgrades.perks 相同：k 為等級，文字是該等級的合計效果
+const EFFECT: Record<string, (k: number) => string> = {
+  hp: k => `生命值 +${8 * k}`,
+  atk: k => `傷害 +${4 * k}%`,
+  spd: k => `移動速度 +${3 * k}%`,
+  cd: k => `冷卻時間 −${3 * k}%`,
+  def: k => `受到傷害 −${2 * k}%`,
+  regen: k => `每秒回復 +${fmt(0.2 * k)}`,
+  magnet: k => `拾取範圍 +${12 * k}%`,
+  xp: k => `經驗值 +${5 * k}%`,
+  coins: k => `寶可幣 +${8 * k}%`,
+  moves: k => `開局招式 ${1 + k} 個`,
+  crit: k => `暴擊率 +${3 * k}%`,
+  reroll: k => `每局換卡 +${k} 次`,
+  ban: k => `禁用 ${k} 個招式`,
+};
+
+const ZU = Z.upgrades as Record<string, { name: string; unit: string }>;
+const list = (UPG.LIST as any[]).map(u => {
+  let sum = 0;
+  const levels = Array.from({ length: u.max as number }, (_, i) => {
+    const lv = i + 1;
+    const price = cost(u.base, u.grow, i);
+    sum += price;
+    return { lv, effect: EFFECT[u.id](lv), price, sum };
+  });
+  return {
+    id: u.id as string,
+    zh: ZU[u.id].name,
+    unit: ZU[u.id].unit,
+    es: u.name as string,
+    max: u.max as number,
+    base: u.base as number,
+    grow: u.grow as number,
+    levels,
+    total: sum,
+  };
+});
+---
+<Base title="永久升級" description="PokéSurvivor 永久升級：13 項強化的效果、每級數值、最高等級，以及每一級的寶可幣費用與累計費用。" chapter="collect">
+  <ChapterHead chapter="collect" title="永久升級" summary="用寶可幣升級已擁有的寶可夢。每隻寶可夢的等級各自獨立，13 項強化各有最高等級。" sub={COLLECT_SUB} />
+
+  <section class="sec" aria-labelledby="h-rule">
+    <h2 id="h-rule">規則</h2>
+    <ul class="pts">
+      <li>強化畫面（主選單的「強化」）只能對已擁有的寶可夢升級。每隻寶可夢的等級各自儲存，不是整個帳號共用。</li>
+      <li>購買條件：寶可幣足夠，且該項尚未達最高等級。購買後扣寶可幣、等級 +1；滿級時按鈕顯示「Máx.」。</li>
+    </ul>
+    <h3 id="h-formula">費用公式</h3>
+    <p class="formula"><code>費用 = 10 × round(基礎值 × 成長係數 ^ 目前等級 ÷ 10)</code></p>
+    <p>「目前等級」從 0 起算，結果是升到下一級的價格。例如活力從 0 級升到 1 級要 60 寶可幣。</p>
+  </section>
+
+  <section class="sec" aria-labelledby="h-over">
+    <h2 id="h-over">強化總覽</h2>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th>強化</th><th>每級效果</th><th class="r">最高等級</th><th class="r">基礎值</th><th class="r">成長係數</th><th class="r">滿級合計</th></tr></thead>
+        <tbody>
+          {list.map(u => (
+            <tr>
+              <th><a href={`#up-${u.id}`}>{u.zh}</a><small>{u.es}</small></th>
+              <td>{u.unit}</td>
+              <td class="num r">{u.max}</td>
+              <td class="num r">{comma(u.base)}</td>
+              <td class="num r">{u.grow}</td>
+              <td class="num r">{comma(u.total)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">滿級合計為該項從 0 級升到最高等級的寶可幣總和（單位：寶可幣）。</p>
+  </section>
+
+  <section class="sec" aria-labelledby="h-levels">
+    <h2 id="h-levels">每一級的效果與費用</h2>
+    <p class="lead">「升到此級」是從前一級升上來的費用；「累計」是從 0 級升到該級的總和。「效果（合計）」是該級的總值，不是單級的增加量。</p>
+    {list.map(u => (
+      <div class="up" id={`up-${u.id}`}>
+        <h3 id={`h-up-${u.id}`}>{u.zh} <small>{u.es}・最高 {u.max} 級</small></h3>
+        <p class="fine">每級：{u.unit}。</p>
+        <div class="spec-wrap">
+          <table class="spec">
+            <thead><tr><th class="r">等級</th><th>效果（合計）</th><th class="r">升到此級</th><th class="r">累計</th></tr></thead>
+            <tbody>
+              {u.levels.map(l => (
+                <tr>
+                  <th class="num r">{l.lv}</th>
+                  <td>{l.effect}</td>
+                  <td class="num r">{comma(l.price)}</td>
+                  <td class="num r">{comma(l.sum)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section class="sec" aria-labelledby="h-special">
+    <h2 id="h-special">特殊效果的細節</h2>
+    <ul class="pts">
+      <li><strong>換卡</strong>：每局可用的換卡次數 = 1 + 換卡等級。</li>
+      <li><strong>禁用</strong>：每局可禁用的招式數等於禁用等級；每隻寶可夢最多保存 3 個禁用招式。被禁用的招式不會出現在升級卡中。</li>
+      <li><strong>招式庫</strong>：開局招式數 = 1 + 招式庫等級。招式數超過 1 時，會再加入 1 個隨機的非增益招式（未被禁用、不是起始招式）。</li>
+      <li><strong>暴擊</strong>：每次攻擊各自判定，成功時傷害 ×1.5。</li>
+      <li><strong>護甲</strong>：受到傷害的減免上限為 80%，包含其他增益的減免。</li>
+    </ul>
+  </section>
+
+  <p class="src">本頁每一項敘述都對照過遊戲程式碼；標示「程式碼未明確」的部分是遊戲沒有明確定義的地方。</p>
+</Base>

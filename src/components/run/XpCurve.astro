@@ -1,0 +1,67 @@
+---
+// 經驗曲線：每級所需經驗（實線，左軸）與累計經驗（虛線，右軸），座標由 rows 計算
+interface Props { rows: { lv: number; need: number; cum: number }[] }
+const { rows } = Astro.props;
+const W = 960, H = 400, PL = 64, PR = 84, PT = 24, PB = 56;
+const PW = W - PL - PR, PH = H - PT - PB;
+const NMAX = 10000, CMAX = 240000, LMIN = 1, LMAX = 60;
+const X = (lv: number) => PL + ((lv - LMIN) / (LMAX - LMIN)) * PW;
+const YN = (v: number) => PT + PH - (v / NMAX) * PH;
+const YC = (v: number) => PT + PH - (v / CMAX) * PH;
+const f = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const path = (ys: (v: number) => number, key: 'need' | 'cum') =>
+  rows.map((r, i) => `${i ? 'L' : 'M'}${X(r.lv).toFixed(1)} ${ys(r[key]).toFixed(1)}`).join(' ');
+const pathN = path(YN, 'need');
+const pathC = path(YC, 'cum');
+const base = (PT + PH).toFixed(1);
+const area = `${pathN} L${X(LMAX).toFixed(1)} ${base} L${X(LMIN).toFixed(1)} ${base} Z`;
+const XT = [1, 10, 20, 30, 40, 50, 60];
+const NT = [0, 2000, 4000, 6000, 8000, 10000];
+const CT = [0, 40000, 80000, 120000, 160000, 200000, 240000];
+const at = (lv: number) => rows.find(r => r.lv === lv)!;
+const last = rows[rows.length - 1];
+---
+<figure class="xp-chart">
+  <div class="scroll">
+    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="xp-t xp-d">
+      <title id="xp-t">Lv1 到 Lv60 的經驗曲線</title>
+      <desc id="xp-d">每級所需經驗從 {f(rows[0].need)} 增加到 {f(last.need)}。累計經驗（從 Lv1 升到 Lv61 為止）為 {f(last.cum)}。</desc>
+      <g class="grid">
+        {NT.map(v => <line x1={PL} x2={W - PR} y1={YN(v).toFixed(1)} y2={YN(v).toFixed(1)} />)}
+      </g>
+      <g class="tick-l">
+        {NT.map(v => <text x={PL - 10} y={(YN(v) + 4).toFixed(1)} text-anchor="end">{f(v)}</text>)}
+      </g>
+      <g class="tick-r">
+        {CT.map(v => <text x={W - PR + 10} y={(YC(v) + 4).toFixed(1)} text-anchor="start">{f(v)}</text>)}
+      </g>
+      <g class="tick-x">
+        {XT.map(lv => <text x={X(lv).toFixed(1)} y={H - PB + 24} text-anchor="middle">Lv{lv}</text>)}
+      </g>
+      <path class="area" d={area} />
+      <path class="line-n" d={pathN} />
+      <path class="line-c" d={pathC} />
+      {XT.map(lv => <circle class="dot-n" cx={X(lv).toFixed(1)} cy={YN(at(lv).need).toFixed(1)} r="4" />)}
+      {XT.map(lv => <circle class="dot-c" cx={X(lv).toFixed(1)} cy={YC(at(lv).cum).toFixed(1)} r="4" />)}
+      <text class="lab-n" x={(X(LMAX) - 10).toFixed(1)} y={(YN(last.need) - 12).toFixed(1)} text-anchor="end">每級 {f(last.need)}</text>
+      <text class="lab-c" x={(X(LMAX) - 10).toFixed(1)} y={(YC(last.cum) + 22).toFixed(1)} text-anchor="end">累計 {f(last.cum)}</text>
+    </svg>
+  </div>
+  <figcaption>實線為每級所需經驗（左軸），虛線為累計經驗（右軸）。兩軸的刻度不同。</figcaption>
+</figure>
+<style>
+  .xp-chart { margin: 8px 0 0; }
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-top: 3px solid var(--ch); }
+  svg { display: block; width: 100%; min-width: 640px; height: auto; }
+  .grid line { stroke: var(--rule); stroke-width: 1; }
+  text { font-family: var(--num); font-size: 13px; font-weight: 700; fill: var(--ink-3); }
+  .tick-x text { font-size: 13px; }
+  .lab-n { fill: var(--ch); font-size: 14px; }
+  .lab-c { fill: var(--ink); font-size: 14px; }
+  .area { fill: color-mix(in oklab, var(--ch) 14%, transparent); }
+  .line-n { fill: none; stroke: var(--ch); stroke-width: 2.6; stroke-linejoin: round; }
+  .line-c { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 7 6; }
+  .dot-n { fill: var(--paper); stroke: var(--ch); stroke-width: 2.2; }
+  .dot-c { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+  figcaption { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+</style>

@@ -1,0 +1,16 @@
+---
+// 一排屬性標籤；沒有項目時顯示「無」
+import Type from '../Type.astro';
+interface Props { ids: string[] }
+const { ids } = Astro.props;
+---
+{ids.length > 0 ? (
+  <div class="chips">{ids.map(t => <Type t={t} />)}</div>
+) : (
+  <span class="none">無</span>
+)}
+
+<style>
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .none { color: var(--ink-3); }
+</style>

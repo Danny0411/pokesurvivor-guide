@@ -1,0 +1,147 @@
+---
+import RunPage from '../../../components/run/RunPage.astro';
+import PersonalityQuiz from '../../../components/run/PersonalityQuiz.astro';
+import Sprite from '../../../components/Sprite.astro';
+import Type from '../../../components/Type.astro';
+import STARTERS from '../../../data/game/STARTERS.json';
+import PERSONALITY_TEST from '../../../data/game/PERSONALITY_TEST.json';
+import TRAIT_TEXT from '../../../data/game/TRAIT_TEXT.json';
+import ZH from '../../../i18n/zh/run.json';
+import { POKEMON_BY, MOVE_BY, url, pad } from '../../../lib/game';
+
+// 題目與選項：中文來自 run.json，計分來自 PERSONALITY_TEST.json（與遊戲相同，.cache/）
+const QUIZ = PERSONALITY_TEST.map((q, i) => {
+  const zh = ZH.personalityTest[`q${i + 1}` as 'q1'];
+  return {
+    q: zh.question,
+    es: q.q,
+    a: q.a.map((a, j) => ({ t: zh.answers[`a${j + 1}` as 'a1'], es: a.t, p: a.p as Record<string, number> })),
+  };
+});
+const TRAITS: Record<string, { zh: string; es: string; desc: string; text: string }> = Object.fromEntries(
+  Object.keys(ZH.traits).map(k => [k, { zh: ZH.traits[k as 'valiente'].name, es: k, desc: ZH.traits[k as 'valiente'].desc, text: TRAIT_TEXT[k as 'valiente'] }]),
+);
+const S = STARTERS.map(s => {
+  const p = POKEMON_BY[s.dex];
+  const m = MOVE_BY[s.start];
+  return { dex: s.dex, zh: p.zh, en: p.name, types: p.types, startId: s.start, startZh: m.zh, traits: s.traits as string[] };
+});
+const holders = (trait: string) => S.filter(s => s.traits.includes(trait)).map(s => s.zh).join('、');
+const pts = (p: Record<string, number>) => Object.entries(p).map(([k, v]) => `${TRAITS[k].zh} ${v}`).join('、');
+const TOC = [
+  { id: 'quiz', text: '性格測驗（可作答）' },
+  { id: 'rules', text: '計分與對應' },
+  { id: 'questions', text: '題目與加分' },
+  { id: 'traits', text: '特質一覽' },
+  { id: 'starters', text: '初始夥伴名單' },
+];
+---
+<RunPage title="初始夥伴與性格測驗" summary="初始夥伴共 29 隻。尚未選定夥伴時，遊戲會先進行 8 題性格測驗，依特質分數對應到其中一隻。" toc={TOC}>
+  <h2 id="quiz">性格測驗（可作答）</h2>
+  <p>以下是遊戲的 8 題測驗，計分與結果對應和遊戲相同。</p>
+  <PersonalityQuiz questions={QUIZ} traits={TRAITS} starters={S.map(s => ({ dex: s.dex, zh: s.zh, types: s.types, startId: s.startId, startZh: s.startZh, traits: s.traits }))} />
+
+  <h2 id="rules">計分與對應</h2>
+  <ul>
+    <li>每題 4 個選項，選一個。所選選項列出的每個特質都加上對應分數，同一特質可以在多題累加。</li>
+    <li><b>測驗特質</b>：總分最高的特質。同分時，先獲得分數的特質優先。</li>
+    <li><b>初始夥伴</b>：對名單中的每隻夥伴計算 2 × 第一特質的分數 + 第二特質的分數，取最高者。同分的夥伴中，遊戲隨機選一隻。</li>
+    <li>結果頁顯示的是「測驗特質」的描述，不一定是所選夥伴本身的特質。</li>
+    <li>測驗結果會列出一隻夥伴。玩家可以接受，也可以從 29 隻名單中自選。</li>
+    <li>尚未選定夥伴時，遊戲才會進入測驗。</li>
+    <li>上方互動測驗的計分與對應邏輯，與遊戲相同。已對 8 題全部 65,536 種作答組合逐一比對，結果一致。</li>
+  </ul>
+
+  <h2 id="questions">題目與加分</h2>
+  <p>每題的加分寫在選項的右側。例如「勇敢 2、衝動 1」代表選這一項時，勇敢加 2 分，衝動加 1 分。</p>
+  <div class="spec-wrap">
+    <table class="spec qtable">
+      <thead><tr><th>題</th><th>題目</th><th>選項</th><th>加分</th></tr></thead>
+      <tbody>
+        {QUIZ.map((q, i) => (
+          <>
+            {q.a.map((a, j) => (
+              <tr class:list={{ first: j === 0 }}>
+                {j === 0 && <th rowspan="4" class="num qn">{i + 1}</th>}
+                {j === 0 && <td rowspan="4" class="qq">{q.q}<small>{q.es}</small></td>}
+                <td><b class="ab">{'ABCD'[j]}</b> {a.t}<small>{a.es}</small></td>
+                <td class="num">{pts(a.p)}</td>
+              </tr>
+            ))}
+          </>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="traits">特質一覽</h2>
+  <p>共 16 種特質。下表的「有此特質的夥伴」只列出名單中的初始夥伴。</p>
+  <div class="spec-wrap">
+    <table class="spec trait-table">
+      <thead><tr><th>特質</th><th>描述</th><th>有此特質的初始夥伴</th></tr></thead>
+      <tbody>
+        {Object.keys(TRAITS).map(k => (
+          <tr id={`trait-${k}`}>
+            <th>{TRAITS[k].zh}<small class="alt">{k}</small></th>
+            <td>{TRAITS[k].desc}<small class="alt">{TRAITS[k].text}</small></td>
+            <td>{holders(k)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="starters">初始夥伴名單</h2>
+  <p>依遊戲名單的順序排列。每隻的初始招式與性格特質都列在同一列。</p>
+  <div class="spec-wrap">
+    <table class="spec starters">
+      <thead><tr><th>夥伴</th><th>屬性</th><th>開場招式</th><th>性格特質</th></tr></thead>
+      <tbody>
+        {S.map(s => (
+          <tr>
+            <td class="who">
+              <Sprite dex={s.dex} scale={1} />
+              <span class="names"><b>{s.zh}</b><small class="num">{pad(s.dex)} · {s.en}</small></span>
+            </td>
+            <td class="types">{s.types.map(t => <Type t={t} />)}</td>
+            <td><a href={url(`/moves/${s.startId}/`)}>{s.startZh}</a></td>
+            <td>{s.traits.map((t, i) => <><a href={`#trait-${t}`}>{TRAITS[t].zh}</a>{i === 0 && '、'}</>)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</RunPage>
+
+<style>
+  .qtable tr.first > * { border-top: 2px solid var(--ink); }
+  .qtable .qn { font-size: 16px; font-weight: 800; vertical-align: top; }
+  .qtable .qq { min-width: 16em; font-weight: 700; font-size: 15px; }
+  /* 手機：表格在 global 的 860px 斷點會 nowrap 並在 .prose 內橫向捲動，題目欄過寬會把選項與加分推到畫面外。
+     改成每題一區塊：題號與題目橫跨整列，每個選項一列，文字在左、加分在右。 */
+  @media (max-width: 860px) {
+    .qtable, .qtable tbody { display: block; overflow: visible; }
+    .qtable thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .qtable tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; align-items: start; padding: 6px 0; border-bottom: 1px solid var(--rule); }
+    .qtable tbody tr.first { border-top: 2px solid var(--ink); padding-top: 10px; }
+    .qtable tbody tr > * { display: block; min-width: 0; padding: 0; border: 0; background: none; white-space: normal; }
+    .qtable .qn, .qtable .qq { grid-column: 1 / -1; }
+    .qtable .qq { min-width: 0; font-size: 16px; padding-bottom: 6px; }
+    .qtable tbody td.num { white-space: nowrap; }
+  }
+  .trait-table td { white-space: normal; }
+  .qtable small, .alt { display: block; font-weight: 500; font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+  .ab { display: inline-grid; place-items: center; width: 20px; height: 20px; font-size: 12px; border: 1.5px solid var(--ink); border-radius: 2px; margin-right: 4px; }
+  .starters .who { display: flex; align-items: center; gap: 10px; min-width: 12em; }
+  .starters .names { display: flex; flex-direction: column; line-height: 1.3; }
+  .starters .names small { font-size: 11.5px; color: var(--ink-3); font-weight: 600; }
+  .starters .types { white-space: nowrap; }
+  .starters .types :global(.type) { margin-right: 4px; }
+  .starters td:nth-child(4) a { text-decoration: none; font-weight: 700; }
+  @media (max-width: 860px) {
+    .trait-table, .trait-table tbody, .trait-table tr, .trait-table th, .trait-table td { display: block; white-space: normal; }
+    .trait-table thead { display: none; }
+    .trait-table tr { padding: 10px 0; border-bottom: 1px solid var(--rule); }
+    .trait-table tbody th, .trait-table td { border: 0; padding: 2px 0; background: none !important; }
+  }
+</style>

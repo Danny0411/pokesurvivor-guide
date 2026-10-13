@@ -1,0 +1,48 @@
+---
+// 保底計量條（SVG 動畫）：每一格代表一抽，從 0 填到 PITY_5（70）。
+// 第 70 格是程式強制的 5 星。
+// 動畫從空格開始，最後停在填滿狀態；減少動態效果時直接顯示填滿狀態。
+// 文字（標題與刻度）放在 SVG 外，手機上不會因縮放而變小。
+import GACHA from '../../data/game/Gacha.json';
+import { RARITY_COLOR } from '../../lib/game';
+
+const N = GACHA.PITY_5;
+const CELL = 10, BAR_Y = 18, BAR_H = 34, STEP_MS = 45;
+const W = N * CELL;
+const ticks = Array.from({ length: N / 10 + 1 }, (_, i) => i * 10);
+const gold = RARITY_COLOR[5];
+---
+<figure class="pity">
+  <p class="top">第 {N} 抽：必定 5★</p>
+  <svg viewBox={`0 0 ${W} 62`} role="img" aria-label={`保底計量條，從 0 到 ${N}。第 ${N} 格必定是 5 星。`} style={`--n:${N};--d:${STEP_MS}ms;--travel:${(N - 1) * CELL}px`}>
+    {Array.from({ length: N }, (_, i) => (
+      <rect class="cell" x={i * CELL} y={BAR_Y} width={CELL - 2} height={BAR_H} style={`--i:${i};--c:${i === N - 1 ? gold : 'var(--ch)'}`} />
+    ))}
+    <g transform={`translate(4 ${BAR_Y + BAR_H + 2})`}>
+      <path class="head" d="M-5 6 H5 L0 0 Z" />
+    </g>
+  </svg>
+  <div class="ticks" aria-hidden="true">
+    {ticks.map(v => (
+      <span style={`left:${(v / N) * 100}%`}>{v}</span>
+    ))}
+  </div>
+</figure>
+
+<style>
+  .pity { margin: 0; }
+  .pity .top { margin: 0 0 8px; max-width: none; text-align: right; font-size: 13px; font-weight: 800; color: var(--ink); }
+  .pity svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .cell { fill: var(--paper-2); stroke: var(--rule); stroke-width: 1; animation: pity-fill .2s linear forwards; animation-delay: calc(var(--i) * var(--d)); }
+  .head { fill: var(--ink); animation: pity-move calc(var(--n) * var(--d)) linear forwards; }
+  .ticks { position: relative; height: 16px; margin-top: 6px; font: 700 12px/1 var(--num); color: var(--ink-2); }
+  .ticks span { position: absolute; top: 0; transform: translateX(-50%); }
+  .ticks span:first-child { transform: none; }
+  .ticks span:last-child { transform: translateX(-100%); }
+  @keyframes pity-fill { to { fill: var(--c); } }
+  @keyframes pity-move { to { transform: translateX(var(--travel)); } }
+  @media (prefers-reduced-motion: reduce) {
+    .cell { animation: none; fill: var(--c); }
+    .head { animation: none; transform: translateX(var(--travel)); }
+  }
+</style>

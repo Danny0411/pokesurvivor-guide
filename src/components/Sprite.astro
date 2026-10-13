@@ -1,0 +1,19 @@
+---
+import { POKEMON_BY, url } from '../lib/game';
+interface Props { dex: number; anim?: string; dir?: number; scale?: number; play?: boolean; shiny?: boolean; class?: string; label?: string }
+const { dex, anim = 'Idle', dir = 0, scale = 2, play = true, shiny = false, class: cls, label } = Astro.props;
+const p = POKEMON_BY[dex];
+const a = p?.sprite?.[anim];
+const data = a ? JSON.stringify({ src: url(`/sprites/${dex}/${shiny && a.shiny ? 's/' : ''}${a.src}.webp`), w: a.w, h: a.h, d: a.d }) : null;
+---
+{data ? (
+  <poke-sprite class:list={['sprite', cls]} data-anim={data} data-dir={dir} data-scale={scale} data-play={play ? '' : undefined} role="img" aria-label={label ?? `${p.zh}的${anim}動畫`} style={`--w:${a!.w * scale}px;--h:${a!.h * scale}px`} />
+) : (
+  <span class:list={['sprite', 'nosprite', cls]} role="img" aria-label={`${p?.zh ?? dex}（遊戲內沒有動畫圖）`} style={`--w:${32 * scale}px;--h:${40 * scale}px`}>?</span>
+)}
+<script>import '../scripts/sprite.ts';</script>
+<style>
+  .sprite { display: inline-block; width: var(--w); height: var(--h); flex: none; }
+  .sprite :global(i) { display: block; background-repeat: no-repeat; image-rendering: pixelated; image-rendering: crisp-edges; }
+  .nosprite { display: inline-grid; place-items: center; font: 800 calc(var(--h) * .4) var(--num); color: var(--ink-3); border: 2px dashed var(--rule); border-radius: 50%; width: calc(var(--h) * .8); height: calc(var(--h) * .8); }
+</style>

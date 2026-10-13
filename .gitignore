@@ -1,1 +1,10 @@
 .DS_Store
+node_modules/
+dist/
+.astro/
+.cache/
+tools/fonts/*.ttf
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/build/
+*.log

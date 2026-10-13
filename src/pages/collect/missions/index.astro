@@ -1,0 +1,95 @@
+---
+// 任務：每日與每週任務的清單、目標、進度方式與獎勵，以及重置時間（台北時間）。
+// 清單來自 src/data/derived/meta.json（由 MissionDefs.json 推導）；名稱與條件來自 src/i18n/zh/meta.json。
+import Base from '../../../layouts/Base.astro';
+import ChapterHead from '../../../components/collect/ChapterHead.astro';
+import { COLLECT_SUB } from '../../../components/collect/nav';
+import META from '../../../data/derived/meta.json';
+import Z from '../../../i18n/zh/meta.json';
+import '../../../components/collect/collect.css';
+
+const comma = (n: number) => n.toLocaleString('en-US');
+
+const rewardText = (r: Record<string, number>) => [
+  r.t1 ? `抽獎券 ${r.t1}` : '',
+  r.t10 ? `×10 抽獎券 ${r.t10}` : '',
+  r.coins ? `寶可幣 ${comma(r.coins)}` : '',
+].filter(Boolean).join('、');
+
+const ZM = Z.missions as Record<string, { name: string; desc: string }>;
+const rows = (defs: any[]) => defs.map(m => ({
+  id: m.id as string,
+  name: ZM[m.id].name,
+  // 目標值會在條件中列出（每期隨機取一個）；{type} 代表每期隨機的一種屬性
+  desc: ZM[m.id].desc.replace('{n}', (m.goals as number[]).map(comma).join(' / ')).replace('{type}', '指定屬性'),
+  mode: m.mode === 'max' ? '單局最高' : '累計',
+  attr: m.param === 'type',
+  reward: rewardText(m.reward),
+}));
+const DAILY = rows(META.missions.daily);
+const WEEKLY = rows(META.missions.weekly);
+---
+<Base title="任務" description="PokéSurvivor 任務：每日與每週任務的清單、目標與獎勵，以及台北時間的重置時間（含 2026-10-26 起的變更）。" chapter="collect">
+  <ChapterHead chapter="collect" title="任務" summary="每日任務每期 3 個（從 10 種定義中抽），每週任務每期 2 個（從 6 種定義中抽）。同一期內內容固定；重置時間如下（台北時間）。" sub={COLLECT_SUB} />
+
+  <section class="sec" aria-labelledby="h-reset">
+    <h2 id="h-reset">重置時間（台北時間）</h2>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th>項目</th><th>期間依據</th><th>2026-10-25 前（歐洲夏令）</th><th>2026-10-26 起（歐洲冬令）</th></tr></thead>
+        <tbody>
+          <tr><th>每日任務</th><td>馬德里（Europe/Madrid）的每日午夜</td><td class="num">每天 06:00</td><td class="num">每天 07:00</td></tr>
+          <tr><th>每週任務</th><td>ISO 週，週一的馬德里午夜</td><td class="num">週一 06:00</td><td class="num">週一 07:00</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="pts">
+      <li>期間以馬德里（Europe/Madrid）的曆日計算，時區換算由遊戲自動完成。換成 UTC 時，夏令為前一日 22:00，冬令為前一日 23:00。</li>
+      <li>因為使用 Europe/Madrid 時區，夏令與冬令會自動切換；2026-10-26 起為冬令，台北時間比夏令晚 1 小時。</li>
+      <li>遊戲內「Se renuevan en」的倒數以<strong>裝置本地時間</strong>的午夜計算，與上表不同。在台灣的裝置上，倒數會指向台北 00:00，但實際重置在 06:00 或 07:00。</li>
+    </ul>
+  </section>
+
+  <section class="sec" aria-labelledby="h-daily">
+    <h2 id="h-daily">每日任務<span class="count">{DAILY.length} 種</span></h2>
+    <p class="lead">每個馬德里日從這 10 種中抽 3 種。每種的目標值在列出的數字中隨機取一個，同一期內固定。</p>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th>任務</th><th>條件（目標）</th><th>進度</th><th>獎勵</th></tr></thead>
+        <tbody>
+          {DAILY.map(m => (
+            <tr><th>{m.name}</th><td>{m.desc}</td><td>{m.mode}</td><td>{m.reward}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">「指定屬性」每期隨機一種，共 18 種屬性。</p>
+  </section>
+
+  <section class="sec" aria-labelledby="h-weekly">
+    <h2 id="h-weekly">每週任務<span class="count">{WEEKLY.length} 種</span></h2>
+    <p class="lead">每個 ISO 週從這 6 種中抽 2 種。「每日達人」只計算每日任務的領取次數，不計每週任務。</p>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th>任務</th><th>條件（目標）</th><th>進度</th><th>獎勵</th></tr></thead>
+        <tbody>
+          {WEEKLY.map(m => (
+            <tr><th>{m.name}</th><td>{m.desc}</td><td>{m.mode}</td><td>{m.reward}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-rules">
+    <h2 id="h-rules">抽取與領取規則</h2>
+    <ul class="pts">
+      <li>每期的任務由遊戲依期間與帳號建立時間產生，同一期內固定。期間改變時整批重抽，未領取的舊任務會消失。</li>
+      <li>進度有兩種：「累計」是跨局加總，「單局最高」是取單一局的最大值。</li>
+      <li>達到目標後按「Recoger」領取，獎勵即時發放。</li>
+      <li>每天可更換一次每日任務：未領取、且今日尚未更換過時，可換成今日清單外的另一個每日定義。每週任務不能更換。</li>
+    </ul>
+  </section>
+
+  <p class="src">本頁每一項敘述都對照過遊戲程式碼；標示「程式碼未明確」的部分是遊戲沒有明確定義的地方。</p>
+</Base>

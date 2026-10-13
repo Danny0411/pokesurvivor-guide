@@ -1,0 +1,120 @@
+---
+import Base from '../../layouts/Base.astro';
+import Type from '../../components/Type.astro';
+import Sprite from '../../components/Sprite.astro';
+import Icon from '../../components/Icon.astro';
+import KindDiagram from '../../components/KindDiagram.astro';
+import { MOVE_LIST, MOVE_BY, KINDS, STAT_CARD, FIELD, FIELD_ORDER, fieldValue, POKEMON, typeName, url, pad } from '../../lib/game';
+
+export function getStaticPaths() { return MOVE_LIST.map(m => ({ params: { id: m.id } })); }
+const m = MOVE_BY[Astro.params.id!];
+const i = MOVE_LIST.indexOf(m);
+const prev = MOVE_LIST[i - 1], next = MOVE_LIST[i + 1];
+const kind = KINDS[m.kind];
+const rows = [...m.levels.map((l, n) => ({ label: `Lv${l.lvl}`, up: n === 0 ? '初始' : (m.zhUps[n - 1] ?? l.upText), stats: l.stats, evo: false }))];
+if (m.evo) rows.push({ label: '進化', up: (kind as any)?.evo ?? m.evo.text, stats: m.evo.stats, evo: true });
+const fields = FIELD_ORDER.filter(k => rows.some(r => r.stats[k] != null));
+const changed = (k: string, n: number) => n > 0 && rows[n - 1].stats[k] !== rows[n].stats[k];
+const learners = m.type === 'normal' ? POKEMON : POKEMON.filter(p => p.types.includes(m.type));
+const starters = POKEMON.filter(p => p.start === m.id);
+---
+<Base title={`${m.zh}（招式）`} description={`${m.zh}：${typeName(m.type)}屬性・${kind?.name ?? m.kind}。${m.zhDesc} 每一級的數值、升級效果與 Lv5 進化。`} chapter="moves">
+  <nav class="crumbs" aria-label="位置">
+    <span class="pn">
+      {prev && <a href={url(`/moves/${prev.id}/`)} rel="prev"><Icon name="arrowLeft" />{prev.zh}</a>}
+      {next && <a href={url(`/moves/${next.id}/`)} rel="next">{next.zh}<Icon name="arrowRight" /></a>}
+    </span>
+  </nav>
+
+  <header class="mv">
+    <div class="mv-id">
+      <div class="tags"><Type t={m.type} /><span class="kind">{kind?.name ?? m.kind}</span></div>
+      <h1>{m.zh}</h1>
+      <p class="es">{m.name}</p>
+      <p class="desc">{m.zhDesc}</p>
+      {m.evo && <p class="evo-line"><span>Lv5 進化</span><b>{m.evoZh ?? m.evo.name}</b><em>需要「{STAT_CARD[m.evo.needs] ?? m.evo.needs}」能力卡</em></p>}
+    </div>
+    <figure class="diagram">
+      <KindDiagram kind={m.kind} stats={m.levels[0].stats} type={m.type} />
+      <figcaption>{kind?.name}：{kind?.desc}</figcaption>
+    </figure>
+  </header>
+
+  <section class="block" aria-labelledby="h-lv">
+    <h2 class="band" id="h-lv">每一級的數值</h2>
+    <p class="lead">每次升級套用一項效果，數值會累積。加底線的格子是這一級改變的數值。</p>
+    <div class="spec-wrap">
+      <table class="spec lv">
+        <thead><tr><th>等級</th><th>這一級的效果</th>{fields.map(k => <th class="r" title={FIELD[k].tip}>{FIELD[k].zh}{FIELD[k].unit && <small>（{FIELD[k].unit}）</small>}</th>)}</tr></thead>
+        <tbody>
+          {rows.map((r, n) => (
+            <tr class:list={{ evo: r.evo }}>
+              <th class="num">{r.label}</th>
+              <td class="up">{r.up}</td>
+              {fields.map(k => <td class:list={['num', { ch: changed(k, n) }]}>{r.stats[k] != null ? fieldValue(k, r.stats[k] as any) : '—'}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <dl class="legend">
+      {fields.map(k => <div><dt>{FIELD[k].zh}</dt><dd>{FIELD[k].tip}</dd></div>)}
+    </dl>
+    <p class="fine">實際傷害 = 傷害 × 寶可夢的攻擊倍率 × 屬性相剋 × 天氣 × 暴擊，最少 1。完整公式見<a href={url('/moves/rules/')}>招式規則</a>。</p>
+  </section>
+
+  <section class="block" aria-labelledby="h-who">
+    <h2 class="band" id="h-who">可以學會的寶可夢 <span class="num count">{learners.length}</span></h2>
+    <p class="lead">{m.type === 'normal' ? '一般系招式在每一隻寶可夢的招式池裡。' : `${typeName(m.type)}屬性（單屬性或雙屬性之一）的寶可夢，升級選卡時可能出現這一招。`}{starters.length > 0 && ` 下列初始夥伴開場就帶著這一招：${starters.map(p => p.zh).join('、')}。`}</p>
+    {m.type !== 'normal' ? (
+      <ul class="who">
+        {learners.map(p => (
+          <li><a href={url(`/pokemon/${p.dex}/`)}><span class="th"><Sprite dex={p.dex} scale={1} play={false} /></span><span><small class="num">{pad(p.dex)}</small>{p.zh}</span>{p.start === m.id && <em>開場</em>}</a></li>
+        ))}
+      </ul>
+    ) : <p><a class="btn" href={url('/pokemon/')}>看全部 966 隻寶可夢<Icon name="arrowRight" /></a></p>}
+  </section>
+</Base>
+<style>
+  .crumbs { display: flex; justify-content: flex-end; align-items: center; gap: 12px; padding: 16px 0 0; font-size: 13.5px; font-weight: 700; }
+  .crumbs > a { text-decoration: none; color: var(--ch); }
+  .pn { display: flex; gap: 18px; }
+  .pn a { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--ink-2); }
+  .pn :global(svg) { width: 16px; height: 16px; }
+  .mv { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 32px; margin-top: 18px; padding-bottom: 24px; border-bottom: 4px solid var(--ch); align-items: center; }
+  .tags { display: flex; gap: 8px; align-items: center; }
+  .kind { font-size: 12.5px; font-weight: 700; border: 1.5px solid var(--ink); padding: 1px 10px; border-radius: 3px; }
+  h1 { font-size: clamp(40px, 6vw, 72px); letter-spacing: .06em; margin-top: 12px; line-height: 1.05; }
+  .es { font: 700 18px var(--num); color: var(--ink-3); margin: 6px 0 14px; letter-spacing: .04em; }
+  .desc { font-size: 17px; }
+  .evo-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-top: 16px; padding: 10px 14px; background: var(--ch-tint); border-top: 2px solid var(--ch); }
+  .evo-line span { font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--ch); }
+  .evo-line b { font-size: 22px; font-weight: 900; }
+  .evo-line em { font-style: normal; font-size: 14px; color: var(--ink-2); }
+  .diagram { margin: 0; }
+  .diagram figcaption { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+
+  .count { font-size: 24px; font-weight: 800; color: #fff; }
+  .block { margin-top: 48px; }
+  .lead { color: var(--ink-2); margin-bottom: 14px; }
+  .lv th small { font-weight: 400; opacity: .8; }
+  .lv td.num { font-size: 17px; }
+  .lv td.ch { background: color-mix(in oklab, var(--ch) 22%, var(--paper)) !important; font-weight: 800; box-shadow: inset 0 -3px 0 var(--ch); }
+  .lv tr.evo > * { border-top: 2px solid var(--ink); font-weight: 700; }
+  .lv tr.evo th { color: var(--ch); }
+  .lv .up { min-width: 12em; max-width: 18em; font-size: 13.5px; white-space: normal; }
+  .legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 6px 24px; margin: 16px 0 0; font-size: 13px; }
+  .legend div { display: flex; gap: 10px; }
+  .legend dt { font-weight: 700; flex: none; min-width: 4.5em; }
+  .legend dd { margin: 0; color: var(--ink-2); }
+  .fine { font-size: 12.5px; color: var(--ink-3); margin-top: 14px; }
+  .who { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0; border-top: 3px solid var(--ch); }
+  .who a { display: flex; align-items: center; gap: 8px; padding: 4px 6px 4px 0; text-decoration: none; border-bottom: 1px solid var(--rule); font-size: 14px; font-weight: 700; }
+  .who a:hover { background: var(--ch-tint); }
+  .who .th { width: 40px; height: 40px; overflow: hidden; display: grid; place-items: center; flex: none; }
+  .who small { display: block; font-size: 11.5px; color: var(--ink-3); font-weight: 600; }
+  .who em { margin-left: auto; font-style: normal; font-size: 11px; background: var(--sel); color: #151515; padding: 1px 6px; border-radius: 2px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; padding: 10px 16px; border: 2px solid var(--ink); border-radius: 4px; }
+  .btn :global(svg) { width: 16px; height: 16px; }
+  @media (max-width: 860px) { .mv { grid-template-columns: 1fr; } }
+</style>

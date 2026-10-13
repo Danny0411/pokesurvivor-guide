@@ -1,0 +1,128 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sprite from '../../components/Sprite.astro';
+import Type from '../../components/Type.astro';
+import Rarity from '../../components/Rarity.astro';
+import Icon from '../../components/Icon.astro';
+import { POKEMON, TYPE_IDS, typeName, typeColor, RANGE, step, pad, url, BANNERS, RARITY_NAME, BEHAVIOR } from '../../lib/game';
+const cols = [
+  { k: 'dex', zh: 'No.' }, { k: 'zh', zh: '名稱' }, { k: 'rarity', zh: '稀有度' }, { k: 'hp', zh: '生命' },
+  { k: 'spd', zh: '速度' }, { k: 'atk', zh: '攻擊' }, { k: 'bst', zh: '總和' },
+];
+const bar = (k: 'hp' | 'spd' | 'atk' | 'bst', v: number) => `--p:${((v - RANGE[k][0]) / (RANGE[k][1] - RANGE[k][0])).toFixed(3)}`;
+---
+<Base title="寶可夢圖鑑" description="PokéSurvivor 全部 966 隻寶可夢：屬性、稀有度、生命、速度、攻擊倍率、種族值總和與敵人行為，可篩選與排序。" chapter="pokemon" wide>
+  <div class="wrap">
+    <header class="ch-head">
+      <div class="hd"><h1>寶可夢圖鑑</h1><p class="count"><b class="num" data-shown>{POKEMON.length}</b><span>/ {POKEMON.length} 隻</span></p></div>
+      <p class="sum">遊戲收錄的全部寶可夢。可以依屬性、稀有度、地區與當敵人時的行為篩選，點欄位標題排序，條件會寫進網址方便分享。</p>
+    </header>
+
+    <form class="filters" data-filters aria-label="篩選">
+      <div class="f-row">
+        <label class="f-q"><Icon name="search" /><span class="vh">名稱或編號</span><input type="search" name="q" placeholder="名稱、英文名或編號" autocomplete="off" /></label>
+        <fieldset class="seg"><legend class="vh">稀有度</legend>
+          {[1, 2, 3, 4, 5].map(r => <label><input type="checkbox" name="rarity" value={r} /><span><Rarity r={r} /><em>{RARITY_NAME[r]}</em></span></label>)}
+        </fieldset>
+        <label class="sel"><span class="vh">地區</span>
+          <select name="gen"><option value="">全部地區</option>{BANNERS.map(b => <option value={b.gen}>{b.zh}</option>)}</select>
+        </label>
+        <label class="sel"><span class="vh">敵人行為</span>
+          <select name="beh"><option value="">全部敵人行為</option>{Object.entries(BEHAVIOR).filter(([k]) => POKEMON.some(p => p.role.behavior === k)).map(([k, b]) => <option value={k}>{b.name}</option>)}</select>
+        </label>
+        <fieldset class="flags"><legend class="vh">其他</legend>
+          <label><input type="checkbox" name="flag" value="starter" /><span>初始夥伴</span></label>
+          <label><input type="checkbox" name="flag" value="leg" /><span>傳說</span></label>
+        </fieldset>
+        <button type="reset" class="reset">清除</button>
+      </div>
+      <fieldset class="types"><legend>屬性（可複選，符合任一）</legend>
+        {TYPE_IDS.map(t => <label style={`--t:${typeColor(t)}`}><input type="checkbox" name="type" value={t} /><span>{typeName(t)}</span></label>)}
+      </fieldset>
+    </form>
+
+    <div class="spec-wrap tbl">
+      <table class="spec dex" data-dex>
+        <thead>
+          <tr>
+            {cols.map(c => <th class:list={[`col-${c.k}`, { r: !['zh', 'rarity'].includes(c.k) }]} aria-sort={c.k === 'dex' ? 'ascending' : 'none'}><button type="button" data-sort={c.k}>{c.zh}<Icon name="sort" /></button></th>)}
+            <th class="ty">屬性</th><th class="bh">敵人行為</th>
+          </tr>
+        </thead>
+        <tbody>
+          {POKEMON.map(p => (
+            <tr data-dex={p.dex} data-zh={p.zh} data-en={p.name.toLowerCase()} data-types={p.types.join(' ')} data-rarity={p.rarity} data-gen={p.gen} data-hp={p.hp} data-spd={p.spd} data-atk={p.atk} data-bst={p.bst} data-beh={p.role.behavior} data-flags={[p.starter && 'starter', p.leg && 'leg'].filter(Boolean).join(' ')}>
+              <td class="num no">{pad(p.dex)}</td>
+              <th class="nm"><a href={url(`/pokemon/${p.dex}/`)}><span class="thumb"><Sprite dex={p.dex} scale={1} play={false} /></span><span class="nt"><b>{p.zh}</b><small>{p.name}</small></span></a></th>
+              <td><Rarity r={p.rarity} /></td>
+              {(['hp', 'spd', 'atk', 'bst'] as const).map(k => <td class:list={['num', 'stat', `s${step(p[k], RANGE[k])}`]} style={bar(k, p[k])}><span>{k === 'atk' ? `×${p[k]}` : p[k]}</span><i /></td>)}
+              <td class="ty">{p.types.map(t => <Type t={t} />)}</td>
+              <td class="bh">{BEHAVIOR[p.role.behavior]?.name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="empty" data-empty hidden>沒有符合條件的寶可夢。<button type="button" data-clear>清除篩選</button></p>
+    </div>
+  </div>
+</Base>
+<script>import '../../scripts/dex-table.ts';</script>
+<style>
+  .wrap { max-width: 1320px; margin: 0 auto; }
+  .hd { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+  h1 { font-size: clamp(32px, 5vw, 56px); letter-spacing: .06em; }
+  .count { margin: 0; display: flex; align-items: baseline; gap: 8px; }
+  .count b { font-size: 56px; font-weight: 800; color: var(--ch); line-height: .9; }
+  .count span { font-weight: 700; color: var(--ink-2); }
+
+  .filters { position: sticky; top: 60px; z-index: 20; background: var(--paper); padding: 12px 0 10px; border-bottom: 1px solid var(--rule); display: grid; gap: 10px; }
+  .f-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .f-q { position: relative; display: flex; align-items: center; flex: 1 1 220px; max-width: 300px; }
+  .f-q :global(svg) { position: absolute; left: 10px; width: 16px; height: 16px; color: var(--ink-3); }
+  .f-q input { width: 100%; height: 36px; padding: 0 10px 0 32px; font: 500 14px var(--font); color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 4px; outline: none; }
+  .seg, .flags, .types { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+  .seg label, .flags label, .types label { cursor: pointer; }
+  .seg input, .flags input, .types input { position: absolute; opacity: 0; pointer-events: none; }
+  .seg span, .flags span { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; font-size: 13px; font-weight: 700; border: 2px solid var(--rule); border-radius: 4px; transition: border-color .2s var(--ease), background .2s var(--ease); }
+  .seg em { font-style: normal; }
+  .seg input:checked + span, .flags input:checked + span { border-color: #151515; background: var(--sel); color: #151515; }
+  .seg input:focus-visible + span, .flags input:focus-visible + span, .types input:focus-visible + span { outline: 3px solid var(--ch); outline-offset: 2px; }
+  .sel select { height: 36px; padding: 0 30px 0 10px; font: 700 13px var(--font); color: var(--ink); background: var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 8px center / 14px; border: 2px solid var(--rule); border-radius: 4px; appearance: none; }
+  .reset { height: 36px; padding: 0 14px; font: 700 13px var(--font); color: var(--ink-2); background: none; border: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .types legend { width: 100%; font-size: 12px; font-weight: 700; color: var(--ink-3); letter-spacing: .08em; padding: 0 0 4px; }
+  .types span { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; font-size: 12.5px; font-weight: 700; border-radius: 3px; border: 2px solid var(--t); color: var(--ink); background: var(--paper); transition: background .15s var(--ease), color .15s var(--ease); }
+  .types input:checked + span { background: var(--t); color: #fff; text-shadow: 0 1px 0 #0004; }
+
+  .tbl { margin-top: 14px; }
+  .dex thead th { padding: 0; position: sticky; top: 0; }
+  .dex thead th button { all: unset; box-sizing: border-box; display: flex; align-items: center; gap: 4px; width: 100%; padding: 8px 10px; cursor: pointer; white-space: nowrap; }
+  .dex thead th.r button { justify-content: flex-end; }
+  .dex thead th button :global(svg) { width: 13px; height: 13px; opacity: .55; }
+  .dex thead th[aria-sort='ascending'], .dex thead th[aria-sort='descending'] { background: color-mix(in oklab, var(--ch) 75%, #000); }
+  .dex thead th[aria-sort='ascending'] button :global(svg), .dex thead th[aria-sort='descending'] button :global(svg) { opacity: 1; }
+  .dex thead th.ty, .dex thead th.bh { color: #fff;  padding: 8px 10px; }
+  .dex td, .dex tbody th { vertical-align: middle; padding-top: 4px; padding-bottom: 4px; }
+  .dex .no { color: var(--ink-3); font-size: 15px; width: 56px; }
+  .nm a { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .thumb { width: 48px; height: 48px; display: grid; place-items: center; overflow: hidden; flex: none; }
+  .nt { display: flex; flex-direction: column; line-height: 1.2; }
+  .nt b { font-size: 15px; }
+  .nt small { font: 600 12.5px var(--num); color: var(--ink-3); letter-spacing: .03em; }
+  .nm a:hover b { color: var(--ch); }
+  .stat { position: relative; width: 92px; }
+  .stat span { position: relative; z-index: 1; }
+  .stat i { position: absolute; left: 10px; right: 10px; bottom: 5px; height: 3px; background: var(--paper-2); }
+  .stat i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: calc(var(--p) * 100%); background: var(--rc); }
+  .ty { white-space: nowrap; } .ty :global(.type) { margin-right: 4px; }
+  td.bh { font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+  .dex tbody tr { transition: background .15s; }
+  .dex tbody tr:hover > * { background: color-mix(in oklab, var(--sel) 30%, var(--paper)) !important; }
+  .empty { padding: 40px 0; text-align: center; color: var(--ink-2); }
+  .empty button { font: 700 14px var(--font); background: none; border: 0; text-decoration: underline; cursor: pointer; color: var(--ink); }
+  @media (max-width: 860px) {
+    .filters { top: 56px; }
+    .dex .bh, .dex .rarity-col { display: none; }
+    .types legend { display: none; }
+    .seg em { display: none; }
+  }
+</style>

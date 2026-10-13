@@ -1,0 +1,21 @@
+/* 地圖與天氣子頁共用：區塊標題（網點底紋，與機制正文的 h2 相同）、說明文字與來源行 */
+.wsec { margin-top: 56px; }
+.wsec > h2 {
+  font-size: 24px; margin: 0 0 14px; padding: 10px 14px 9px; color: #fff; background-color: var(--ch);
+  position: relative; overflow: hidden;
+}
+.wsec > h2::after {
+  content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 38%;
+  background-image: radial-gradient(circle, #ffffff59 1.1px, transparent 1.4px); background-size: 6px 6px;
+  mask-image: linear-gradient(90deg, transparent, #000);
+}
+.wsec > h3 { font-size: 17px; margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--ink); }
+.wlead { color: var(--ink-2); max-width: 72ch; margin: 0 0 14px; }
+.wrules { margin: 0 0 14px; padding-left: 1.3em; max-width: 72ch; }
+.wrules li { margin: .35em 0; }
+.wrules li::marker { color: var(--ch); }
+.wnote { font-size: 13.5px; color: var(--ink-2); margin: 10px 0 0; max-width: 72ch; }
+.wsrc { font-size: 12px; color: var(--ink-3); margin: 8px 0 0; }
+.wcap { font-weight: 900; font-size: 15px; margin: 22px 0 6px; }
+.wsec .spec-wrap { margin-bottom: 4px; }
+.wsec .spec td.num, .wsec .spec th.num { font-size: 15px; font-weight: 600; }

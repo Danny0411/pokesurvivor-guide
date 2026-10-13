@@ -1,0 +1,88 @@
+---
+// 裂隙出現判定的機率階梯：每次判定的成功率（假設前面都落空時），以及累計成功機率（依同一公式推算）。
+import { D } from './model';
+import { mmss } from '../../lib/game';
+
+const L: { checkNumber: number; consecutiveMisses: number; chance: number; firstCheckAtRunSec: number }[] = D.rift.ladder;
+const W = 760, H = 330;
+const PX0 = 72, PX1 = 700;     // 時間軸的左右端
+const T0 = 90, T1 = 240;       // 1:30 到 4:00
+const PY0 = 270, PY1 = 40;     // 0% 與 100%
+const BW = 56;
+const tx = (t: number) => PX0 + ((t - T0) / (T1 - T0)) * (PX1 - PX0);
+const py = (p: number) => PY0 - p * (PY0 - PY1);
+const bars = L.map(l => ({
+  ...l,
+  cx: tx(l.firstCheckAtRunSec),
+  y: py(l.chance),
+  step: Math.min(9, Math.round(l.chance * 10)),
+}));
+let miss = 1;
+const cumulative = L.map(l => { miss *= 1 - l.chance; return 1 - miss; });
+const stepPath = bars.map((b, i) => (i === 0 ? `M${b.cx.toFixed(1)} ${b.y.toFixed(1)}` : `H${b.cx.toFixed(1)} V${b.y.toFixed(1)}`)).join(' ');
+const yTicks = [0, 0.2, 0.4, 0.6, 0.8, 1];
+---
+<div class="en-fig">
+  <div class="en-scroll">
+    <svg class="rl" viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="rl-t rl-d">
+      <title id="rl-t">裂隙判定的成功率階梯</title>
+      <desc id="rl-d">五次判定，成功率依序為 20%、40%、60%、80%、100%，時間為 1:45、2:15、2:45、3:15、3:45。</desc>
+      {yTicks.map(v => (
+        <g>
+          <line class="g" x1={PX0} x2={PX1} y1={py(v)} y2={py(v)} />
+          <text class="ax" x={PX0 - 10} y={py(v) + 4} text-anchor="end">{Math.round(v * 100)}%</text>
+        </g>
+      ))}
+      <line class="axis" x1={PX0} x2={PX1} y1={PY0} y2={PY0} />
+      {bars.map(b => (
+        <g>
+          <rect class={`bar s${b.step}`} x={(b.cx - BW / 2).toFixed(1)} y={b.y.toFixed(1)} width={BW} height={(PY0 - b.y).toFixed(1)} />
+          <text class="pct" x={b.cx.toFixed(1)} y={(b.y - 9).toFixed(1)} text-anchor="middle">{Math.round(b.chance * 100)}%</text>
+          <text class="tm" x={b.cx.toFixed(1)} y={PY0 + 22} text-anchor="middle">{mmss(b.firstCheckAtRunSec)}</text>
+          <text class="nth" x={b.cx.toFixed(1)} y={PY0 + 40} text-anchor="middle">第 {b.checkNumber} 次</text>
+        </g>
+      ))}
+      <path class="step" d={stepPath} />
+    </svg>
+  </div>
+  <p class="en-cap">柱高為該次判定的成功率，假設前面的判定都落空（連續落空次數 o 為 0、1、2、3、4）。判定成功後 o 歸零。</p>
+</div>
+
+<div class="spec-wrap en-scroll">
+  <table class="spec">
+    <caption>判定階梯</caption>
+    <thead>
+      <tr>
+        <th>判定</th>
+        <th class="r">最早時間</th>
+        <th class="r">連續落空 o</th>
+        <th class="r">本次成功率</th>
+        <th class="r">累計成功率</th>
+      </tr>
+    </thead>
+    <tbody>
+      {bars.map((b, i) => (
+        <tr>
+          <th class="num">第 {b.checkNumber} 次</th>
+          <td class="num">{mmss(b.firstCheckAtRunSec)}</td>
+          <td class="num">{b.consecutiveMisses}</td>
+          <td class="num">{Math.round(b.chance * 100)}%</td>
+          <td class="num">{(cumulative[i] * 100).toFixed(1)}%</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="en-fine">成功率 = min(1, 0.2 × (1 + o))。累計成功率 = 到這一次為止至少有一次判定成功的機率，依上式推算（假設之前都落空）。判定成功後即使傳送門放置失敗，o 仍會歸零。</p>
+
+<style>
+  .rl { display: block; width: 100%; min-width: 620px; height: auto; font-family: var(--font); }
+  .g { stroke: var(--rule); stroke-width: 1; }
+  .axis { stroke: var(--ink); stroke-width: 2; }
+  .ax { font-size: 12px; fill: var(--ink-2); font-family: var(--num); font-variant-numeric: tabular-nums; }
+  .pct { font-size: 14px; font-weight: 800; fill: var(--ink); font-family: var(--num); }
+  .tm { font-size: 13px; font-weight: 800; fill: var(--ink); font-family: var(--num); }
+  .nth { font-size: 12px; fill: var(--ink-3); }
+  .bar { fill: var(--rc, var(--r5)); }
+  .step { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 4 3; }
+</style>

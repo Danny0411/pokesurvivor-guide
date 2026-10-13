@@ -1,0 +1,149 @@
+{
+  "_src": "以 id 為鍵。西文（遊戲原文為西班牙文）來源見各段註記；繁體中文（台灣用語）為人工翻譯。UI 字串的鍵為遊戲原文，值為譯文。",
+  "types": {
+    "normal": "一般",
+    "fire": "火",
+    "water": "水",
+    "electric": "電",
+    "grass": "草",
+    "ice": "冰",
+    "fighting": "格鬥",
+    "poison": "毒",
+    "ground": "地面",
+    "flying": "飛行",
+    "psychic": "超能力",
+    "bug": "蟲",
+    "rock": "岩石",
+    "ghost": "幽靈",
+    "dragon": "龍",
+    "dark": "惡",
+    "steel": "鋼",
+    "fairy": "妖精"
+  },
+  "behaviors": {
+    "chase": "追擊型",
+    "charger": "衝撞型",
+    "ranged": "遠程型",
+    "tank": "坦克型",
+    "runner": "疾跑型",
+    "jumper": "跳躍型",
+    "zoner": "範圍型",
+    "beamer": "光束型",
+    "summoner": "召喚型",
+    "healer": "治療型",
+    "shielder": "護盾型",
+    "bomber": "自爆型",
+    "fan": "扇射型",
+    "thief": "竊盜型"
+  },
+  "bossAttacks": {
+    "slam": { "name": "重擊地面", "desc": "在首領身邊產生範圍傷害，延遲 0.85 秒" },
+    "dash": { "name": "直線衝刺", "desc": "沿開始時鎖定的方向衝刺，留下光束傷害" },
+    "leap": { "name": "跳躍落地", "desc": "跳向玩家的位置，落點產生範圍傷害" },
+    "rain": { "name": "範圍轟炸", "desc": "在首領附近落下數個範圍傷害" },
+    "beam": { "name": "多重光束", "desc": "同時射出數道直線光束" },
+    "volley": { "name": "連續射擊", "desc": "朝玩家的位置射出一排彈幕" },
+    "nova": { "name": "環狀彈幕", "desc": "向四周射出一圈彈幕" }
+  },
+  "events": {
+    "horde": { "name": "群體來襲", "banner": "{type}系群體來襲！" },
+    "gold": { "name": "黃金時刻", "banner": "黃金時刻！經驗加倍", "hud": "黃金時刻" },
+    "lost": {
+      "name": "迷路的寶可夢",
+      "banner": "{name}迷路了！找到牠並帶到標記處",
+      "follow": "{name}跟上你了！帶牠到綠色標記處",
+      "escape": "{name}嚇壞了，逃走了…",
+      "timeout": "{name}等得不耐煩，離開了…",
+      "deliver": "你把{name}帶回家了！牠很感謝你。"
+    },
+    "thief": {
+      "name": "竊盜寶可夢",
+      "bannerTicket": "一隻帶著 ×10 抽獎券的{name}！趕在牠逃走前抓住！",
+      "bannerCoins": "一隻帶滿寶可幣的{name}！趕在牠逃走前抓住！",
+      "escape": "{name}逃走了！"
+    }
+  },
+  "specials": {
+    "spring": "泉水",
+    "altar": "祭壇",
+    "bigchest": "大寶箱",
+    "chest": "寶箱",
+    "rock": "岩石",
+    "trap": "陷阱"
+  },
+  "powers": {
+    "dmg": { "name": "狂怒", "desc": "傷害 ×2" },
+    "spd": { "name": "迅雷", "desc": "移動速度 +45%" },
+    "mag": { "name": "磁鐵", "desc": "從遠處吸引一切（吸附範圍 ×4）" },
+    "cd": { "name": "急速", "desc": "招式冷卻 −40%" }
+  },
+  "traps": {
+    "poison": "毒霧陷阱",
+    "grass": "黏液陷阱",
+    "fire": "火焰陷阱"
+  },
+  "weather": {
+    "sun": "晴天（烈日）",
+    "rain": "雨天",
+    "sand": "沙暴",
+    "snow": "雪天",
+    "fog": "大霧"
+  },
+  "arenas": {
+    "normal": "永恆草原",
+    "fire": "熾焰火山",
+    "water": "海洋洞窟",
+    "grass": "翡翠森林",
+    "electric": "伏特中樞",
+    "ice": "永凍冰河",
+    "fighting": "古武道場",
+    "poison": "劇毒沼澤",
+    "ground": "赤沙荒原",
+    "flying": "蒼穹之峰",
+    "psychic": "心靈神殿",
+    "bug": "蟲巢森林",
+    "rock": "古老礦坑",
+    "ghost": "幽暗墓園",
+    "dragon": "龍之聖域",
+    "dark": "暗巷",
+    "steel": "鋼鐵要塞",
+    "fairy": "魔法森林"
+  },
+  "biomes": {
+    "Bosque Umbrío": "幽暗森林",
+    "Cueva Cristal": "水晶洞窟",
+    "Volcán Ceniza": "灰燼火山"
+  },
+  "ui": {
+    "¡Marea de Pokémon!": "寶可夢大潮！",
+    "¡Los Pokémon salvajes se vuelven cada vez más fuertes!": "野生寶可夢變得越來越強了！",
+    "¡{x} salvaje apareció!": "野生的{x}出現了！",
+    "¡{x} shiny salvaje apareció!": "野生的閃光{x}出現了！",
+    "¡Un {x} shiny anda cerca!": "閃光{x}就在附近！",
+    "¡{x} se ha enfurecido!": "{x}狂怒了！",
+    "¡Has conseguido a {x} shiny!": "你獲得了閃光{x}！",
+    "¡Otro {x} shiny! (+300 monedas)": "又一隻閃光{x}！（+300 寶可幣）",
+    "¡{x} se une a tu equipo!": "{x}加入了你的隊伍！",
+    "¡{x} te da las gracias! (+150 monedas, ya lo tenías)": "{x}向你道謝！（+150 寶可幣，你已經有牠了）",
+    "¡Has llevado a {x} a casa! Te lo agradece": "你把{x}帶回家了！牠很感謝你。",
+    "El manantial se ha secado (se recarga solo)": "泉水乾涸了（會自動回復）",
+    "¡Poder {x}! {x} durante 25 s": "{x}強化！持續 25 秒",
+    "¡Pegajoso!": "黏住了！",
+    "¡Hora dorada! Doble de experiencia": "黃金時刻！經驗加倍",
+    "¡Horda de tipo {x}!": "{x}系群體來襲！",
+    "¡Un {x} se ha perdido! Búscalo y llévalo a la marca": "一隻{x}迷路了！找到牠並帶到標記處",
+    "¡{x} te sigue! Llévalo a la marca verde": "{x}跟上你了！帶牠到綠色標記處",
+    "¡{x} se ha asustado y ha huido…!": "{x}嚇壞了，逃走了…！",
+    "{x} se ha cansado de esperar y se ha ido…": "{x}等得不耐煩，離開了…",
+    "¡Un {x} con un ticket ×10! ¡Atrápalo antes de que huya!": "一隻帶著 ×10 抽獎券的{x}！趕在牠逃走前抓住！",
+    "¡Un {x} cargado de monedas! ¡Atrápalo antes de que huya!": "一隻帶滿寶可幣的{x}！趕在牠逃走前抓住！",
+    "¡{x} se ha escapado!": "{x}逃走了！",
+    "¡{x} te esperaba en la grieta!": "{x}在裂隙中等你！",
+    "¡{x} shiny te esperaba en la grieta!": "閃光{x}在裂隙中等你！",
+    "Has entrado en la grieta…": "你進入了裂隙…",
+    "La grieta os ha expulsado…": "裂隙把你們彈了出來…",
+    "¡Has vencido a {x}! Recoge el premio…": "你擊敗了{x}！去拿取獎勵…",
+    "¡Vínculo!": "羈絆！",
+    "El anfitrión ha terminado la partida": "房主已結束這場遊戲"
+  }
+}

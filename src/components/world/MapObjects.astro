@@ -1,0 +1,171 @@
+---
+// 地圖物件：總表、掉落表、泉水與陷阱效果。生命與出現機率讀自 derived/world.json；掉落的數量與機率依 app.pretty.js 行號核對，來源行列在各表下方。
+import world from '../../data/derived/world.json';
+
+const P = world.props;
+const SP = world.propsSpawnOuterWorld;
+const TRAP = world.interaction.trap.kinds;
+// 0.008 → "0.8%"、0.00049 → "0.049%"
+const pct = (r: number) => `${+(r * 100).toFixed(3)}%`;
+const hpLabel = (h: number | null) => (h == null ? '不可破壞' : String(h));
+
+const OBJECTS = [
+  { zh: '草叢', hp: P.grass.hp, rate: '區域內 75%', cond: '低頻雜訊大於 0.66 的區域；不需 3×3 地面', trig: '非實心，可穿過。玩家攻擊命中即破壞。' },
+  { zh: '岩石', hp: P.rock.hp, rate: pct(SP.regulars.rock.ratePerEligibleTile), cond: '需 3×3 地面', trig: '實心。玩家攻擊累積傷害達生命值即破壞；傷害為招式原始值。' },
+  { zh: '寶箱', hp: P.chest.hp, rate: pct(SP.regulars.chest.ratePerEligibleTile), cond: '需 3×3 地面，且另一雜湊值小於 0.07', trig: '實心。玩家攻擊累積傷害達生命值即破壞；傷害為招式原始值。' },
+  { zh: '祭壇', hp: P.altar.hp, rate: pct(SP.specials.altar.ratePerEligibleTile), cond: '特殊物件：需 3×3 地面', trig: '玩家存活並進入範圍時觸發一次，給予一種傳說之力。' },
+  { zh: '泉水', hp: P.spring.hp, rate: pct(SP.specials.spring.ratePerEligibleTile), cond: '特殊物件：需 3×3 地面', trig: '非實心。玩家 26 像素內、未滿血且有充能時回復生命。' },
+  { zh: '大寶箱', hp: P.bigchest.hp, rate: pct(SP.specials.bigchest.ratePerEligibleTile), cond: '特殊物件：需 3×3 地面', trig: '實心。玩家站在範圍內累積 3.5 秒即開啟，開啟後從地圖移除。' },
+  { zh: '陷阱', hp: P.trap.hp, rate: pct(SP.specials.trap.ratePerEligibleTile), cond: '特殊物件：需 3×3 地面；毒、草、火平均分配', trig: '非實心。玩家進入 13 像素內，或非飛行、非遠程敵人進入 3 像素內即觸發，觸發後移除。' },
+];
+
+type Row = { item: string; qty: string; p: string; note?: string };
+const DROPS: { cap: string; src: string; rows: Row[]; sum?: string }[] = [
+  {
+    cap: '岩石（生命 34）',
+    src: 'app.pretty.js:85501–85505（掉落）、85365–85368（生命）',
+    rows: [
+      { item: '經驗寶石', qty: '6 點', p: '40%' },
+      { item: '無', qty: '—', p: '35%' },
+      { item: '寶可幣', qty: '1 堆，價值 2', p: '19%' },
+      { item: '寶可幣 + 回復', qty: '1 堆，價值 2；回復 1 個', p: '6%', note: '回復生成於岩石右側 8 像素' },
+    ],
+    sum: '合計：寶可幣 25%（含上列 6%），回復 6%。以同一個隨機數決定，四種結果互斥。',
+  },
+  {
+    cap: '草叢（生命 1）',
+    src: 'app.pretty.js:85496–85499',
+    rows: [
+      { item: '回復', qty: '1 個', p: '5%', note: '本機拾取者回復最大生命 30%' },
+      { item: '寶可幣', qty: '1 堆，價值 1', p: '6%' },
+      { item: '無', qty: '—', p: '89%' },
+    ],
+    sum: '單次擲骰決定，三種結果互斥。草叢不掉經驗寶石。',
+  },
+  {
+    cap: '寶箱（生命 22）',
+    src: 'app.pretty.js:85506–85511（掉落）、85370–85374（生命）',
+    rows: [
+      { item: '寶可幣', qty: '4–7 堆，每堆 3（均勻隨機）', p: '100%' },
+      { item: '回復', qty: '1 個', p: '50%', note: '與磁吸二選一（同一次擲骰）' },
+      { item: '磁吸', qty: '1 個', p: '50%', note: '吸引畫面上所有拾取物' },
+      { item: '經驗寶石', qty: '20 點（大經驗球）', p: '100%' },
+      { item: '持有物', qty: '1 件', p: '8%', note: '內容見「冒險中」' },
+    ],
+  },
+];
+
+const TRAPS = [
+  { k: 'poison', name: '毒', enemy: '中毒 5 層（最多 8 層，每次施加重設 4 秒）；受到 14 + 3 × 等級 傷害', player: '受到最大生命 10% 傷害' },
+  { k: 'grass', name: '草', enemy: '減速 0.65，持續 4.5 秒（移動速度降為 35%）；受到 4 傷害', player: '速度減半 3.5 秒，顯示「¡Pegajoso!」，不受傷害' },
+  { k: 'fire', name: '火', enemy: '受到 90 + 18 × 等級 傷害，並擊退 220', player: '受到最大生命 20% 傷害' },
+] as const;
+---
+<section class="wsec" aria-labelledby="objects">
+  <h2 id="objects">地圖物件總表</h2>
+  <p class="wlead">地圖物件分成可破壞的地物（草叢、岩石、寶箱）與特殊物件（祭壇、泉水、大寶箱、陷阱）。特殊物件合計 0.32%，判定時先於其他物件。</p>
+  <div class="spec-wrap">
+    <table class="spec objs">
+      <caption>物件、生命、出現機率與觸發方式</caption>
+      <thead><tr><th>物件</th><th>生命</th><th>出現機率（每個合格地塊）</th><th>觸發方式</th></tr></thead>
+      <tbody>
+        {OBJECTS.map(o => (
+          <tr>
+            <th>{o.zh}</th>
+            <td class="num hp" data-label="生命">{hpLabel(o.hp)}</td>
+            <td class="rate" data-label="出現機率"><span class="num">{o.rate}</span><small class="cond">{o.cond}</small></td>
+            <td class="trig" data-label="觸發方式">{o.trig}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="wnote">合格地塊是地面，且距離原點至少 7 格。特殊物件需距離原點超過 12 格，且不在競技場內。每個地塊獨立判定；已被破壞的位置不會重新生成。</p>
+  
+</section>
+
+<section class="wsec" aria-labelledby="drops">
+  <h2 id="drops">掉落表</h2>
+  <p class="wlead">每張表的數量與機率來自遊戲程式碼的判定。草叢、岩石、寶箱都是玩家攻擊破壞後結算一次；祭壇、泉水、陷阱沒有掉落。大寶箱的掉落表與開啟進度見下方「大寶箱」。</p>
+  {DROPS.map(d => (
+    <div>
+      <h3 class="wcap">{d.cap}</h3>
+      <div class="spec-wrap">
+        <table class="spec">
+          <thead><tr><th>掉落物</th><th>數量</th><th>機率</th><th>備註</th></tr></thead>
+          <tbody>
+            {d.rows.map(r => (
+              <tr>
+                <th>{r.item}</th>
+                <td class="ww">{r.qty}</td>
+                <td class="num">{r.p}</td>
+                <td class="ww">{r.note ?? ''}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {d.sum && <p class="wnote">{d.sum}</p>}
+      
+    </div>
+  ))}
+  <p class="wnote">經驗寶石附帶掉落：每掉一顆經驗寶石，抽獎券獨立判定 0.25%；回復 1.2%、磁吸 0.8%、炸彈 0.6% 為同一次擲骰，互斥。岩石只在掉經驗寶石（40%）時才會判定。炸彈由本機拾取時，對畫面內的敵人造成 60 + 14 × 等級 傷害並擊退 160。</p>
+  
+</section>
+
+<section class="wsec" aria-labelledby="spring-trap">
+  <h2 id="spring-trap">泉水與陷阱</h2>
+  <h3>泉水</h3>
+  <ul class="wrules">
+    <li>非實心。充能只對玩家 720 像素內的泉水計算。</li>
+    <li>回復範圍：玩家距離平方 ≤ 676（26 像素），距離從泉水的 (x, y − 8) 計算。玩家存活、未滿血，且充能大於 0.02 時，每秒回復最大生命 14%。</li>
+    <li>充能：回復時每秒減少 0.09，從滿充能約可回復 10.9 秒；不靠近時每秒增加 1/45。</li>
+    <li>充能降到 0.02 以下時顯示「El manantial se ha secado (se recarga solo)」，意為泉水已乾，會自動重新充能。</li>
+  </ul>
+  
+
+  <h3>陷阱</h3>
+  <p class="wlead">陷阱的種類由地塊雜湊值平均分成三種。觸發後陷阱移除，並同時對範圍內的敵人與玩家結算效果。</p>
+  <div class="spec-wrap">
+    <table class="spec">
+      <caption>三種陷阱的效果</caption>
+      <thead><tr><th>種類</th><th>敵人（74 像素內，非遠程）</th><th>玩家（距離 51.8 像素內）</th></tr></thead>
+      <tbody>
+        {TRAPS.map(t => (
+          <tr>
+            <th><i class="sw" style={`--c:${TRAP[t.k].color}`} aria-hidden="true" /> {t.name}</th>
+            <td class="ww">{t.enemy}</td>
+            <td class="ww">{t.player}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <ul class="wrules">
+    <li>觸發條件：玩家存活且距離平方小於 169（13 像素），距離從 (x, y − 8) 計算；或房主端有非飛行、非遠程敵人進入 3 像素半徑。會飛行的敵人（首領與會飄浮的寶可夢）不會觸發。</li>
+    <li>等級為玩家等級，沒有玩家時為 1。敵人受到的範圍是 74 像素，不含遠程敵人。</li>
+  </ul>
+  
+</section>
+
+<style>
+  .cond { display: block; font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+  .sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; background: var(--c); vertical-align: -1px; margin-right: 4px; }
+  .wsec th .sw { margin-right: 6px; }
+  .wsec td.hp { white-space: nowrap; }
+  /* 長文字欄在手機上允許換行（global 的 860px 斷點會把 .spec td 設為 nowrap） */
+  .wsec td.ww { white-space: normal; min-width: 0; }
+  /* 物件總表在手機上改成每列一物件：名稱與生命同一行，出現機率與觸發方式各佔一整行 */
+  @media (max-width: 860px) {
+    .wsec thead th { white-space: normal; }
+    .objs, .objs tbody { display: block; }
+    .objs caption { display: block; }
+    .objs thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .objs tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+    .objs tbody tr > * { display: block; min-width: 0; padding: 0; border: 0; background: none; white-space: normal; }
+    .objs tbody tr > th { grid-column: 1; grid-row: 1; font-size: 16px; }
+    .objs tbody tr > .hp { grid-column: 2; grid-row: 1; text-align: right; white-space: nowrap; }
+    .objs tbody tr > .rate, .objs tbody tr > .trig { grid-column: 1 / -1; margin-top: 8px; }
+    .objs td[data-label]::before { content: attr(data-label); display: block; font-size: 12px; font-weight: 600; color: var(--ink-3); }
+  }
+</style>

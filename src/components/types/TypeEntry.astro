@@ -1,0 +1,106 @@
+---
+// 單一屬性小節（id 為屬性 id）：攻擊與防守的相剋對象、招式、寶可夢數量與天氣倍率
+import Type from '../Type.astro';
+import ChipList from './ChipList.astro';
+import { POKEMON, MOVE_LIST, TYPE_IDS, chartRaw, fmt, url } from '../../lib/game';
+import WORLD from '../../data/derived/world.json';
+
+interface Props { id: string }
+const { id } = Astro.props;
+const en = id.charAt(0).toUpperCase() + id.slice(1);
+const pick = (f: (o: string) => boolean) => TYPE_IDS.filter(f);
+
+// 攻擊時：這個屬性的招式打中對方（圖表值 2 / 0.5 / 0）
+const atkGood = pick(d => chartRaw(id, d) === 2);
+const atkBad = pick(d => chartRaw(id, d) === 0.5);
+const atkNone = pick(d => chartRaw(id, d) === 0);
+// 防守時：對方屬性的招式打中這個屬性
+const defWeak = pick(a => chartRaw(a, id) === 2);
+const defResist = pick(a => chartRaw(a, id) === 0.5);
+const defNone = pick(a => chartRaw(a, id) === 0);
+
+const moves = MOVE_LIST.filter(m => m.type === id);
+const mons = POKEMON.filter(p => p.types.includes(id)).length;
+// 天氣對這個屬性的招式傷害倍率（天氣為該屬性的倍率時才有）
+const kinds = ((WORLD as any).weather.kinds as { nameZh: string; mult: Record<string, number> }[])
+  .filter(k => k.mult[id] != null);
+const hid = `h-${id}`;
+---
+
+<section class="ty" id={id} aria-labelledby={hid}>
+  <h2 id={hid} class="ty-h"><Type t={id} link={false} /><span class="en">{en}</span></h2>
+
+  <div class="pair">
+    <div class="spec-wrap">
+      <table class="spec">
+        <caption>攻擊時</caption>
+        <thead><tr><th>倍率</th><th>對象</th></tr></thead>
+        <tbody>
+          <tr><th><span class="num">×1.6</span> 效果好</th><td class="wrap"><ChipList ids={atkGood} /></td></tr>
+          <tr><th><span class="num">×0.6</span> 效果不好</th><td class="wrap"><ChipList ids={atkBad} /></td></tr>
+          <tr><th><span class="num">×0.3</span> 無效</th><td class="wrap"><ChipList ids={atkNone} /></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="spec-wrap">
+      <table class="spec">
+        <caption>防守時</caption>
+        <thead><tr><th>倍率</th><th>來源</th></tr></thead>
+        <tbody>
+          <tr><th><span class="num">×1.6</span> 弱點</th><td class="wrap"><ChipList ids={defWeak} /></td></tr>
+          <tr><th><span class="num">×0.6</span> 抵抗</th><td class="wrap"><ChipList ids={defResist} /></td></tr>
+          <tr><th><span class="num">×0.3</span> 無效</th><td class="wrap"><ChipList ids={defNone} /></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="spec-wrap facts">
+    <table class="spec">
+      <tbody>
+        <tr>
+          <th>招式</th>
+          <td class="wrap">
+            <span class="num">{moves.length}</span> 招
+            {moves.length > 0 && (
+              <div class="chips">
+                {moves.map(m => <a class="mv" href={url(`/moves/${m.id}/`)}>{m.zh}</a>)}
+              </div>
+            )}
+          </td>
+        </tr>
+        <tr>
+          <th>寶可夢</th>
+          <td class="wrap">
+            <a href={url(`/pokemon/?type=${id}`)}><span class="num">{mons}</span> 隻</a> 擁有此屬性（含雙屬性）
+          </td>
+        </tr>
+        <tr>
+          <th>天氣</th>
+          <td class="wrap">
+            {kinds.length > 0
+              ? kinds.map((k, n) => <>{n > 0 && '、'}{k.nameZh} <span class="num">×{fmt(k.mult[id])}</span></>)
+              : '沒有天氣倍率'}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .ty { margin-top: 56px; }
+  .ty-h { display: flex; align-items: center; gap: 12px; font-size: 22px; margin: 0 0 14px; }
+  .ty-h :global(.type) { height: 30px; min-width: 0; padding: 0 14px; font-size: 16px; }
+  .en { font: 700 15px var(--num); letter-spacing: .08em; color: var(--ink-3); }
+  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .pair .spec-wrap { margin-top: 0; }
+  .facts { margin-top: 20px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .mv {
+    display: inline-flex; align-items: center; height: 24px; padding: 0 8px; font-size: 13px; font-weight: 700;
+    text-decoration: none; border: 1.5px solid var(--ink); border-radius: 3px; background: var(--paper);
+  }
+  .mv:hover { background: var(--ch-tint); }
+  @media (max-width: 860px) { .pair { grid-template-columns: 1fr; } }
+</style>

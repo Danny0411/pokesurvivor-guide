@@ -1,0 +1,21 @@
+{
+  "name": "pokesurvivor-guide",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "extract": "node tools/extract.cjs",
+    "sprites": "node tools/sprites.cjs",
+    "fonts": "sh tools/subset-fonts.sh",
+    "update": "node tools/extract.cjs && node tools/derive-moves.cjs && node tools/derive-enemies.cjs && node tools/derive-meta.cjs && sh tools/subset-fonts.sh"
+  },
+  "dependencies": {
+    "astro": "^7.3.8"
+  }
+}

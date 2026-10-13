@@ -1,0 +1,133 @@
+---
+// 敵人強度成長：0 至 30 分的一般敵人與首領倍率（scalingSamplesByMinute），縱軸為對數刻度；60 分後的晚期樣本列在表格。
+import { TIERS, BOSS_AT, D, n0 } from './model';
+
+const S: any[] = D.scalingSamplesByMinute;
+const LATE: any[] = D.lateSamples;
+const W = 800, H = 380;
+const PX0 = 64, PX1 = 610, PY0 = 300, PY1 = 40; // 0 分、30 分；1×、100×
+const mx = (m: number) => PX0 + (m / 30) * (PX1 - PX0);
+const ly = (v: number) => PY0 - Math.log10(v) * ((PY0 - PY1) / 2);
+const YT = [1, 2, 5, 10, 20, 50, 100];
+const XT = [0, 5, 10, 15, 20, 25, 30];
+const pts = (key: string) => S.map(s => `${mx(s.minute).toFixed(1)},${ly(s[key]).toFixed(1)}`).join(' ');
+const last = S[S.length - 1];
+const tierLines = TIERS.slice(1).map((t, k) => ({ k: k + 1, m: t.from / 60 }));
+const bossLines = BOSS_AT.map((at, k) => ({ k: k + 1, m: at / 60 }));
+const lateMult = (v: number) => (v >= 1000 ? n0(v) : v.toFixed(1));
+---
+<div class="en-fig">
+  <div class="en-scroll">
+    <svg class="sc" viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="sc-t sc-d">
+      <title id="sc-t">敵人強度成長（0 至 30 分）</title>
+      <desc id="sc-d">一般敵人生命倍率、傷害倍率與首領倍率，縱軸為對數刻度，橫軸為執行時間（分）。</desc>
+      {YT.map(v => (
+        <g>
+          <line class="g" x1={PX0} x2={PX1} y1={ly(v)} y2={ly(v)} />
+          <text class="ax" x={PX0 - 8} y={ly(v) + 4} text-anchor="end">{v}×</text>
+        </g>
+      ))}
+      {XT.map(m => (
+        <g>
+          <line class="mtick" x1={mx(m)} x2={mx(m)} y1={PY0} y2={PY0 + 5} />
+          <text class="ax" x={mx(m)} y={PY0 + 22} text-anchor="middle">{m}</text>
+        </g>
+      ))}
+      <line class="axis" x1={PX0} x2={PX1} y1={PY0} y2={PY0} />
+      <line class="axis" x1={PX0} x2={PX0} y1={PY1} y2={PY0} />
+      <text class="cap" x={PX1} y={PY0 + 42} text-anchor="end">執行時間（分）</text>
+
+      {tierLines.map(t => (
+        <g>
+          <line class="tier" x1={mx(t.m)} x2={mx(t.m)} y1={PY1} y2={PY0} />
+          <text class="ax" x={mx(t.m)} y={PY1 - 8} text-anchor="middle">{t.k}</text>
+        </g>
+      ))}
+      {bossLines.map(b => <path class="boss-mark" d={`M${mx(b.m).toFixed(1)} ${PY0 + 4} l4 4 l-4 4 l-4 -4 z`} />)}
+
+      <polyline class="s-hp" points={pts('regularHpMult')} />
+      <polyline class="s-dmg" points={pts('regularDmgMult')} />
+      <polyline class="s-boss" points={pts('bossHpMult')} />
+
+      <text class="end hp" x={PX1 + 10} y={ly(last.regularHpMult) + 4}>一般生命 {last.regularHpMult.toFixed(1)}×</text>
+      <text class="end dmg" x={PX1 + 10} y={ly(last.regularDmgMult) + 4}>一般傷害 {last.regularDmgMult.toFixed(1)}×</text>
+      <text class="end boss" x={PX1 + 10} y={ly(last.bossHpMult) + 4}>首領生命與傷害 {last.bossHpMult.toFixed(1)}×</text>
+    </svg>
+  </div>
+  <p class="en-cap">縱軸為對數刻度：1× 到 10× 的距離與 10× 到 100× 相同。數字 1 至 5 的虛線是梯次 1 至 5 的開始時間，◆ 是首領出現時間。首領的生命與傷害倍率在這段時間內相同。</p>
+</div>
+
+<div class="spec-wrap en-scroll">
+  <table class="spec">
+    <caption>0 至 30 分的倍率（單人、未含閃光與金色）</caption>
+    <thead>
+      <tr>
+        <th>分</th>
+        <th class="r">梯次</th>
+        <th class="r">一般生命</th>
+        <th class="r">一般傷害</th>
+        <th class="r">一般速度</th>
+        <th class="r">首領生命</th>
+        <th class="r">首領傷害</th>
+      </tr>
+    </thead>
+    <tbody>
+      {S.map(s => (
+        <tr>
+          <th class="num">{s.minute}</th>
+          <td class="num">{s.tierIndex}</td>
+          <td class="num">{s.regularHpMult.toFixed(2)}</td>
+          <td class="num">{s.regularDmgMult.toFixed(2)}</td>
+          <td class="num">{s.regularSpdMult.toFixed(2)}</td>
+          <td class="num">{s.bossHpMult.toFixed(2)}</td>
+          <td class="num">{s.bossDmgMult.toFixed(2)}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="en-fine">一般生命倍率 = (1 + t/95) × (3.3 + min(1.7, t/210))，t 為執行秒數；一般傷害倍率已含 ×2.4；一般速度倍率 = 1 + min(0.35, t/1400)。公式與人數係數見總覽頁的「敵人強度成長」。</p>
+
+<div class="spec-wrap en-scroll en-late">
+  <table class="spec">
+    <caption>60 分之後：晚期倍率（單人、未含閃光與金色）</caption>
+    <thead>
+      <tr>
+        <th>分</th>
+        <th class="r">晚期倍率</th>
+        <th class="r">一般生命</th>
+        <th class="r">首領生命</th>
+      </tr>
+    </thead>
+    <tbody>
+      {LATE.map(s => (
+        <tr>
+          <th class="num">{s.minute}</th>
+          <td class="num">{s.late >= 1000 ? n0(s.late) : s.late.toFixed(3)}</td>
+          <td class="num">{lateMult(s.regularHpMultSolo)}</td>
+          <td class="num">{lateMult(s.bossHpMultSolo)}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="en-fine">晚期倍率 = exp(min(30, 0.000374 × (分 − 60)²))，60 分前為 1。60 分之後的倍率以指數方式增長；表中 180 分與 240 分的列由同一公式算出。</p>
+
+<style>
+  .sc { display: block; width: 100%; min-width: 640px; height: auto; font-family: var(--font); }
+  .g { stroke: var(--rule); stroke-width: 1; }
+  .ax { font-size: 12px; fill: var(--ink-2); font-family: var(--num); font-variant-numeric: tabular-nums; }
+  .cap { font-size: 12px; fill: var(--ink-3); }
+  .axis { stroke: var(--ink); stroke-width: 2; }
+  .mtick { stroke: var(--ink); stroke-width: 1.2; }
+  .tier { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 3 3; }
+  .boss-mark { fill: var(--ink); }
+  .s-hp { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
+  .s-dmg { fill: none; stroke: var(--ch); stroke-width: 2.5; stroke-linejoin: round; }
+  .s-boss { fill: none; stroke: var(--r6); stroke-width: 2.5; stroke-dasharray: 6 4; stroke-linejoin: round; }
+  .end { font-size: 13px; font-weight: 800; }
+  .end.hp { fill: var(--ink); }
+  .end.dmg { fill: var(--ch); }
+  .end.boss { fill: var(--r6); }
+  .en-late { margin-top: 28px; }
+</style>

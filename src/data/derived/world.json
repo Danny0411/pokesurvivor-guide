@@ -1,0 +1,2235 @@
+{
+  "_meta": {
+    "description": "PokéSurvivor 世界地圖結構化數據。欄位 _src 為 .cache/app.pretty.js 的行號（格式 app.pretty.js:行號 或 行號-行號）。",
+    "sourceFile": "guide/.cache/app.pretty.js（美化後的遊戲原始碼）",
+    "extractedJson": "src/data/game/{Tiles,Weather,Types,BIOME_MUSIC}.json（與程式碼交叉核對）",
+    "unknownMarker": "程式碼未明確"
+  },
+  "tiles": {
+    "tileUnits": 16,
+    "pixelScale": 2,
+    "pxPerTile": 32,
+    "chunkTiles": 16,
+    "chunkPx": 512,
+    "terrainKinds": {
+      "0": "floor",
+      "1": "wall",
+      "2": "liquid"
+    },
+    "_src": [
+      "app.pretty.js:84273",
+      "app.pretty.js:80896",
+      "app.pretty.js:85242-85246",
+      "app.pretty.js:85307"
+    ]
+  },
+  "biomeCycle": {
+    "intervalSeconds": 240,
+    "count": 21,
+    "formula": "index = floor(runClock / 240) mod 21",
+    "runClock": "run 計時 o，於 playing 狀態以 dt 累加；單幀 dt = min(1/30, 實際間隔) × L（L = 1）",
+    "frozenInArena": true,
+    "stopsWhenDeadOutsideArena": true,
+    "onChange": [
+      "sfx biome",
+      "banner: biome name, 3 s",
+      "ring effect"
+    ],
+    "_src": [
+      "app.pretty.js:95196-95197",
+      "app.pretty.js:95185",
+      "app.pretty.js:95222-95225",
+      "app.pretty.js:85552-85558"
+    ]
+  },
+  "biomes": [
+    {
+      "index": 0,
+      "id": "forest",
+      "nameEs": "Bosque Umbrío",
+      "nameZh": "幽暗森林",
+      "liquid": "water",
+      "propStyle": "tree",
+      "origin": "hand-written",
+      "theme": null,
+      "_src": [
+        "app.pretty.js:84274-84295"
+      ]
+    },
+    {
+      "index": 1,
+      "id": "cave",
+      "nameEs": "Cueva Cristal",
+      "nameZh": "水晶洞窟",
+      "liquid": "water",
+      "propStyle": "crystal",
+      "origin": "hand-written",
+      "theme": null,
+      "_src": [
+        "app.pretty.js:84296-84317"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "volcano",
+      "nameEs": "Volcán Ceniza",
+      "nameZh": "灰燼火山",
+      "liquid": "lava",
+      "propStyle": "dead",
+      "origin": "hand-written",
+      "theme": null,
+      "_src": [
+        "app.pretty.js:84318-84339"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "rift.normal",
+      "nameEs": "Grieta · Pradera Eterna",
+      "nameZh": "裂隙 · 永恆草原",
+      "liquid": "water",
+      "propStyle": "tree",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "normal",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "rift.fire",
+      "nameEs": "Grieta · Volcán Ígneo",
+      "nameZh": "裂隙 · 熔岩火山",
+      "liquid": "lava",
+      "propStyle": "dead",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "fire",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "rift.water",
+      "nameEs": "Grieta · Gruta Marina",
+      "nameZh": "裂隙 · 海洋洞窟",
+      "liquid": "water",
+      "propStyle": "crystal",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "water",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "rift.grass",
+      "nameEs": "Grieta · Selva Esmeralda",
+      "nameZh": "裂隙 · 翡翠叢林",
+      "liquid": "swamp",
+      "propStyle": "tree",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "grass",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "rift.electric",
+      "nameEs": "Grieta · Central Voltio",
+      "nameZh": "裂隙 · 伏特發電站",
+      "liquid": "spark",
+      "propStyle": "crystal",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "electric",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "rift.ice",
+      "nameEs": "Grieta · Glaciar Eterno",
+      "nameZh": "裂隙 · 永恆冰河",
+      "liquid": "ice",
+      "propStyle": "crystal",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "ice",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "rift.fighting",
+      "nameEs": "Grieta · Dojo Ancestral",
+      "nameZh": "裂隙 · 古代道場",
+      "liquid": "water",
+      "propStyle": "tree",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "fighting",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "rift.poison",
+      "nameEs": "Grieta · Ciénaga Tóxica",
+      "nameZh": "裂隙 · 毒沼澤",
+      "liquid": "poison",
+      "propStyle": "dead",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "poison",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "rift.ground",
+      "nameEs": "Grieta · Desierto Rojo",
+      "nameZh": "裂隙 · 赤沙漠",
+      "liquid": "swamp",
+      "propStyle": "dead",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "ground",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "rift.flying",
+      "nameEs": "Grieta · Pico Celeste",
+      "nameZh": "裂隙 · 蒼天之巔",
+      "liquid": "water",
+      "propStyle": "tree",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "flying",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rift.psychic",
+      "nameEs": "Grieta · Templo Mental",
+      "nameZh": "裂隙 · 心靈神殿",
+      "liquid": "water",
+      "propStyle": "crystal",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "psychic",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "rift.bug",
+      "nameEs": "Grieta · Bosque Colmena",
+      "nameZh": "裂隙 · 蜂巢森林",
+      "liquid": "swamp",
+      "propStyle": "tree",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "bug",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "rift.rock",
+      "nameEs": "Grieta · Cantera Antigua",
+      "nameZh": "裂隙 · 古老採石場",
+      "liquid": "water",
+      "propStyle": "dead",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "rock",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "rift.ghost",
+      "nameEs": "Grieta · Cementerio Sombrío",
+      "nameZh": "裂隙 · 幽暗墓園",
+      "liquid": "water",
+      "propStyle": "dead",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "ghost",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "rift.dragon",
+      "nameEs": "Grieta · Santuario Dragón",
+      "nameZh": "裂隙 · 龍之聖域",
+      "liquid": "lava",
+      "propStyle": "crystal",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "dragon",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "rift.dark",
+      "nameEs": "Grieta · Callejón Oscuro",
+      "nameZh": "裂隙 · 暗影小巷",
+      "liquid": "water",
+      "propStyle": "dead",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "dark",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "rift.steel",
+      "nameEs": "Grieta · Fortaleza de Acero",
+      "nameZh": "裂隙 · 鋼鐵要塞",
+      "liquid": "water",
+      "propStyle": "crystal",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "steel",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    },
+    {
+      "index": 20,
+      "id": "rift.fairy",
+      "nameEs": "Grieta · Bosque Encantado",
+      "nameZh": "裂隙 · 魔法森林",
+      "liquid": "water",
+      "propStyle": "tree",
+      "origin": "generated from ARENA_THEMES",
+      "theme": "fairy",
+      "_src": [
+        "app.pretty.js:84734",
+        "app.pretty.js:84706-84733"
+      ]
+    }
+  ],
+  "arenaThemes": [
+    {
+      "type": "normal",
+      "index": 0,
+      "biomeIndex": 3,
+      "biomeId": "rift.normal",
+      "nameEs": "Pradera Eterna",
+      "nameZh": "永恆草原",
+      "liquid": "water",
+      "propStyle": "tree",
+      "pools": 0,
+      "pillars": 0.035,
+      "props": {
+        "tree": 0.025,
+        "rock": 0,
+        "grass": 0.05
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84342"
+      ]
+    },
+    {
+      "type": "fire",
+      "index": 1,
+      "biomeIndex": 4,
+      "biomeId": "rift.fire",
+      "nameEs": "Volcán Ígneo",
+      "nameZh": "熔岩火山",
+      "liquid": "lava",
+      "propStyle": "dead",
+      "pools": 0.31,
+      "pillars": 0.03,
+      "props": {
+        "tree": 0.01,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": "sun",
+      "_src": [
+        "app.pretty.js:84362"
+      ]
+    },
+    {
+      "type": "water",
+      "index": 2,
+      "biomeIndex": 5,
+      "biomeId": "rift.water",
+      "nameEs": "Gruta Marina",
+      "nameZh": "海洋洞窟",
+      "liquid": "water",
+      "propStyle": "crystal",
+      "pools": 0.33,
+      "pillars": 0.02,
+      "props": {
+        "tree": 0.015,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": "rain",
+      "_src": [
+        "app.pretty.js:84382"
+      ]
+    },
+    {
+      "type": "grass",
+      "index": 3,
+      "biomeIndex": 6,
+      "biomeId": "rift.grass",
+      "nameEs": "Selva Esmeralda",
+      "nameZh": "翡翠叢林",
+      "liquid": "swamp",
+      "propStyle": "tree",
+      "pools": 0.22,
+      "pillars": 0,
+      "props": {
+        "tree": 0.05,
+        "rock": 0,
+        "grass": 0.12
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84402"
+      ]
+    },
+    {
+      "type": "electric",
+      "index": 4,
+      "biomeIndex": 7,
+      "biomeId": "rift.electric",
+      "nameEs": "Central Voltio",
+      "nameZh": "伏特發電站",
+      "liquid": "spark",
+      "propStyle": "crystal",
+      "pools": 0.28,
+      "pillars": 0.04,
+      "props": {
+        "tree": 0.01,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": "rain",
+      "_src": [
+        "app.pretty.js:84423"
+      ]
+    },
+    {
+      "type": "ice",
+      "index": 5,
+      "biomeIndex": 8,
+      "biomeId": "rift.ice",
+      "nameEs": "Glaciar Eterno",
+      "nameZh": "永恆冰河",
+      "liquid": "ice",
+      "propStyle": "crystal",
+      "pools": 0.36,
+      "pillars": 0.02,
+      "props": {
+        "tree": 0.02,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": "snow",
+      "_src": [
+        "app.pretty.js:84443"
+      ]
+    },
+    {
+      "type": "fighting",
+      "index": 6,
+      "biomeIndex": 9,
+      "biomeId": "rift.fighting",
+      "nameEs": "Dojo Ancestral",
+      "nameZh": "古代道場",
+      "liquid": "water",
+      "propStyle": "tree",
+      "pools": 0,
+      "pillars": 0.075,
+      "props": {
+        "tree": 0.008,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84463"
+      ]
+    },
+    {
+      "type": "poison",
+      "index": 7,
+      "biomeIndex": 10,
+      "biomeId": "rift.poison",
+      "nameEs": "Ciénaga Tóxica",
+      "nameZh": "毒沼澤",
+      "liquid": "poison",
+      "propStyle": "dead",
+      "pools": 0.31,
+      "pillars": 0.015,
+      "props": {
+        "tree": 0.02,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84482"
+      ]
+    },
+    {
+      "type": "ground",
+      "index": 8,
+      "biomeIndex": 11,
+      "biomeId": "rift.ground",
+      "nameEs": "Desierto Rojo",
+      "nameZh": "赤沙漠",
+      "liquid": "swamp",
+      "propStyle": "dead",
+      "pools": 0.25,
+      "pillars": 0.04,
+      "props": {
+        "tree": 0.01,
+        "rock": 0.015,
+        "grass": 0
+      },
+      "weather": "sand",
+      "_src": [
+        "app.pretty.js:84502"
+      ]
+    },
+    {
+      "type": "flying",
+      "index": 9,
+      "biomeIndex": 12,
+      "biomeId": "rift.flying",
+      "nameEs": "Pico Celeste",
+      "nameZh": "蒼天之巔",
+      "liquid": "water",
+      "propStyle": "tree",
+      "pools": 0,
+      "pillars": 0.02,
+      "props": {
+        "tree": 0.025,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84523"
+      ]
+    },
+    {
+      "type": "psychic",
+      "index": 10,
+      "biomeIndex": 13,
+      "biomeId": "rift.psychic",
+      "nameEs": "Templo Mental",
+      "nameZh": "心靈神殿",
+      "liquid": "water",
+      "propStyle": "crystal",
+      "pools": 0,
+      "pillars": 0.045,
+      "props": {
+        "tree": 0.02,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84542"
+      ]
+    },
+    {
+      "type": "bug",
+      "index": 11,
+      "biomeIndex": 14,
+      "biomeId": "rift.bug",
+      "nameEs": "Bosque Colmena",
+      "nameZh": "蜂巢森林",
+      "liquid": "swamp",
+      "propStyle": "tree",
+      "pools": 0.2,
+      "pillars": 0,
+      "props": {
+        "tree": 0.04,
+        "rock": 0,
+        "grass": 0.12
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84561"
+      ]
+    },
+    {
+      "type": "rock",
+      "index": 12,
+      "biomeIndex": 15,
+      "biomeId": "rift.rock",
+      "nameEs": "Cantera Antigua",
+      "nameZh": "古老採石場",
+      "liquid": "water",
+      "propStyle": "dead",
+      "pools": 0,
+      "pillars": 0.08,
+      "props": {
+        "tree": 0,
+        "rock": 0.03,
+        "grass": 0
+      },
+      "weather": "sand",
+      "_src": [
+        "app.pretty.js:84582"
+      ]
+    },
+    {
+      "type": "ghost",
+      "index": 13,
+      "biomeIndex": 16,
+      "biomeId": "rift.ghost",
+      "nameEs": "Cementerio Sombrío",
+      "nameZh": "幽暗墓園",
+      "liquid": "water",
+      "propStyle": "dead",
+      "pools": 0,
+      "pillars": 0.03,
+      "props": {
+        "tree": 0.03,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": "fog",
+      "_src": [
+        "app.pretty.js:84601"
+      ]
+    },
+    {
+      "type": "dragon",
+      "index": 14,
+      "biomeIndex": 17,
+      "biomeId": "rift.dragon",
+      "nameEs": "Santuario Dragón",
+      "nameZh": "龍之聖域",
+      "liquid": "lava",
+      "propStyle": "crystal",
+      "pools": 0.22,
+      "pillars": 0.04,
+      "props": {
+        "tree": 0.015,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84620"
+      ]
+    },
+    {
+      "type": "dark",
+      "index": 15,
+      "biomeIndex": 18,
+      "biomeId": "rift.dark",
+      "nameEs": "Callejón Oscuro",
+      "nameZh": "暗影小巷",
+      "liquid": "water",
+      "propStyle": "dead",
+      "pools": 0,
+      "pillars": 0.05,
+      "props": {
+        "tree": 0.02,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84640"
+      ]
+    },
+    {
+      "type": "steel",
+      "index": 16,
+      "biomeIndex": 19,
+      "biomeId": "rift.steel",
+      "nameEs": "Fortaleza de Acero",
+      "nameZh": "鋼鐵要塞",
+      "liquid": "water",
+      "propStyle": "crystal",
+      "pools": 0,
+      "pillars": 0.08,
+      "props": {
+        "tree": 0.01,
+        "rock": 0,
+        "grass": 0
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84659"
+      ]
+    },
+    {
+      "type": "fairy",
+      "index": 17,
+      "biomeIndex": 20,
+      "biomeId": "rift.fairy",
+      "nameEs": "Bosque Encantado",
+      "nameZh": "魔法森林",
+      "liquid": "water",
+      "propStyle": "tree",
+      "pools": 0.16,
+      "pillars": 0,
+      "props": {
+        "tree": 0.05,
+        "rock": 0,
+        "grass": 0.1
+      },
+      "weather": null,
+      "_src": [
+        "app.pretty.js:84678"
+      ]
+    }
+  ],
+  "arenaBiomeFormula": {
+    "formula": "3 + max(0, index of theme in ARENA_TYPES)",
+    "_src": [
+      "app.pretty.js:85239",
+      "app.pretty.js:89443"
+    ]
+  },
+  "biomeMusic": {
+    "list": [
+      "forest",
+      "cave",
+      "volcano"
+    ],
+    "usedIndexes": [
+      0
+    ],
+    "usedAt": "run start only: G.Audio.music(G.BIOME_MUSIC[0])",
+    "biomeChangeMusic": "程式碼未明確：生態區切換時只播放 sfx biome，未呼叫 music()",
+    "_src": [
+      "app.pretty.js:1559",
+      "app.pretty.js:95381",
+      "app.pretty.js:95225"
+    ]
+  },
+  "terrain": {
+    "outerWorld": {
+      "originFloorRadius": 9,
+      "originFloorRule": "hypot(x,y) < 9 → floor",
+      "_src": [
+        "app.pretty.js:85289-85290"
+      ],
+      "n": "clamp((hypot - 9) / 8, 0, 1)",
+      "_src2": [
+        "app.pretty.js:85291"
+      ],
+      "liquid": "p(x/13, y/13, seed+101) < 0.04 + 0.23 * n → liquid (type = current biome liquid)",
+      "_src3": [
+        "app.pretty.js:85292",
+        "app.pretty.js:85430-85431"
+      ],
+      "wall": "else p(x/8, y/8, seed+202) > 1 - 0.27 * n → wall; else floor",
+      "_src4": [
+        "app.pretty.js:85292"
+      ],
+      "density": "程式碼未明確（實際比例取決於雜訊分布）"
+    },
+    "arena": {
+      "radiusTiles": 11,
+      "_src": [
+        "app.pretty.js:89386-89393"
+      ],
+      "wallRing": "distance >= r and < r + 7 → wall",
+      "_src2": [
+        "app.pretty.js:85283-85284"
+      ],
+      "corridor": "(|dx| <= 2 and dy in [-6,5]) or hypot < 2.5 → floor, no props",
+      "_src3": [
+        "app.pretty.js:85275-85279",
+        "app.pretty.js:85285",
+        "app.pretty.js:85331"
+      ],
+      "pillars": "distance < r - 2 and noise(x>>1, y>>1, seed+31+tx) < theme.pillars → wall",
+      "_src4": [
+        "app.pretty.js:85287"
+      ],
+      "pools": "distance < r - 1.5 and noise(x/3.2, y/3.2, seed+37+tx) < theme.pools → liquid",
+      "_src5": [
+        "app.pretty.js:85287"
+      ],
+      "center": "tx, ty = 5000 + floor(3000 * rand)",
+      "_src6": [
+        "app.pretty.js:89386-89388"
+      ]
+    },
+    "walkable": "wall: no. liquid with dmg (lava/poison/spark): no for all. water/swamp/ice: yes. solid props block.",
+    "_src": [
+      "app.pretty.js:85569-85575",
+      "app.pretty.js:85599-85647"
+    ]
+  },
+  "liquids": {
+    "water": {
+      "slow": 0.6,
+      "immune": [
+        "water"
+      ],
+      "_src": [
+        "app.pretty.js:85434-85437"
+      ],
+      "playerDamagePerTick": null,
+      "enemyDamagePerTick": null
+    },
+    "swamp": {
+      "slow": 0.45,
+      "immune": [
+        "water"
+      ],
+      "_src": [
+        "app.pretty.js:85438-85441"
+      ],
+      "playerDamagePerTick": null,
+      "enemyDamagePerTick": null
+    },
+    "lava": {
+      "dmg": 0.06,
+      "flat": 5,
+      "every": 0.5,
+      "color": "#ff8a3d",
+      "immune": [
+        "fire"
+      ],
+      "_src": [
+        "app.pretty.js:85442-85448",
+        "app.pretty.js:88088-88089",
+        "app.pretty.js:87057-87060"
+      ],
+      "playerDamagePerTick": "max(5, maxHp * 0.06 * 0.5) every 0.5s",
+      "enemyDamagePerTick": "6 + 0.04 * maxHp every 0.5s"
+    },
+    "poison": {
+      "dmg": 0.035,
+      "flat": 3,
+      "every": 0.5,
+      "color": "#c86bdc",
+      "immune": [
+        "poison",
+        "steel"
+      ],
+      "_src": [
+        "app.pretty.js:85449-85455",
+        "app.pretty.js:88088-88089",
+        "app.pretty.js:87057-87060"
+      ],
+      "playerDamagePerTick": "max(3, maxHp * 0.035 * 0.5) every 0.5s",
+      "enemyDamagePerTick": "6 + 0.04 * maxHp every 0.5s"
+    },
+    "spark": {
+      "dmg": 0.045,
+      "flat": 4,
+      "every": 0.7,
+      "color": "#ffe14d",
+      "immune": [
+        "electric",
+        "ground"
+      ],
+      "_src": [
+        "app.pretty.js:85456-85462",
+        "app.pretty.js:88088-88089",
+        "app.pretty.js:87057-87060"
+      ],
+      "playerDamagePerTick": "max(4, maxHp * 0.045 * 0.5) every 0.7s",
+      "enemyDamagePerTick": "6 + 0.04 * maxHp every 0.7s"
+    },
+    "ice": {
+      "slide": true,
+      "immune": [
+        "ice"
+      ],
+      "_src": [
+        "app.pretty.js:85463-85466"
+      ],
+      "playerDamagePerTick": null,
+      "enemyDamagePerTick": null
+    }
+  },
+  "typeTerrain": {
+    "rows": [
+      {
+        "type": "normal",
+        "liquidImmune": [],
+        "weatherBoost": [],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "fire",
+        "liquidImmune": [
+          "lava"
+        ],
+        "weatherBoost": [
+          "sun x1.5"
+        ],
+        "weatherReduce": [
+          "rain x0.5"
+        ],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "water",
+        "liquidImmune": [
+          "water",
+          "swamp"
+        ],
+        "weatherBoost": [
+          "rain x1.5"
+        ],
+        "weatherReduce": [
+          "sun x0.5"
+        ],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "electric",
+        "liquidImmune": [
+          "spark"
+        ],
+        "weatherBoost": [
+          "rain x1.2"
+        ],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "grass",
+        "liquidImmune": [],
+        "weatherBoost": [],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "ice",
+        "liquidImmune": [
+          "ice"
+        ],
+        "weatherBoost": [
+          "snow x1.5"
+        ],
+        "weatherReduce": [],
+        "weatherSafe": [
+          "snow"
+        ],
+        "weatherHurts": [
+          "sand"
+        ],
+        "snowSlowsNonIce": false
+      },
+      {
+        "type": "fighting",
+        "liquidImmune": [],
+        "weatherBoost": [],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "poison",
+        "liquidImmune": [
+          "poison"
+        ],
+        "weatherBoost": [],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "ground",
+        "liquidImmune": [
+          "spark"
+        ],
+        "weatherBoost": [
+          "sand x1.3"
+        ],
+        "weatherReduce": [],
+        "weatherSafe": [
+          "sand"
+        ],
+        "weatherHurts": [
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "flying",
+        "liquidImmune": [],
+        "weatherBoost": [],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "psychic",
+        "liquidImmune": [],
+        "weatherBoost": [
+          "fog x1.3"
+        ],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "bug",
+        "liquidImmune": [],
+        "weatherBoost": [],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "rock",
+        "liquidImmune": [],
+        "weatherBoost": [
+          "sand x1.3"
+        ],
+        "weatherReduce": [],
+        "weatherSafe": [
+          "sand"
+        ],
+        "weatherHurts": [
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "ghost",
+        "liquidImmune": [],
+        "weatherBoost": [
+          "fog x1.3"
+        ],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "dragon",
+        "liquidImmune": [],
+        "weatherBoost": [],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "dark",
+        "liquidImmune": [],
+        "weatherBoost": [],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "steel",
+        "liquidImmune": [
+          "poison"
+        ],
+        "weatherBoost": [
+          "sand x1.3"
+        ],
+        "weatherReduce": [],
+        "weatherSafe": [
+          "sand"
+        ],
+        "weatherHurts": [
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      },
+      {
+        "type": "fairy",
+        "liquidImmune": [],
+        "weatherBoost": [
+          "fog x1.3"
+        ],
+        "weatherReduce": [],
+        "weatherSafe": [],
+        "weatherHurts": [
+          "sand",
+          "snow"
+        ],
+        "snowSlowsNonIce": true
+      }
+    ],
+    "_src": [
+      "app.pretty.js:85433-85466",
+      "app.pretty.js:90071-90078",
+      "app.pretty.js:89959-89961"
+    ]
+  },
+  "typeEffectiveness": {
+    "mapping": {
+      "0": 0.3,
+      "2": 1.6,
+      "0.5": 0.6
+    },
+    "clamp": [
+      0.3,
+      2.4
+    ],
+    "label": {
+      "super": "mult > 1.05",
+      "weak": "mult < 0.95"
+    },
+    "crit": 1.5,
+    "stab": "程式碼未見（grep stab/sameType 無結果）",
+    "typeChartSource": "CHART at 82412-82574 (Types.json CHART mirrors it)",
+    "_src": [
+      "app.pretty.js:82412-82574",
+      "app.pretty.js:82570-82574",
+      "app.pretty.js:82577-82586",
+      "app.pretty.js:88575-88578",
+      "app.pretty.js:88027-88028",
+      "app.pretty.js:88519"
+    ]
+  },
+  "hiddenTraitNote": {
+    "text": "程式碼未見名為『隱藏特性』的屬性機制。G.TRAIT_TEXT 為寶可夢個性描述。",
+    "_src": [
+      "app.pretty.js:82709"
+    ]
+  },
+  "props": {
+    "tree": {
+      "solid": true,
+      "hp": null,
+      "destructible": false,
+      "radius": 13,
+      "flat": false,
+      "_src": [
+        "app.pretty.js:85360-85364"
+      ]
+    },
+    "rock": {
+      "solid": true,
+      "hp": 34,
+      "destructible": true,
+      "radius": 12,
+      "_src": [
+        "app.pretty.js:85365-85368"
+      ]
+    },
+    "chest": {
+      "solid": true,
+      "hp": 22,
+      "destructible": true,
+      "radius": 12,
+      "_src": [
+        "app.pretty.js:85370-85374"
+      ]
+    },
+    "grass": {
+      "solid": false,
+      "hp": 1,
+      "destructible": true,
+      "radius": 14,
+      "_src": [
+        "app.pretty.js:85375-85379"
+      ]
+    },
+    "altar": {
+      "solid": true,
+      "hp": null,
+      "destructible": false,
+      "radius": 9,
+      "flat": false,
+      "kinds": 4,
+      "_src": [
+        "app.pretty.js:85380-85384",
+        "app.pretty.js:85346",
+        "app.pretty.js:85752-85754"
+      ]
+    },
+    "spring": {
+      "solid": false,
+      "hp": null,
+      "destructible": false,
+      "radius": 22,
+      "flat": true,
+      "_src": [
+        "app.pretty.js:85385-85390"
+      ]
+    },
+    "bigchest": {
+      "solid": true,
+      "hp": null,
+      "destructible": false,
+      "radius": 14,
+      "_src": [
+        "app.pretty.js:85391-85395"
+      ]
+    },
+    "trap": {
+      "solid": false,
+      "hp": null,
+      "destructible": false,
+      "radius": 9,
+      "flat": true,
+      "kinds": 3,
+      "_src": [
+        "app.pretty.js:85396-85401",
+        "app.pretty.js:85346"
+      ]
+    }
+  },
+  "propsSpawnOuterWorld": {
+    "eligible": "tile is floor AND hypot(x,y) >= 7 AND not in broken-set (y)",
+    "_src": [
+      "app.pretty.js:85321-85322",
+      "app.pretty.js:85324-85328"
+    ],
+    "specialRule": "3x3 all floor AND hypot > 12 AND f < 0.0032 (f = hash(x,y,909))",
+    "_src2": [
+      "app.pretty.js:85346"
+    ],
+    "specials": {
+      "altar": {
+        "ratePerEligibleTile": 0.0004,
+        "rule": "f < 0.0004",
+        "kind": "floor(hash*4) -> 0..3",
+        "_src": [
+          "app.pretty.js:85346",
+          "app.pretty.js:85347"
+        ]
+      },
+      "spring": {
+        "ratePerEligibleTile": 0.0004,
+        "rule": "0.0004 <= f < 0.0008",
+        "_src": [
+          "app.pretty.js:85346"
+        ]
+      },
+      "bigchest": {
+        "ratePerEligibleTile": 0.0003,
+        "rule": "0.0008 <= f < 0.0011",
+        "_src": [
+          "app.pretty.js:85346"
+        ]
+      },
+      "trap": {
+        "ratePerEligibleTile": 0.0021,
+        "rule": "0.0011 <= f < 0.0032",
+        "kind": "floor(hash*3) -> 0..2 (poison, grass, fire)",
+        "_src": [
+          "app.pretty.js:85346",
+          "app.pretty.js:89317-89322"
+        ]
+      }
+    },
+    "regulars": {
+      "tree": {
+        "rule": "3x3 floor AND l < 0.07 (forest patch: p(x/10,y/10,seed+505) > 0.6) else l < 0.006",
+        "ratePerEligibleTile": "0.07 or 0.006 (depends on patch)",
+        "_src": [
+          "app.pretty.js:85346"
+        ]
+      },
+      "rock": {
+        "rule": "3x3 floor AND l > 0.992",
+        "ratePerEligibleTile": 0.008,
+        "_src": [
+          "app.pretty.js:85346"
+        ]
+      },
+      "chest": {
+        "rule": "3x3 floor AND 0.985 < l <= 0.992 AND hash(606) < 0.07",
+        "ratePerEligibleTile": 0.00049,
+        "_src": [
+          "app.pretty.js:85346"
+        ]
+      },
+      "grass": {
+        "rule": "p(x/5,y/5,seed+707) > 0.66 AND hash(808) < 0.75 (no 3x3 requirement)",
+        "ratePerEligibleTile": "0.75 inside grass-noise regions; region share 程式碼未明確",
+        "_src": [
+          "app.pretty.js:85346"
+        ]
+      }
+    },
+    "precedence": "special roll first; if not special then tree/rock/chest/grass chain",
+    "_src3": [
+      "app.pretty.js:85346"
+    ]
+  },
+  "propsSpawnArena": {
+    "zone": "distance < r + 9 (r = 11): arena branch replaces outer rules; props only if distance < r - 1.2 and not corridor",
+    "rules": {
+      "tree": "3x3 floor AND hash(777) < theme.props.tree",
+      "rock": "3x3 floor AND theme.props.tree <= hash(777) < tree + rock",
+      "grass": "hash(777) > 1 - theme.props.grass (no 3x3 requirement)"
+    },
+    "noSpecials": true,
+    "_src": [
+      "app.pretty.js:85332-85336",
+      "app.pretty.js:85330-85331",
+      "app.pretty.js:85358"
+    ]
+  },
+  "dropTables": {
+    "grass": {
+      "trigger": "break (hp 1)",
+      "roll": "single Math.random() = e",
+      "outcomes": [
+        {
+          "when": "e < 0.05",
+          "effect": "heal pickup",
+          "p": 0.05
+        },
+        {
+          "when": "0.05 <= e < 0.11",
+          "effect": "coin pickup value 1",
+          "p": 0.06
+        },
+        {
+          "when": "e >= 0.11",
+          "effect": "nothing",
+          "p": 0.89
+        }
+      ],
+      "_src": [
+        "app.pretty.js:85496-85499"
+      ]
+    },
+    "rock": {
+      "trigger": "break (hp 34)",
+      "roll": "single Math.random() = e (outcomes are not exclusive for e > 0.94)",
+      "outcomes": [
+        {
+          "when": "e < 0.40",
+          "effect": "dropXp(6) -> xp pickup value 6",
+          "p": 0.4
+        },
+        {
+          "when": "e > 0.75",
+          "effect": "coin pickup value 2",
+          "p": 0.25,
+          "note": "also true when e > 0.94"
+        },
+        {
+          "when": "e > 0.94",
+          "effect": "heal pickup at x+8",
+          "p": 0.06,
+          "note": "coin also dropped (e > 0.75)"
+        }
+      ],
+      "_src": [
+        "app.pretty.js:85501-85505"
+      ]
+    },
+    "chest": {
+      "trigger": "break (hp 22)",
+      "effects": [
+        "randInt(4,7) coin pickups, value 3 each (inclusive)",
+        "50%: heal pickup, 50%: magnet pickup",
+        "dropXp(20) -> xpBig (20 >= 20)",
+        "8%: item pickup G.Items.roll() at (x, y-12)"
+      ],
+      "_src": [
+        "app.pretty.js:85506-85511"
+      ]
+    },
+    "bigchest": {
+      "trigger": "open timer reaches 3.5 s (see interaction)",
+      "effects": [
+        "9 coin pickups, value 4 each",
+        "randInt(1,3) ticket pickups, value 1 each (inclusive)",
+        "15%: ticket10 pickup, value 1",
+        "50%: item pickup G.Items.roll() at (x+14, y-14)",
+        "dropXp(G.Game.levelXp())",
+        "G.Progress.event('chest')"
+      ],
+      "_src": [
+        "app.pretty.js:85512-85518"
+      ]
+    },
+    "pickupSemantics": {
+      "heal": "local collector: heal 0.3 * maxHp",
+      "magnet": "pullAll()",
+      "coin": "coins += value",
+      "ticket": "t1 += 1",
+      "ticket10": "t10 += 1 (banner '¡Ticket ×10!')",
+      "xp": "gainXp(value)",
+      "_src": [
+        "app.pretty.js:95168-95180"
+      ]
+    }
+  },
+  "interaction": {
+    "altar": {
+      "activation": "not used AND player alive AND dist2 < max(30, 9 + player.r + 14)^2 (player.r = bodyRadius(dex), species-dependent)",
+      "once": true,
+      "grants": "one power for 25 s",
+      "_src": [
+        "app.pretty.js:89307",
+        "app.pretty.js:89292-89295",
+        "app.pretty.js:85380-85384",
+        "app.pretty.js:87861"
+      ]
+    },
+    "spring": {
+      "rangeCheck": "dist2 <= 676 (26 px) from (x, y-8)",
+      "recharge": "charge += dt/45 (always, when charge < 1)",
+      "heal": "hp = min(maxHp, hp + 0.14 * maxHp * dt) while charge > 0.02 and hp < maxHp and alive",
+      "drain": "charge -= 0.09 * dt during heal (from full: about 10.9 s)",
+      "dryMessage": "El manantial se ha secado (se recarga solo)",
+      "_src": [
+        "app.pretty.js:89283-89290",
+        "app.pretty.js:89301"
+      ]
+    },
+    "bigchest": {
+      "openRange": "dist2 < max(46, 14 + player.r + 24)^2 and alive",
+      "openTime": 3.5,
+      "decay": "out of range or dead: open = max(0, open - 1.5 * dt)",
+      "constant": "CHEST_TIME = 3.5",
+      "_src": [
+        "app.pretty.js:89309-89311",
+        "app.pretty.js:89340"
+      ]
+    },
+    "trap": {
+      "trigger": "player alive and dist2 < 169 (13 px) from (x, y-8), OR host and a non-flying non-remote enemy within radius 3",
+      "kinds": {
+        "poison": {
+          "color": "#c86bdc",
+          "enemies": "radius 74: applyPoison(5) + hurt(14 + 3*level)",
+          "player": "dist2 < 2683.24 (51.8 px): hurt(0.1*maxHp)"
+        },
+        "grass": {
+          "color": "#8bd94a",
+          "enemies": "radius 74: applySlow(0.65, 4.5) + hurt(4)",
+          "player": "dist2 < 2683.24: slowT = 3.5 ('¡Pegajoso!'), no damage"
+        },
+        "fire": {
+          "color": "#ff7b3d",
+          "enemies": "radius 74: hurt(90 + 18*level, knockback 220)",
+          "player": "dist2 < 2683.24: hurt(0.2*maxHp)"
+        }
+      },
+      "level": "player.level, or 1 when no player",
+      "_src": [
+        "app.pretty.js:89312-89313",
+        "app.pretty.js:89317-89323",
+        "app.pretty.js:89332-89337",
+        "app.pretty.js:85519"
+      ]
+    }
+  },
+  "powers": [
+    {
+      "kind": 0,
+      "id": "dmg",
+      "nameEs": "Furia",
+      "nameZh": "狂怒",
+      "descEs": "daño ×2",
+      "descZh": "傷害 ×2",
+      "color": "#ff5f6d",
+      "effect": "atkMul ×2",
+      "durationSec": 25,
+      "_src": [
+        "app.pretty.js:89234-89243"
+      ]
+    },
+    {
+      "kind": 1,
+      "id": "spd",
+      "nameEs": "Rayo",
+      "nameZh": "迅雷",
+      "descEs": "+45% velocidad",
+      "descZh": "移動速度 +45%",
+      "color": "#5fd4ff",
+      "effect": "spdMul ×1.45",
+      "durationSec": 25,
+      "_src": [
+        "app.pretty.js:89246-89254"
+      ]
+    },
+    {
+      "kind": 2,
+      "id": "mag",
+      "nameEs": "Imán",
+      "nameZh": "磁吸",
+      "descEs": "atraes todo desde lejos",
+      "descZh": "從遠處吸引所有拾取物",
+      "color": "#ff8ad8",
+      "effect": "magnet ×4 (player.magnet base 78 * magnetMul)",
+      "durationSec": 25,
+      "_src": [
+        "app.pretty.js:89257-89265",
+        "app.pretty.js:87861"
+      ]
+    },
+    {
+      "kind": 3,
+      "id": "cd",
+      "nameEs": "Prisa",
+      "nameZh": "急速",
+      "descEs": "-40% recarga",
+      "descZh": "冷卻時間 -40%",
+      "color": "#ffd23f",
+      "effect": "cdMul ×0.6 (cooldown = max(0.05, cd * cdMul))",
+      "durationSec": 25,
+      "_src": [
+        "app.pretty.js:89268-89276",
+        "app.pretty.js:88146-88149"
+      ]
+    }
+  ],
+  "powerRules": {
+    "oneAtATime": "addPower: if a power is active its off() runs, then the new on(); no stacking",
+    "timer": "power.t -= dt; at <= 0 off() and power = null",
+    "_src": [
+      "app.pretty.js:88060-88063",
+      "app.pretty.js:88082",
+      "app.pretty.js:89295"
+    ]
+  },
+  "weather": {
+    "kinds": [
+      {
+        "id": "sun",
+        "nameEs": "Sol abrasador",
+        "nameZh": "烈日",
+        "hintEs": "el Fuego se potencia y el Agua se debilita",
+        "hintZh": "火屬性增強，水屬性減弱",
+        "tint": [
+          255,
+          190,
+          90,
+          0.07
+        ],
+        "color": "#ffcb3d",
+        "mult": {
+          "fire": 1.5,
+          "water": 0.5
+        },
+        "safe": null,
+        "slow": false,
+        "hurts": false,
+        "_src": [
+          "app.pretty.js:89872-89881"
+        ]
+      },
+      {
+        "id": "rain",
+        "nameEs": "Lluvia",
+        "nameZh": "降雨",
+        "hintEs": "el Agua se potencia y el Fuego se debilita",
+        "hintZh": "水屬性增強，火屬性減弱",
+        "tint": [
+          50,
+          90,
+          170,
+          0.09
+        ],
+        "color": "#7fb8ff",
+        "mult": {
+          "water": 1.5,
+          "electric": 1.2,
+          "fire": 0.5
+        },
+        "safe": null,
+        "slow": false,
+        "hurts": false,
+        "_src": [
+          "app.pretty.js:89883-89893"
+        ]
+      },
+      {
+        "id": "sand",
+        "nameEs": "Tormenta de arena",
+        "nameZh": "沙暴",
+        "hintEs": "Roca, Tierra y Acero se potencian; el resto sufre",
+        "hintZh": "岩石、地面、鋼屬性增強；其餘屬性受傷",
+        "tint": [
+          200,
+          160,
+          90,
+          0.09
+        ],
+        "color": "#e0bf73",
+        "mult": {
+          "rock": 1.3,
+          "ground": 1.3,
+          "steel": 1.3
+        },
+        "safe": [
+          "rock",
+          "ground",
+          "steel"
+        ],
+        "slow": false,
+        "hurts": true,
+        "_src": [
+          "app.pretty.js:89895-89906"
+        ]
+      },
+      {
+        "id": "snow",
+        "nameEs": "Nevada",
+        "nameZh": "降雪",
+        "hintEs": "el Hielo se potencia; el resto sufre y va más lento",
+        "hintZh": "冰屬性增強；其餘屬性受傷且移動變慢",
+        "tint": [
+          210,
+          230,
+          255,
+          0.08
+        ],
+        "color": "#d8f1ff",
+        "mult": {
+          "ice": 1.5
+        },
+        "safe": [
+          "ice"
+        ],
+        "slow": true,
+        "hurts": true,
+        "_src": [
+          "app.pretty.js:89908-89918"
+        ]
+      },
+      {
+        "id": "fog",
+        "nameEs": "Niebla",
+        "nameZh": "濃霧",
+        "hintEs": "Fantasma, Hada y Psíquico se potencian",
+        "hintZh": "幽靈、妖精、超能力屬性增強",
+        "tint": [
+          190,
+          195,
+          210,
+          0.12
+        ],
+        "color": "#c9cfdc",
+        "mult": {
+          "ghost": 1.3,
+          "fairy": 1.3,
+          "psychic": 1.3
+        },
+        "safe": null,
+        "slow": false,
+        "hurts": false,
+        "_src": [
+          "app.pretty.js:89920-89930"
+        ]
+      }
+    ],
+    "schedule": {
+      "tables": [
+        {
+          "index": 0,
+          "weights": {
+            "rain": 3,
+            "fog": 2,
+            "sun": 1.5,
+            "snow": 0.5,
+            "sand": 0.5
+          },
+          "biomes": "0,3,6,...,18"
+        },
+        {
+          "index": 1,
+          "weights": {
+            "fog": 3,
+            "snow": 2.5,
+            "rain": 1,
+            "sand": 1
+          },
+          "biomes": "1,4,7,...,19"
+        },
+        {
+          "index": 2,
+          "weights": {
+            "sun": 3,
+            "sand": 3,
+            "fog": 1
+          },
+          "biomes": "2,5,8,...,20"
+        }
+      ],
+      "selection": "table = e[biomeIndex % 3]; weighted random over weights (unnormalised); fallback 'rain'",
+      "_src": [
+        "app.pretty.js:89933-89948",
+        "app.pretty.js:90027-90033"
+      ]
+    },
+    "trigger": {
+      "conditions": "host or solo AND elapsed > 120 s AND no active weather AND not in arena",
+      "timer": "60 s, decreases only when conditions hold; at <= 0: reset 60 and roll",
+      "chance": 0.18,
+      "duration": "round(rand(55, 75)) s",
+      "_src": [
+        "app.pretty.js:90025-90035"
+      ]
+    },
+    "intensity": {
+      "formula": "min(1, t/3, (dur - t)/3)",
+      "note": "3 s fade in and out",
+      "_src": [
+        "app.pretty.js:89959-89961"
+      ]
+    },
+    "multiplier": {
+      "formula": "1 + (mult - 1) * intensity",
+      "_src": [
+        "app.pretty.js:90071-90074",
+        "app.pretty.js:88028",
+        "app.pretty.js:88519"
+      ]
+    },
+    "damage": {
+      "playerTick": {
+        "every": 2,
+        "condition": "player hurts(types) AND intensity > 0.5",
+        "amount": "max(1, 0.012 * maxHp)",
+        "guard": "applied only if hp > amount + 1",
+        "_src": [
+          "app.pretty.js:90037-90041"
+        ]
+      },
+      "enemyTick": {
+        "every": 2,
+        "host": true,
+        "condition": "kind has safe list AND intensity > 0.5",
+        "targets": "non-dead, non-remote, non-boss enemies with hurting types",
+        "amount": "0.02 * maxHp + 1",
+        "_src": [
+          "app.pretty.js:90042-90043"
+        ]
+      },
+      "hurtsRule": "hurts(types) = kind has safe AND no type in safe",
+      "_src2": [
+        "app.pretty.js:89963-89966"
+      ]
+    },
+    "speed": {
+      "rule": "if kind.slow AND types do not include ice: speed *= 1 - 0.1 * intensity",
+      "_src": [
+        "app.pretty.js:90075-90078",
+        "app.pretty.js:87063",
+        "app.pretty.js:87896-87900"
+      ]
+    },
+    "visibility": {
+      "fogVignette": "vignette = intensity for fog, else 0 (radial gradient overlay)",
+      "_src": [
+        "app.pretty.js:90088-90089",
+        "app.pretty.js:95256-95258"
+      ],
+      "tint": "full-screen fill rgba(tint, tint_alpha * intensity)",
+      "_src2": [
+        "app.pretty.js:90046-90051"
+      ],
+      "viewDistance": "程式碼未明確（未找到改變視野距離的設定）"
+    },
+    "arena": {
+      "forcedOnEnter": "if theme.weather != null: Weather.force(weather, 135)",
+      "clearOnExit": true,
+      "neverRolledInside": true,
+      "_src": [
+        "app.pretty.js:89445",
+        "app.pretty.js:89501",
+        "app.pretty.js:90026"
+      ]
+    },
+    "messages": "start banner: name + ': ' + hint, 3.4 s, sfx biome",
+    "_src2b": [
+      "app.pretty.js:89968-89976"
+    ]
+  },
+  "hazards": {
+    "kinds": {
+      "zone": {
+        "shape": "circle",
+        "hit": "dist2 < (r + 0.6 * playerR)^2"
+      },
+      "beam": {
+        "shape": "rotated rectangle",
+        "hit": "along-axis in [-R, len + R] and |across| <= w/2 + 0.6 * R"
+      }
+    },
+    "lifecycle": {
+      "delay": "warning time before hit (t >= delay)",
+      "resolveOnce": true,
+      "end": 0.3,
+      "removeAt": "delay + end",
+      "_src": [
+        "app.pretty.js:90396-90401",
+        "app.pretty.js:90419-90425"
+      ]
+    },
+    "damage": "player.invuln = 0; player.hurt(dmg, type); final = dmg * Types.mult(type) * Weather.mult(type); only the local player is damaged",
+    "_src2": [
+      "app.pretty.js:90420",
+      "app.pretty.js:88027-88028",
+      "app.pretty.js:90378-90386"
+    ],
+    "sources": [
+      {
+        "id": "boss.slam",
+        "owner": "boss",
+        "shape": "zone",
+        "radius": "96 + boss.r",
+        "delay": "0.85 * r (r = 0.8 when enraged, else 1)",
+        "dmg": "1.3 * dmg",
+        "_src": [
+          "app.pretty.js:87185-87197",
+          "app.pretty.js:87170-87180"
+        ]
+      },
+      {
+        "id": "boss.dash",
+        "owner": "boss",
+        "shape": "beam",
+        "len": "330 + boss.r",
+        "width": "2 * boss.r + 16",
+        "delay": "0.75 * r + 0.32",
+        "dmg": "1.2 * dmg",
+        "_src": [
+          "app.pretty.js:87198-87213"
+        ]
+      },
+      {
+        "id": "boss.leap",
+        "owner": "boss",
+        "shape": "zone",
+        "radius": 82,
+        "at": "target position at cast start",
+        "delay": "0.5 * r + 0.65",
+        "dmg": "1.25 * dmg",
+        "_src": [
+          "app.pretty.js:87214-87234"
+        ]
+      },
+      {
+        "id": "boss.rain",
+        "owner": "boss",
+        "shape": "zone x N",
+        "count": "4 (6 when enraged)",
+        "radius": 50,
+        "delay": "1.05 + 0.12 * index",
+        "dmg": "1.15 * shotDmg",
+        "_src": [
+          "app.pretty.js:87235-87253"
+        ]
+      },
+      {
+        "id": "boss.beam",
+        "owner": "boss",
+        "shape": "beam x N",
+        "count": "3 (5 when enraged)",
+        "spacing": "0.5 rad (0.42 when enraged)",
+        "len": 400,
+        "width": 26,
+        "delay": 1,
+        "dmg": "1.2 * shotDmg",
+        "_src": [
+          "app.pretty.js:87254-87273"
+        ]
+      },
+      {
+        "id": "enemy.beamer",
+        "owner": "enemy",
+        "shape": "beam",
+        "len": 360,
+        "width": 22,
+        "delay": 1,
+        "dmg": "1.05 * shotDmg",
+        "_src": [
+          "app.pretty.js:87344-87357"
+        ]
+      },
+      {
+        "id": "enemy.zoner",
+        "owner": "enemy",
+        "shape": "zone x N",
+        "count": "randInt(1, zones), zones = 1 (tier 0-1), 2 (tier 2-3), 3 (tier 4-5)",
+        "radius": 44,
+        "delay": 1.2,
+        "dmg": "0.95 * shotDmg",
+        "_src": [
+          "app.pretty.js:87360-87371",
+          "app.pretty.js:83105"
+        ]
+      },
+      {
+        "id": "enemy.bomber",
+        "owner": "enemy",
+        "shape": "zone",
+        "radius": 62,
+        "delay": 1,
+        "dmg": "1.4 * dmg",
+        "trigger": "fuse starts when distance < enemy.r + target.r + 26",
+        "_src": [
+          "app.pretty.js:87086",
+          "app.pretty.js:87421-87431"
+        ]
+      },
+      {
+        "id": "enemy.jumper",
+        "owner": "enemy",
+        "shape": "zone",
+        "radius": 50,
+        "at": "target position",
+        "delay": 1.05,
+        "dmg": "1.2 * dmg",
+        "trigger": "distance < 250 starts jump (jump duration 0.6)",
+        "_src": [
+          "app.pretty.js:87087-87091",
+          "app.pretty.js:87433-87455"
+        ]
+      }
+    ],
+    "shotDmg": "(def.shotDmg || 10) * (dmg / def.dmg)",
+    "_src3": [
+      "app.pretty.js:87311-87312"
+    ]
+  },
+  "arena": {
+    "timeLimitSec": 120,
+    "_src": [
+      "app.pretty.js:89343",
+      "app.pretty.js:89495-89496"
+    ],
+    "spawnRoll": {
+      "start": "elapsed > 75 s (host or solo)",
+      "timer": 30,
+      "gate": "no marker, no arena, boss not alive",
+      "chance": "0.2 * (1 + failures); failures reset on success (20/40/60/80/100%, no cap)",
+      "_src": [
+        "app.pretty.js:89475-89477"
+      ]
+    },
+    "marker": {
+      "placement": "anchor = random alive participant (or player); 24 tries: angle random, distance rand(380,560) px, y * 0.85; accept first with isFree(x,y,22)",
+      "ttl": 45,
+      "activation": "player dist2 < 900 (30 px) from (x, y-10) and not yet activated",
+      "_src": [
+        "app.pretty.js:89353-89363",
+        "app.pretty.js:89365-89372",
+        "app.pretty.js:89468-89474"
+      ]
+    },
+    "legendPool": {
+      "source": "G.DEX entries with leg flag AND SPRITE_META present",
+      "weight": "1 if already recorded in save.legends, else 4",
+      "pick": "weighted random",
+      "_src": [
+        "app.pretty.js:89378-89384"
+      ]
+    },
+    "arenaObject": {
+      "center": "tx, ty = 5000 + floor(3000 * rand)",
+      "radiusTiles": 11,
+      "type": "argument or uniform pick from legend species types",
+      "shinyChance": "1/512 if sprite has shiny",
+      "_src": [
+        "app.pretty.js:89386-89393"
+      ]
+    },
+    "boss": {
+      "hp": "round((3200 + 9T) * s * scaleHp(n) * (n > 1 ? 1.4 : 1))",
+      "speed": "round(clamp(48 + 0.6*(spd - 78), 48, 105))",
+      "dmg": "round((36 + T/20) * s^0.7)",
+      "xp": "round(500 + 1.2T)",
+      "behavior": "ranged if types include psychic/electric/ghost/fairy/fire/water/ice/dragon else charger",
+      "shotDmg": "round((18 + T/40) * s^0.7)",
+      "shotCd": 0.9,
+      "range": 300,
+      "where": "spawned at (arena.x, arena.y - 3.5 * 32), legend = true, flying = false",
+      "T": "run seconds; s = late(T) = exp(min(30, 374e-6 * max(0, T/60 - 60)^2))",
+      "scaleHp": "1 + 0.3 * (n - 1)",
+      "_src": [
+        "app.pretty.js:89396-89418",
+        "app.pretty.js:83158-83163",
+        "app.pretty.js:91737"
+      ]
+    },
+    "enter": {
+      "saves": "back position, biome, timer",
+      "sets": "World.setArena(tx, ty, r, type); setBiome(arenaBiome(type))",
+      "banner": "'Has entrado en la grieta…' 2.4 s",
+      "_src": [
+        "app.pretty.js:89423-89449",
+        "app.pretty.js:85699-85707"
+      ]
+    },
+    "victory": {
+      "condition": "boss missing or dead",
+      "effects": [
+        "phase won, endT 5 s",
+        "Progress.event('rift')",
+        "Pickups.pullAll()",
+        "participant bonds +1",
+        "banner '¡Vínculo!'"
+      ],
+      "_src": [
+        "app.pretty.js:89452-89459",
+        "app.pretty.js:89494"
+      ]
+    },
+    "defeat": {
+      "condition": "all participants dead for > 1.4 s, or arena time > 120 s",
+      "effects": [
+        "phase lost, endT 1.2 s"
+      ],
+      "_src": [
+        "app.pretty.js:89461-89463",
+        "app.pretty.js:89495-89496"
+      ]
+    },
+    "exit": {
+      "effects": [
+        "setBiome(saved)",
+        "Weather.clear()",
+        "enemies restored",
+        "participants moved back",
+        "dead -> revive(0.3) (30% max hp, invuln 2)",
+        "offerBond if bonds > 0"
+      ],
+      "_src": [
+        "app.pretty.js:89498-89506",
+        "app.pretty.js:88101-88103"
+      ]
+    },
+    "enemyClamp": {
+      "note": "non-remote enemies are projected to radius (r - 1.4) * 32 = 307.2 px around the center during the fight",
+      "_src": [
+        "app.pretty.js:89479-89484"
+      ]
+    },
+    "spawnerFrozen": {
+      "note": "Spawner.update returns while arena is active",
+      "_src": [
+        "app.pretty.js:88854"
+      ]
+    }
+  },
+  "enemySpawn": {
+    "rate": "h(t) = 0.24 * (1.6 + 0.028 * t + 0.5 * (t/60)^1.6) per second, t = run seconds",
+    "coopScale": "rate *= 1 + 0.75 * max(0, players - 1); bossAlive -> rate *= 0.25",
+    "cap": 64,
+    "burstCap": 74,
+    "_src": [
+      "app.pretty.js:82956-83004",
+      "app.pretty.js:83195-83206",
+      "app.pretty.js:88836",
+      "app.pretty.js:88785-88906"
+    ],
+    "tiers": [
+      {
+        "from": 0,
+        "bst": [
+          180,
+          330
+        ]
+      },
+      {
+        "from": 70,
+        "bst": [
+          300,
+          405
+        ]
+      },
+      {
+        "from": 160,
+        "bst": [
+          385,
+          465
+        ]
+      },
+      {
+        "from": 260,
+        "bst": [
+          445,
+          515
+        ]
+      },
+      {
+        "from": 380,
+        "bst": [
+          495,
+          560
+        ]
+      },
+      {
+        "from": 500,
+        "bst": [
+          530,
+          620
+        ]
+      }
+    ],
+    "poolSelection": "bagAt(t): every pool with from <= t contributes each species with weight 10 (3 if t - from > 260); uniform pick",
+    "biomeDependence": "none: spawner and enemy selection never read biome or tiles (grep 82955-83234 and 88785-88906)",
+    "runBosses": {
+      "at": [
+        180,
+        360,
+        540,
+        720,
+        900
+      ],
+      "_src": [
+        "app.pretty.js:83005-83035",
+        "app.pretty.js:88858-88862"
+      ]
+    }
+  },
+  "music": {
+    "tracks": [
+      {
+        "key": "village",
+        "bpm": 100,
+        "line": 1383,
+        "usage": "menus (login, lobby, menu)",
+        "calls": [
+          "app.pretty.js:95435",
+          "app.pretty.js:95438",
+          "app.pretty.js:95441",
+          "app.pretty.js:95444"
+        ]
+      },
+      {
+        "key": "forest",
+        "bpm": 122,
+        "line": 1415,
+        "usage": "run start (G.BIOME_MUSIC[0])",
+        "calls": [
+          "app.pretty.js:95381"
+        ]
+      },
+      {
+        "key": "cave",
+        "bpm": 92,
+        "line": 1445,
+        "usage": "程式碼未明確（未找到呼叫）",
+        "calls": []
+      },
+      {
+        "key": "volcano",
+        "bpm": 132,
+        "line": 1475,
+        "usage": "程式碼未明確（未找到呼叫）",
+        "calls": []
+      },
+      {
+        "key": "boss",
+        "bpm": 150,
+        "line": 1505,
+        "usage": "程式碼未明確（未找到呼叫）",
+        "calls": []
+      },
+      {
+        "key": "rift",
+        "bpm": 164,
+        "line": 1530,
+        "usage": "程式碼未明確（未找到呼叫）",
+        "calls": []
+      }
+    ],
+    "_src": [
+      "app.pretty.js:1382-1383",
+      "app.pretty.js:1559",
+      "app.pretty.js:95381"
+    ]
+  },
+  "source": {
+    "tilesJson": "src/data/game/Tiles.json",
+    "weatherJson": "src/data/game/Weather.json",
+    "typesJson": "src/data/game/Types.json",
+    "biomeMusicJson": "src/data/game/BIOME_MUSIC.json"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-10-13T06:06:27.437Z",
+        "reason": "agent decided: flagged lines are guidebook rule lines (table border-top on unrounded tables, radius-0 mobile tabs, CSS-triangle dial arrows, unrounded list rows, tab swatch fill) — no thick accent border sits on a rounded card"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/layouts/Base.astro"
+        ],
+        "createdAt": "2026-10-13T06:06:27.463Z",
+        "reason": "agent decided: flagged lines are guidebook rule lines (table border-top on unrounded tables, radius-0 mobile tabs, CSS-triangle dial arrows, unrounded list rows, tab swatch fill) — no thick accent border sits on a rounded card"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/pages/pokemon/[dex].astro"
+        ],
+        "createdAt": "2026-10-13T06:06:27.486Z",
+        "reason": "agent decided: flagged lines are guidebook rule lines (table border-top on unrounded tables, radius-0 mobile tabs, CSS-triangle dial arrows, unrounded list rows, tab swatch fill) — no thick accent border sits on a rounded card"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/pages/moves/[id].astro"
+        ],
+        "createdAt": "2026-10-13T06:06:27.507Z",
+        "reason": "agent decided: flagged lines are guidebook rule lines (table border-top on unrounded tables, radius-0 mobile tabs, CSS-triangle dial arrows, unrounded list rows, tab swatch fill) — no thick accent border sits on a rounded card"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/pages/index.astro"
+        ],
+        "createdAt": "2026-10-13T06:06:27.526Z",
+        "reason": "agent decided: flagged lines are guidebook rule lines (table border-top on unrounded tables, radius-0 mobile tabs, CSS-triangle dial arrows, unrounded list rows, tab swatch fill) — no thick accent border sits on a rounded card"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/pages/changelog/index.astro"
+        ],
+        "createdAt": "2026-10-13T06:25:45.598Z",
+        "reason": "agent decided: border-left is the changelog timeline spine on an unrounded list, not a card accent"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/pages/index.astro"
+        ],
+        "createdAt": "2026-10-13T06:25:45.619Z",
+        "reason": "agent decided: h1::after is the guidebook title underline bar, part of the committed 完全攻略本 world"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/types/Calc.astro"
+        ],
+        "createdAt": "2026-10-13T06:25:45.640Z",
+        "reason": "agent decided: .none empty-state uses the site's table top rule and has no border-radius"
+      }
+    ]
+  }
+}

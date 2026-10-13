@@ -1,0 +1,156 @@
+---
+// 一場的時間線：橫軸 0:00 到 16:00（執行時間），列出出怪梯次、首領、裂隙判定、天氣、隨機事件、大潮與晚期強化。
+// 所有位置都由 src/data 的數值計算；幾何外的文字與數值都在動畫開始前就可見，動畫只是把色帶由左到右畫出來。
+import { TIERS, BOSS_AT, D, LATE_FROM } from './model';
+import { mmss } from '../../lib/game';
+
+const TMAX = 960; // 16:00，單位：秒
+const W = 900, X0 = 140, X1 = 760;
+const LANE = 62, TOP = 8;
+const LANES = ['出怪梯次', '首領', '裂隙判定', '天氣判定', '隨機事件', '大潮', '晚期強化'];
+const x = (t: number) => X0 + (t / TMAX) * (X1 - X0);
+const ly = (i: number) => TOP + i * LANE;   // 泳道頂端
+const my = (i: number) => ly(i) + 31;       // 泳道中線（圖形列）
+const yAxis = TOP + LANES.length * LANE + 10;
+const H = yAxis + 58;
+const minutes = Array.from({ length: 17 }, (_, m) => m);
+
+const tiers = TIERS.map((t, i) => ({ i, from: t.from, to: i + 1 < TIERS.length ? TIERS[i + 1].from : TMAX }));
+const bosses = BOSS_AT.map((at, k) => ({ at, k: k + 1 }));
+const ladder: { firstCheckAtRunSec: number; chance: number }[] = D.rift.ladder;
+const riftFirst = ladder[0].firstCheckAtRunSec;
+const riftLast = ladder[ladder.length - 1].firstCheckAtRunSec;
+const riftGap = D.rift.checkIntervalSec as number;
+const riftMustLast = ladder[ladder.length - 1].chance >= 1;
+const weatherStart = D.weather.startsAfterRunSec as number;
+const weatherRoll = D.weather.rollEverySec as number;
+const weatherPct = Math.round(D.weather.rollChance * 100);
+// 天氣的計時器從執行 120 秒才開始倒數，初值 60 秒，所以第一次判定在 180 秒（3:00）
+const weatherFirst = weatherStart + weatherRoll;
+const weatherRolls = Array.from({ length: Math.floor((TMAX - weatherFirst) / weatherRoll) + 1 }, (_, n) => weatherFirst + n * weatherRoll);
+const thief = D.events.thiefFirstSec as number[];
+const sched = D.events.schedulerIntervalSec as number[];
+const SURGE_FIRST = 32; // 第一次大潮（md：）
+const desc = `橫軸 0:00 到 16:00。出怪梯次於 ${tiers.map(t => mmss(t.from)).join('、')} 開始；首領於 ${bosses.map(b => mmss(b.at)).join('、')} 出現；裂隙判定 ${mmss(riftFirst)} 開始，${mmss(riftLast)} 必出；天氣 ${mmss(weatherStart)} 開始計時。`;
+---
+<div class="en-scroll">
+  <svg class="tl" viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="tl-t tl-d">
+    <title id="tl-t">一場的時間線</title>
+    <desc id="tl-d">{desc}</desc>
+    <defs>
+      <pattern id="tl-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="6" stroke-width="2.2" style="stroke: var(--ink-3)" />
+      </pattern>
+      <marker id="tl-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0 L10 5 L0 10 z" style="fill: var(--ink-2)" />
+      </marker>
+    </defs>
+
+    {minutes.filter(m => m % 2 === 0).map(m => <line class="grid" x1={x(m * 60)} x2={x(m * 60)} y1={TOP} y2={yAxis} />)}
+
+    {LANES.map((name, i) => (
+      <g>
+        <line class="sep" x1="8" x2={W - 8} y1={ly(i)} y2={ly(i)} />
+        <text class="lane" x="8" y={my(i) + 5}>{name}</text>
+      </g>
+    ))}
+    <line class="sep" x1="8" x2={W - 8} y1={ly(LANES.length)} y2={ly(LANES.length)} />
+
+    {/* 0 出怪梯次：色帶長度 = 梯次開始到下一梯次開始 */}
+    {tiers.map(t => (
+      <g>
+        <rect class="ghost" x={x(t.from)} y={my(0) - 7} width={x(t.to) - x(t.from) - 2} height="14" />
+        <rect class:list={['bar', { alt: t.i % 2 === 1 }]} x={x(t.from)} y={my(0) - 7} width={x(t.to) - x(t.from) - 2} height="14" style={`--d:${(t.i * 0.14).toFixed(2)}s`} />
+        <text class="lbl b" x={x(t.from) + 4} y={ly(0) + 15}>梯次 {t.i}</text>
+        <text class="sub" x={x(t.from) + 4} y={ly(0) + 53}>{mmss(t.from)}</text>
+      </g>
+    ))}
+
+    {/* 1 首領：5 個固定時段 */}
+    <line class="rule-line" x1={X0} x2={X1} y1={my(1)} y2={my(1)} />
+    {bosses.map(b => (
+      <g>
+        <path class="dia" d={`M${x(b.at)} ${my(1) - 8} l8 8 l-8 8 l-8 -8 z`} />
+        <text class="lbl b" x={x(b.at) - 8} y={ly(1) + 15}>首領 {b.k}</text>
+        <text class="sub" x={x(b.at) - 8} y={ly(1) + 53}>{mmss(b.at)}</text>
+      </g>
+    ))}
+
+    {/* 2 裂隙判定：每 30 秒一次，第 5 次必出 */}
+    <line class="rift-ghost" x1={x(riftFirst)} x2={x(riftLast)} y1={my(2)} y2={my(2)} />
+    <line class="rift-band" x1={x(riftFirst)} x2={x(riftLast)} y1={my(2)} y2={my(2)} />
+    {ladder.map((l, k) => <circle class:list={['dot', { must: k === ladder.length - 1 && riftMustLast }]} cx={x(l.firstCheckAtRunSec)} cy={my(2)} r="4.5" />)}
+    <text class="lbl b" x={x(riftFirst) - 4} y={ly(2) + 15}>裂隙判定開始 {mmss(riftFirst)}，之後每 {riftGap} 秒</text>
+    <text class="sub" x={x(riftLast) - 4} y={ly(2) + 53}>{mmss(riftLast)} 第 {ladder.length} 次{riftMustLast ? '必出' : ''}</text>
+
+    {/* 3 天氣判定 */}
+    <rect class="hatch" x={x(weatherStart)} y={my(3) - 7} width={X1 - x(weatherStart)} height="14" />
+    {weatherRolls.map(t => <line class="tick" x1={x(t)} x2={x(t)} y1={my(3) - 10} y2={my(3) + 10} />)}
+    <text class="lbl b" x={x(weatherStart) + 4} y={ly(3) + 15}>天氣：{mmss(weatherStart)} 開始計時，之後每 {weatherRoll} 秒判定</text>
+    <text class="sub" x={x(weatherStart) + 4} y={ly(3) + 53}>{mmss(weatherFirst)} 第一次判定，每次成功率 {weatherPct}%</text>
+
+    {/* 4 隨機事件：第一次出現的時間範圍 */}
+    <rect class="thief" x={x(thief[0])} y={my(4) - 7} width={x(thief[1]) - x(thief[0])} height="14" />
+    <rect class="event" x={x(sched[0])} y={my(4) - 7} width={x(sched[1]) - x(sched[0])} height="14" />
+    <text class="lbl b" x={x(thief[0]) + 4} y={ly(4) + 15}>竊盜寶可夢 第一次 {mmss(thief[0])}–{mmss(thief[1])}</text>
+    <text class="sub" x={x(sched[0]) + 4} y={ly(4) + 53}>隨機事件 第一次 {mmss(sched[0])}–{mmss(sched[1])}（群體來襲、黃金時刻或迷路的寶可夢）</text>
+
+    {/* 5 大潮：首次 0:32，之後每 38–56 秒一次 */}
+    <rect class="surge" x={x(SURGE_FIRST)} y={my(5) - 7} width={X1 - x(SURGE_FIRST)} height="14" />
+    <text class="lbl b" x={x(SURGE_FIRST) + 4} y={ly(5) + 15}>大潮：首次 {mmss(SURGE_FIRST)}</text>
+    <text class="sub" x={x(SURGE_FIRST) + 4} y={ly(5) + 53}>之後每 38–56 秒一次；首領存活時暫停</text>
+
+    {/* 6 晚期強化：超出 16:00，以箭頭標示 */}
+    <line class="arrow" x1={X1 + 8} x2={W - 16} y1={my(6)} y2={my(6)} marker-end="url(#tl-arrow)" />
+    <text class="lbl b" x={X1 + 8} y={ly(6) + 15}>{mmss(LATE_FROM * 60)} 晚期強化</text>
+    <text class="sub" x={X1 + 8} y={ly(6) + 53}>見「強度成長」</text>
+
+    {/* 比例尺與刻度 */}
+    <line class="axis-ghost" x1={X0} x2={X1} y1={yAxis} y2={yAxis} />
+    <line class="axis" x1={X0} x2={X1} y1={yAxis} y2={yAxis} />
+    {minutes.map(m => <line class="mtick" x1={x(m * 60)} x2={x(m * 60)} y1={yAxis} y2={yAxis + (m % 2 === 0 ? 7 : 4)} />)}
+    {minutes.filter(m => m % 2 === 0).map(m => <text class="ax" x={x(m * 60)} y={yAxis + 22} text-anchor="middle">{mmss(m * 60)}</text>)}
+    <g class="scale">
+      <line x1={X0} x2={x(300)} y1={yAxis + 42} y2={yAxis + 42} />
+      <line x1={X0} x2={X0} y1={yAxis + 37} y2={yAxis + 47} />
+      <line x1={x(300)} x2={x(300)} y1={yAxis + 37} y2={yAxis + 47} />
+      <text class="sub" x={x(300) + 8} y={yAxis + 46}>比例尺：5 分鐘（刻度每 1 分，標籤每 2 分）</text>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .tl { display: block; width: 100%; min-width: 780px; height: auto; font-family: var(--font); }
+  .grid { stroke: var(--rule); stroke-width: 1; stroke-dasharray: 2 4; }
+  .sep { stroke: var(--rule); stroke-width: 1; }
+  .lane { font-size: 13px; font-weight: 900; fill: var(--ink); }
+  .lbl { font-size: 13px; fill: var(--ink-2); }
+  .lbl.b { font-weight: 800; fill: var(--ink); }
+  .sub { font-size: 12px; fill: var(--ink-3); }
+  .ax { font-size: 12px; fill: var(--ink-2); font-family: var(--num); font-variant-numeric: tabular-nums; }
+
+  .ghost { fill: var(--ch); opacity: .14; }
+  .bar { fill: var(--ch); transform-box: fill-box; transform-origin: left center; animation: tl-draw 1.1s var(--ease) both; animation-delay: var(--d, 0s); }
+  .bar.alt { opacity: .6; }
+  .rule-line { stroke: var(--rule); stroke-width: 2; }
+  .dia { fill: var(--ink); }
+  .rift-ghost { stroke: var(--ink); stroke-width: 2; opacity: .15; }
+  .rift-band { stroke: var(--ink); stroke-width: 2; transform-box: fill-box; transform-origin: left center; animation: tl-draw 1.4s var(--ease) .5s both; }
+  .dot { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+  .dot.must { fill: var(--ink); }
+  .hatch { fill: url(#tl-hatch); opacity: .45; }
+  .tick { stroke: var(--ink-2); stroke-width: 1.5; }
+  .thief { fill: var(--ink); opacity: .8; }
+  .event { fill: var(--ink-3); opacity: .75; }
+  .surge { fill: var(--ink-3); opacity: .3; }
+  .arrow { stroke: var(--ink-2); stroke-width: 2; stroke-dasharray: 5 4; }
+  .axis-ghost { stroke: var(--ink); stroke-width: 2; opacity: .15; }
+  .axis { stroke: var(--ink); stroke-width: 2; transform-box: fill-box; transform-origin: left center; animation: tl-draw 1.2s var(--ease) both; }
+  .mtick { stroke: var(--ink); stroke-width: 1.2; }
+  .scale line { stroke: var(--ink); stroke-width: 1.5; }
+
+  @keyframes tl-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .bar, .rift-band, .axis { animation: none; }
+  }
+</style>

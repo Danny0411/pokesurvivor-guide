@@ -1,0 +1,60 @@
+---
+// 「地圖與天氣」子頁框架：章節頭、子頁籤、本頁目錄都與 Chapter.astro 相同，正文由子頁放進 slot。
+import Base from '../../layouts/Base.astro';
+import { chapterOf } from '../../lib/nav';
+import { url } from '../../lib/game';
+import { WORLD_SUB } from './sub';
+import './world.css';
+interface Props { title: string; summary: string; sections: { id: string; zh: string }[] }
+const { title, summary, sections } = Astro.props;
+const ch = chapterOf('world');
+---
+<Base title={title} description={summary} chapter="world">
+  <header class="ch-head halftone">
+    <h1>{title}</h1>
+    <p class="sum">{summary}</p>
+    <nav class="sub" aria-label={`${ch.zh}的頁面`}>
+      {WORLD_SUB.map(s => <a href={url(s.href)} aria-current={Astro.url.pathname === url(s.href) ? 'page' : undefined}>{s.zh}</a>)}
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="toc" aria-label="本頁目錄">
+      <p>本頁目錄</p>
+      <ol>
+        {sections.map(s => <li><a href={`#${s.id}`}>{s.zh}</a></li>)}
+      </ol>
+    </aside>
+    <div class="body">
+      <slot />
+      <p class="src">本頁每一項敘述都對照過遊戲程式碼；標示「程式碼未明確」的部分是遊戲沒有明確定義的地方。</p>
+    </div>
+  </div>
+</Base>
+<script>
+  // 目錄跟著捲動標示目前段落
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+  const map = new Map(links.map(a => [decodeURIComponent(a.hash.slice(1)), a]));
+  const io = new IntersectionObserver(es => {
+    for (const e of es) if (e.isIntersecting) {
+      links.forEach(a => a.removeAttribute('aria-current'));
+      const a = map.get(e.target.id);
+      if (a) { a.setAttribute('aria-current', 'true'); a.scrollIntoView({ block: 'nearest' }); }
+    }
+  }, { rootMargin: '-80px 0px -70% 0px' });
+  document.querySelectorAll('.body h2[id]').forEach(h => io.observe(h));
+</script>
+<style>
+  .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px; max-width: 1240px; margin: 0 auto; }
+  .toc { position: sticky; top: 76px; align-self: start; max-height: calc(100vh - 96px); overflow: auto; padding: 24px 0; font-size: 13.5px; }
+  .toc p { font-weight: 900; font-size: 12px; letter-spacing: .2em; color: var(--ink-3); margin: 0 0 8px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--rule); }
+  .toc li a { display: block; padding: 5px 10px; text-decoration: none; color: var(--ink-2); line-height: 1.4; margin-left: -2px; border-left: 2px solid transparent; }
+  .toc li a:hover { color: var(--ink); }
+  .toc li a[aria-current] { color: var(--ink); font-weight: 700; border-left-color: var(--ch); background: linear-gradient(90deg, var(--ch-tint), transparent); }
+  .body { min-width: 0; padding-bottom: 40px; }
+  .src { margin-top: 48px; font-size: 12.5px; color: var(--ink-3); border-top: 1px solid var(--rule); padding-top: 12px; }
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; gap: 0; }
+    .toc { display: none; }
+  }
+</style>

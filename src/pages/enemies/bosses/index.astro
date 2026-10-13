@@ -1,0 +1,11 @@
+---
+import EnemyPage from '../../../components/enemies/EnemyPage.astro';
+import BossSlots from '../../../components/enemies/BossSlots.astro';
+---
+<EnemyPage
+  title="首領"
+  summary="五個首領時段（3:00、6:00、9:00、12:00、15:00）的數值公式，以及每個時段可能出現的寶可夢與計算後的數值。"
+  sections={[{ id: 'formula', zh: '數值公式' }, { id: 'pool', zh: '可能的寶可夢' }]}
+>
+  <BossSlots />
+</EnemyPage>

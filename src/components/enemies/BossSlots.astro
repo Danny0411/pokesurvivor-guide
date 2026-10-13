@@ -1,0 +1,132 @@
+---
+// 首領頁：五個時段的數值公式、數值表，以及每個時段可能出現的寶可夢（候選清單，依 game.ts 的 bossSlots 計算）。
+import Sprite from '../Sprite.astro';
+import Type from '../Type.astro';
+import { BOSS_POOL, D, bossStyle, n0 } from './model';
+import { mmss, url } from '../../lib/game';
+
+const SLOTS = BOSS_POOL.map((b, i) => ({ ...b, d: D.bossSlots[i] as any }));
+const maxSolo = Math.max(...SLOTS.map(s => s.d.hpAtSpawnSolo as number));
+const stepOf = (p: number) => Math.min(9, Math.floor(p * 10));
+---
+<section class="en-sec" aria-labelledby="formula">
+  <h2 id="formula" class="en-h2">數值公式</h2>
+  <p class="en-lead">首領只有五次，每次只出現一隻。生命與傷害先依時段的基礎值算出「定義值」，出場時再乘上時間與人數的係數。</p>
+  <div class="spec-wrap en-scroll">
+    <table class="spec en-kv">
+      <thead>
+        <tr><th>項目</th><th>公式</th><th>說明</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>定義生命</th><td class="num">round(1.35 × 基礎生命)</td><td>時段表的基礎生命乘 1.35，例如 1,400 → 1,890。</td></tr>
+        <tr><th>定義傷害</th><td class="num">round(1.2 × 基礎傷害)</td><td>例如 34 → 41。</td></tr>
+        <tr><th>射擊傷害</th><td class="num">round(0.55 × 基礎傷害)</td><td>遠程招式的傷害基準，各招式再乘不同倍率。定義中的射擊間隔為 1.1 秒、射程 260。</td></tr>
+        <tr><th>定義速度</th><td class="num">round(clamp(40 + 0.5 × (種族速度 − 78) ÷ 0.42, 40, 100))</td><td>依物種的速度計算，首領速度不隨時間成長。</td></tr>
+        <tr><th>出場生命</th><td class="num">round(定義生命 × (1 + 秒數 ÷ 600) × 晚期倍率 × 人數係數 × 多人 1.4)</td><td>秒數為出場時的執行時間；60 分前晚期倍率為 1。單人時人數係數為 1、不乘 1.4。</td></tr>
+        <tr><th>出場傷害</th><td class="num">定義傷害 × (1 + 秒數 ÷ 600) × 晚期倍率^0.7</td><td>單人、60 分前的例子：3:00 出場為 41 × 1.3 = 53.3。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="en-fine">人數係數與多人的 1.4 見總覽頁的「多人模式差異」。出場後首領的行為與招式見總覽頁的「首領」。</p>
+
+  <h3 class="en-h3">五個時段的數值</h3>
+  <div class="spec-wrap en-scroll">
+    <table class="spec">
+      <caption>單人、出場時（秒數 = 時段時間）</caption>
+      <thead>
+        <tr>
+          <th>時段</th>
+          <th class="r">基礎生命</th>
+          <th class="r">定義生命</th>
+          <th class="r">出場生命</th>
+          <th>相對生命</th>
+          <th class="r">基礎傷害</th>
+          <th class="r">定義傷害</th>
+          <th class="r">出場傷害</th>
+          <th class="r">射擊傷害</th>
+          <th class="r">經驗</th>
+          <th class="r">候選</th>
+        </tr>
+      </thead>
+      <tbody>
+        {SLOTS.map(s => {
+          const p = s.d.hpAtSpawnSolo / maxSolo;
+          return (
+            <tr>
+              <th class="num">{mmss(s.at)}<small> 首領 {s.k}</small></th>
+              <td class="num">{n0(s.base.hp)}</td>
+              <td class="num">{n0(s.d.defHp)}</td>
+              <td class="num">{n0(s.d.hpAtSpawnSolo)}</td>
+              <td class="bar"><span class:list={['ramp', `s${stepOf(p)}`]} style={`--p:${p.toFixed(3)}`}><b /></span></td>
+              <td class="num">{s.base.dmg}</td>
+              <td class="num">{s.d.defDmg}</td>
+              <td class="num">{s.d.dmgAtSpawnSolo.toFixed(1)}</td>
+              <td class="num">{s.d.shotDmgBase}</td>
+              <td class="num">{n0(s.base.xp)}</td>
+              <td class="num">{s.list.length} 種</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+  <p class="en-fine">「相對生命」以五個時段中最大的出場生命為滿格，只用來比較。候選數是該時段可能出現的物種數。</p>
+</section>
+
+<section class="en-sec" aria-labelledby="pool">
+  <h2 id="pool" class="en-h2">每個時段可能出現的寶可夢</h2>
+  <p class="en-lead">
+    候選條件：非傳奇、有動畫圖、種族值在該時段的區間內。每場開始時會從候選中抽出首領，同一場不會重複出現同一物種。
+    目前每個時段都有候選，遊戲的後備規則（找不到時改用種族值 580 以上）不會觸發。
+  </p>
+  <p class="en-note">
+    首領不使用一般敵人的行為 AI，而是固定的首領 AI，近戰與遠程兩種模式交替。遠程型首領的遠程模式持續 7 至 9 秒、近戰模式 4 至 5 秒，其他首領相反。
+    下表的「行為」欄只分遠程型與近戰型。
+  </p>
+
+  {SLOTS.map(s => (
+    <div class="en-slot">
+      <h3 class="en-h3" id={`t${s.at}`}>{mmss(s.at)} 首領 {s.k} <small>候選 {s.list.length} 種</small></h3>
+      <p class="en-lead">
+        生命 <b class="num">{n0(s.d.defHp)}</b>、傷害 <b class="num">{s.d.defDmg}</b>、射擊傷害 <b class="num">{s.d.shotDmgBase}</b>、經驗 <b class="num">{n0(s.base.xp)}</b>。
+        表中的生命與傷害為定義值，速度依各物種計算。
+      </p>
+      <details class="en-more" open={s.list.length <= 20}>
+        <summary>候選寶可夢（{s.list.length} 種）</summary>
+        <div class="spec-wrap en-scroll">
+          <table class="spec">
+            <thead>
+              <tr>
+                <th>寶可夢</th>
+                <th>屬性</th>
+                <th class="r">種族值</th>
+                <th class="r">生命</th>
+                <th class="r">速度</th>
+                <th class="r">傷害</th>
+                <th>行為</th>
+              </tr>
+            </thead>
+            <tbody>
+              {s.list.map(({ p, v }) => (
+                <tr>
+                  <th>
+                    <span class="en-nm">
+                      <Sprite dex={p.dex} scale={1} play={false} />
+                      <a href={url(`/pokemon/${p.dex}/`)}>{p.zh}</a>
+                    </span>
+                  </th>
+                  <td><span class="en-types">{p.types.map(t => <Type t={t} />)}</span></td>
+                  <td class="num">{p.bst}</td>
+                  <td class="num">{n0(s.d.defHp)}</td>
+                  <td class="num">{v.spd}</td>
+                  <td class="num">{s.d.defDmg}</td>
+                  <td>{bossStyle(v.behavior)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  ))}
+</section>

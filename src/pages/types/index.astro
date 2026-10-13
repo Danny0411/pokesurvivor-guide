@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro';
+import Chart from '../../components/types/Chart.astro';
+import Calc from '../../components/types/Calc.astro';
+import TypeEntry from '../../components/types/TypeEntry.astro';
+import { TYPE_IDS, url } from '../../lib/game';
+---
+
+<Base title="屬性相剋" description="PokéSurvivor 的屬性相剋：18 種屬性的倍率表、雙屬性的實際倍率計算，以及各屬性的招式、寶可夢數量與天氣倍率。" chapter="types">
+  <header class="ch-head">
+    <h1>屬性相剋</h1>
+    <p class="sum">18 種屬性的相剋倍率，雙屬性的實際倍率，以及各屬性的招式、寶可夢與天氣倍率。</p>
+  </header>
+
+  <section class="block" aria-labelledby="h-rules">
+    <h2 class="band" id="h-rules">規則</h2>
+    <p class="intro">遊戲用一張 18 × 18 的表決定屬性相剋。表上的值在遊戲中換成下列倍率，沒有列出的組合為 <span class="num">×1</span>。</p>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th class="r">表上的值</th><th class="r">遊戲倍率</th><th>意思</th></tr></thead>
+        <tbody>
+          <tr><td class="num">2</td><td class="num">×1.6</td><td>效果好</td></tr>
+          <tr><td class="num">0.5</td><td class="num">×0.6</td><td>效果不好</td></tr>
+          <tr><td class="num">0</td><td class="num">×0.3</td><td>無效</td></tr>
+          <tr><td class="r">沒有列出</td><td class="num">×1</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="rules">
+      <p><b>雙屬性</b>　兩個屬性的倍率相乘，結果限制在 <span class="num">×0.3</span> 到 <span class="num">×2.4</span> 之間。</p>
+      <p><b>方向</b>　玩家的招式打敵人時，用招式的屬性對敵人的屬性。敵人攻擊玩家時，用敵人的第一屬性（沒有屬性時為一般）對玩家寶可夢的屬性。玩家寶可夢自己的屬性不會加成招式。</p>
+      <p><b>天氣</b>　天氣倍率另外乘在招式傷害上，依招式的屬性計算。沙暴的安全屬性為岩石、地面、鋼，降雪為冰。不在安全屬性內的寶可夢會持續受傷；只要有一個屬性在安全屬性內，就不會受傷。天氣的細節見 <a href={url('/world/#天氣')}>地圖與天氣</a>。</p>
+      <p><b>地物</b>　可破壞的地物（例如岩石、寶箱、草叢）受到的傷害不乘屬性、天氣或暴擊。</p>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-chart" id="chart">
+    <h2 class="band" id="h-chart">相剋表</h2>
+    <p class="intro">列是攻擊的招式屬性，欄是防守的寶可夢屬性。格子為倍率，留白為 <span class="num">×1</span>。滑鼠移到格子上，會標出那一列與那一欄。點屬性名稱可以跳到該屬性的小節，手機可以左右捲動。</p>
+    <Chart />
+  </section>
+
+  <section class="block" aria-labelledby="h-calc" id="calc">
+    <h2 class="band" id="h-calc">雙屬性計算器</h2>
+    <p class="intro">選擇防守寶可夢的兩個屬性，列出受到 18 種招式屬性攻擊時的實際倍率。第二屬性選「無」即為單屬性。只計算屬性相剋，不含天氣。下方列出屬性組合完全相同的寶可夢。</p>
+    <Calc />
+  </section>
+
+  <section class="block" aria-labelledby="h-each" id="each">
+    <h2 class="band" id="h-each">各屬性</h2>
+    <p class="intro">每個屬性一節。「攻擊時」是這個屬性的招式打中對方的倍率；「防守時」是對方屬性的招式打中這個屬性的寶可夢的倍率。</p>
+    {TYPE_IDS.map(id => <TypeEntry id={id} />)}
+  </section>
+</Base>
+
+<style>
+  .head {
+    display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px 24px;
+    margin-top: 18px; padding-bottom: 18px; border-bottom: 4px solid var(--ch);
+  }
+  h1 { font-size: clamp(32px, 5vw, 56px); letter-spacing: .06em; }
+  .lead { margin: 0; max-width: 42ch; font-size: 16px; color: var(--ink-2); }
+  .block { margin-top: 56px; }
+
+  .intro { color: var(--ink-2); margin: 0 0 16px; max-width: 72ch; }
+  .rules { margin-top: 20px; max-width: 72ch; }
+  .rules p { margin: 0 0 12px; }
+  .rules b { font-weight: 800; }
+</style>

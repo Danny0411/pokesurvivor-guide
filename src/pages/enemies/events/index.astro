@@ -1,0 +1,181 @@
+---
+import EnemyPage from '../../../components/enemies/EnemyPage.astro';
+import { D } from '../../../components/enemies/model';
+import { mmss, typeName, POKEMON_BY } from '../../../lib/game';
+import ZH from '../../../i18n/zh/enemies.json';
+
+const E = D.events;
+const W = D.weather;
+const byId = (id: string) => E.types.find((t: any) => t.id === id);
+const HORDE = byId('horde');
+const GOLD = byId('gold');
+const LOST = byId('lost');
+const THIEF = byId('thief');
+const range = (r: number[]) => `${mmss(r[0])}–${mmss(r[1])}`;
+const thiefHp = (t: number, ticket: boolean) => Math.round(60 * (1 + t / 95) * (ticket ? 1.5 : 1));
+const WEATHER_COL = ['rain', 'fog', 'sun', 'snow', 'sand'] as const;
+const WEATHER_ZH: Record<string, string> = ZH.weather;
+const weights = W.biomeTables.map((t: any) => ({ r: t.biomeIndexMod3, w: t.weights as Record<string, number> }));
+const fmtMult = (m: Record<string, number>) =>
+  Object.entries(m).map(([t, v]) => `${typeName(t)} ×${v}`).join('、');
+---
+<EnemyPage
+  title="隨機事件"
+  summary="事件的排程、群體來襲、黃金時刻、迷路的寶可夢、竊盜寶可夢與天氣：每個事件的觸發條件、效果與數值。"
+  sections={[
+    { id: 'schedule', zh: '排程' },
+    { id: 'horde', zh: '群體來襲' },
+    { id: 'gold', zh: '黃金時刻' },
+    { id: 'lost', zh: '迷路的寶可夢' },
+    { id: 'thief', zh: '竊盜寶可夢' },
+    { id: 'weather', zh: '天氣' },
+  ]}
+>
+  <section class="en-sec" aria-labelledby="schedule">
+    <h2 id="schedule" class="en-h2">排程</h2>
+    <p class="en-lead">隨機事件由主機排程，同一時間只會有一個進行中的事件。竊盜寶可夢另有獨立的計時器。</p>
+    <div class="spec-wrap en-scroll">
+      <table class="spec en-kv">
+        <thead><tr><th>項目</th><th>內容</th></tr></thead>
+        <tbody>
+          <tr><th>第一次出現</th><td>執行 {mmss(E.schedulerIntervalSec[0])} 至 {mmss(E.schedulerIntervalSec[1])} 之間的隨機時間。</td></tr>
+          <tr><th>之後的間隔</th><td>之後每次間隔 {E.schedulerIntervalSec[0]}–{E.schedulerIntervalSec[1]} 秒。事件進行中排程計時暫停，不計入間隔。</td></tr>
+          <tr><th>種類</th><td>群體來襲、黃金時刻、迷路的寶可夢三者隨機，排除上一次的種類。</td></tr>
+          <tr><th>首領存活時</th><td>排程計時器延後 {E.schedulerBossDelaySec} 秒。</td></tr>
+          <tr><th>執行條件</th><td>只在主機執行；裂隙內不執行。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="en-sec" aria-labelledby="horde">
+    <h2 id="horde" class="en-h2">群體來襲</h2>
+    <p class="en-lead">同一種屬性的寶可夢一起大量出現。</p>
+    <div class="spec-wrap en-scroll">
+      <table class="spec en-kv">
+        <thead><tr><th>項目</th><th>內容</th></tr></thead>
+        <tbody>
+          <tr><th>觸發</th><td>排程抽中。若沒有任何可選的屬性，改為黃金時刻。</td></tr>
+          <tr><th>類型</th><td>目前梯次的候選寶可夢（排除自爆、治療、護盾、召喚）中，至少有 3 隻具備的屬性，隨機選一種。</td></tr>
+          <tr><th>成員</th><td>同梯次、同屬性的候選中隨機抽最多 4 種（同樣排除自爆、治療、護盾、召喚）。</td></tr>
+          <tr><th>開始補怪</th><td>一次補出 round(6 × 出怪係數) 隻，單人為 6 隻。</td></tr>
+          <tr><th>持續</th><td>{HORDE.durationSec} 秒。期間出怪池只剩這 4 種成員。</td></tr>
+          <tr><th>顯示</th><td>「{'{屬性}'}系群體來襲！」與畫面上的倒數。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="en-sec" aria-labelledby="gold">
+    <h2 id="gold" class="en-h2">黃金時刻</h2>
+    <p class="en-lead">場上的敵人變成金色，經驗加倍。</p>
+    <div class="spec-wrap en-scroll">
+      <table class="spec en-kv">
+        <thead><tr><th>項目</th><th>內容</th></tr></thead>
+        <tbody>
+          <tr><th>觸發</th><td>排程抽中；或群體來襲沒有可選的屬性時。</td></tr>
+          <tr><th>效果</th><td>場上的敵人變為金色（首領與竊盜寶可夢除外）：經驗 ×2。金色敵人死亡時 35% 機率掉 1 枚寶可幣（每枚 3）。</td></tr>
+          <tr><th>持續</th><td>{GOLD.durationSec} 秒。期間新生的敵人也是金色。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="en-note">「遠端」指多人模式裡由其他玩家同步來的敵人，不是遠程型敵人。單人遊玩時，這個條件對所有敵人都成立。</p>
+  </section>
+
+  <section class="en-sec" aria-labelledby="lost">
+    <h2 id="lost" class="en-h2">迷路的寶可夢</h2>
+    <p class="en-lead">一隻迷路的寶可夢需要玩家找到並帶到標記處。</p>
+    <div class="spec-wrap en-scroll">
+      <table class="spec en-kv">
+        <thead><tr><th>項目</th><th>內容</th></tr></thead>
+        <tbody>
+          <tr><th>觸發</th><td>排程抽中。</td></tr>
+          <tr><th>生成</th><td>隨機一隻稀有度 3 以下、非傳奇、非飛行的寶可夢，出現在玩家附近 220–300 像素處；目標點距起點 700–850 像素。</td></tr>
+          <tr><th>本體</th><td>生命 {LOST.monsterHp}。{Math.round(LOST.grantChance * 100)}% 的機率「可獲得」。</td></tr>
+          <tr><th>跟隨</th><td>玩家靠近（距離小於兩者半徑和加 18 像素）後開始跟隨，速度為 max(120, 1.15 × 玩家速度) 像素每秒。</td></tr>
+          <tr><th>受到的傷害</th><td>附近的敵人每 {LOST.damageEverySec} 秒對它造成 min(30, Σ(4 + 0.12 × 敵人傷害)) 傷害，Σ 為附近所有敵人。</td></tr>
+          <tr><th>送達</th><td>進入目標 {LOST.deliverRadiusPx} 像素內：獲得 12 枚寶可幣（每枚 5）、1 張抽獎券，玩家回復 {Math.round(LOST.healOnDeliver * 100)}% 生命。若可獲得，寶可夢會收錄；已擁有則 +150 寶可幣。</td></tr>
+          <tr><th>結束</th><td>送達；本體生命歸零則逃走；{LOST.timeoutSec} 秒後逾時離開。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="en-sec" aria-labelledby="thief">
+    <h2 id="thief" class="en-h2">竊盜寶可夢</h2>
+    <p class="en-lead">一隻帶著寶可幣或抽獎券的寶可夢，會在一段時間後逃走。</p>
+    <div class="spec-wrap en-scroll">
+      <table class="spec en-kv">
+        <thead><tr><th>項目</th><th>內容</th></tr></thead>
+        <tbody>
+          <tr><th>觸發</th><td>獨立計時器：第一次在 {range(E.thiefFirstSec)}，之後每次隔 {E.thiefGapSec[0]}–{E.thiefGapSec[1]} 秒；每場最多 {E.thiefMaxPerRun} 次。首領存活時延後 {E.thiefBossDelaySec} 秒；裂隙內不計時。</td></tr>
+          <tr><th>種類</th><td>{Math.round(THIEF.spawnDex.ticketChance * 100)}% 為抽獎券版（{POKEMON_BY[THIEF.spawnDex.ticketVariant].zh}），其餘為{POKEMON_BY[THIEF.spawnDex.normal].zh}。</td></tr>
+          <tr><th>生命</th><td>60 × (1 + 秒數 ÷ 95)，抽獎券版再乘 1.5。例：0:00 為 {thiefHp(0, false)}（抽獎券版 {thiefHp(0, true)}），5:00 為 {thiefHp(300, false)}（{thiefHp(300, true)}），10:00 為 {thiefHp(600, false)}（{thiefHp(600, true)}）。</td></tr>
+          <tr><th>速度與經驗</th><td>速度 {THIEF.spd}，經驗 {THIEF.xp}。不造成接觸傷害。</td></tr>
+          <tr><th>出現位置</th><td>在一位存活玩家周圍 230–300 像素處隨機出現。</td></tr>
+          <tr><th>擊敗</th><td>獲得 20 枚寶可幣（每枚 5）；抽獎券版為 6 枚寶可幣加 1 個 ×10 抽獎券。</td></tr>
+          <tr><th>逃走</th><td>存在 15 秒，期間未被擊敗即逃走，無掉落。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="en-sec" aria-labelledby="weather">
+    <h2 id="weather" class="en-h2">天氣</h2>
+    <p class="en-lead">天氣會改變屬性的傷害倍率，部分天氣也會持續傷害未受保護的目標。</p>
+    <div class="spec-wrap en-scroll">
+      <table class="spec en-kv">
+        <thead><tr><th>項目</th><th>內容</th></tr></thead>
+        <tbody>
+          <tr><th>判定</th><td>執行超過 {W.startsAfterRunSec} 秒、不在裂隙內時開始計時，每 {W.rollEverySec} 秒判定一次，成功率 {Math.round(W.rollChance * 100)}%。只在主機判定。</td></tr>
+          <tr><th>第一次判定</th><td>{mmss(W.startsAfterRunSec + W.rollEverySec)}。計時器從 {mmss(W.startsAfterRunSec)} 開始倒數，初值為 {W.rollEverySec} 秒。</td></tr>
+          <tr><th>持續</th><td>55–75 秒（隨機取整），前後各 {W.rampSec} 秒漸入與漸出。</td></tr>
+          <tr><th>種類</th><td>依目前地形索引除以 3 的餘數（0、1、2），套用下方權重表。</td></tr>
+          <tr><th>強度</th><td>倍率依強度線性套用：1 + (倍率 − 1) × 強度。</td></tr>
+          <tr><th>玩家受傷</th><td>天氣對玩家屬性造成傷害且強度大於 0.5 時，每 {W.damage.playerEverySec} 秒扣 max(1, 1.2% 最大生命)。</td></tr>
+          <tr><th>敵人受傷</th><td>沙暴或雪天、強度大於 0.5 時，每 {W.damage.enemyEverySec} 秒扣 2% 最大生命 + 1。首領與遠端敵人不受影響。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="en-h3">權重</h3>
+    <div class="spec-wrap en-scroll">
+      <table class="spec">
+        <caption>地形索引 ÷ 3 的餘數對應的權重</caption>
+        <thead>
+          <tr>
+            <th>餘數</th>
+            {WEATHER_COL.map(k => <th class="r">{WEATHER_ZH[k]}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {weights.map(row => (
+            <tr>
+              <th class="num">{row.r}</th>
+              {WEATHER_COL.map(k => <td class="num">{row.w[k] ?? '—'}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="en-h3">效果</h3>
+    <div class="spec-wrap en-scroll">
+      <table class="spec">
+        <thead>
+          <tr><th>天氣</th><th>屬性倍率</th><th>安全屬性</th><th>其他效果</th></tr>
+        </thead>
+        <tbody>
+          {W.kinds.map((k: any) => (
+            <tr>
+              <th>{WEATHER_ZH[k.id]}</th>
+              <td>{fmtMult(k.mult)}</td>
+              <td>{k.safe ? k.safe.map((t: string) => typeName(t)).join('、') : '無'}</td>
+              <td>{k.id === 'sand' ? '非安全屬性的玩家與敵人持續受傷' : k.id === 'snow' ? `非冰屬性的移動速度乘 (1 − ${k.slowsNonIce} × 強度)` : '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</EnemyPage>

@@ -1,0 +1,255 @@
+---
+// 雙屬性計算器：相剋倍率與寶可夢清單在前端計算；相剋值與寶可夢資料於 build 時嵌入
+import { POKEMON, TYPE_IDS, typeName, typeColor, typeMult, url } from '../../lib/game';
+
+// 與 Type.astro 相同的亮度判斷：亮色屬性改用深色字
+const isDark = (c: string) => {
+  const [r, g, b] = [1, 3, 5]
+    .map(i => parseInt(c.slice(i, i + 2), 16) / 255)
+    .map(v => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.36;
+};
+const types = TYPE_IDS.map(id => ({ id, zh: typeName(id), color: typeColor(id), dark: isDark(typeColor(id)) }));
+const data = {
+  base: url('/'),
+  types,
+  // m[攻擊][防守]：單一屬性的倍率，雙屬性時在前端相乘後夾在 0.3–2.4
+  m: TYPE_IDS.map(a => TYPE_IDS.map(d => typeMult(a, [d]))),
+  pokemon: POKEMON.map(p => {
+    const a = p.sprite?.Idle;
+    return {
+      d: p.dex,
+      n: p.zh,
+      t: p.types,
+      s: a ? { src: url(`/sprites/${p.dex}/${a.src}.webp`), w: a.w, h: a.h, d: a.d } : null,
+    };
+  }),
+};
+// 避免字串提早結束 <script>
+const json = JSON.stringify(data).replace(/</g, '\\u003c');
+---
+
+<div class="calc" data-calc>
+  <div class="pick">
+    <label class="fld">
+      <span>第一屬性</span>
+      <select data-def="1">
+        {types.map(t => <option value={t.id} selected={t.id === 'fire'}>{t.zh}</option>)}
+      </select>
+    </label>
+    <label class="fld">
+      <span>第二屬性</span>
+      <select data-def="2">
+        <option value="">無</option>
+        {types.map(t => <option value={t.id} selected={t.id === 'flying'}>{t.zh}</option>)}
+      </select>
+    </label>
+  </div>
+  <h3 class="sub-h" data-title></h3>
+  <div data-groups></div>
+  <p class="fine">長條以 ×2.4 為滿格，豎線為 ×1。</p>
+  <h3 class="sub-h" data-plist></h3>
+  <ul class="who" data-list></ul>
+  <p class="none" data-none hidden>圖鑑中沒有這個屬性組合的寶可夢。</p>
+</div>
+<script is:inline type="application/json" id="calc-data" set:html={json}></script>
+
+<script>
+  import '../../scripts/sprite.ts';
+
+  type Anim = { src: string; w: number; h: number; d: number[] };
+  type Ty = { id: string; zh: string; color: string; dark: boolean };
+  type Pk = { d: number; n: string; t: string[]; s: Anim | null };
+  type Data = { base: string; types: Ty[]; m: number[][]; pokemon: Pk[] };
+
+  const root = document.querySelector<HTMLElement>('[data-calc]');
+  const dataEl = document.getElementById('calc-data');
+  if (root && dataEl) {
+    const D = JSON.parse(dataEl.textContent || '{}') as Data;
+    const MAX = 2.4;
+    const MIN = 0.3;
+    const idx = new Map(D.types.map((t, i) => [t.id, i]));
+    const tById = new Map(D.types.map(t => [t.id, t]));
+    // 屬性組合（排序後以 + 相接）→ 寶可夢
+    const combo = new Map<string, Pk[]>();
+    for (const p of D.pokemon) {
+      const k = [...p.t].sort().join('+');
+      combo.set(k, [...(combo.get(k) ?? []), p]);
+    }
+
+    const sel1 = root.querySelector<HTMLSelectElement>('select[data-def="1"]')!;
+    const sel2 = root.querySelector<HTMLSelectElement>('select[data-def="2"]')!;
+    const titleEl = root.querySelector<HTMLElement>('[data-title]')!;
+    const groupsEl = root.querySelector<HTMLElement>('[data-groups]')!;
+    const plistEl = root.querySelector<HTMLElement>('[data-plist]')!;
+    const listEl = root.querySelector<HTMLElement>('[data-list]')!;
+    const noneEl = root.querySelector<HTMLElement>('[data-none]')!;
+
+    const fmtM = (m: number) => m.toFixed(2).replace(/\.?0+$/, '');
+
+    function make<K extends keyof HTMLElementTagNameMap>(tag: K, cls = '', text = ''): HTMLElementTagNameMap[K] {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text) n.textContent = text;
+      return n;
+    }
+
+    const NS = 'http://www.w3.org/2000/svg';
+    function svgEl<K extends keyof SVGElementTagNameMap>(tag: K, attrs: Record<string, string>): SVGElementTagNameMap[K] {
+      const n = document.createElementNS(NS, tag);
+      for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+      return n;
+    }
+
+    // 倍率長條：0 到 ×2.4，豎線為 ×1；CSS 讓長條從 0 長到數值
+    function bar(m: number) {
+      const cls = m > 1 ? 'hi' : m < 1 ? 'lo' : 'eq';
+      const svg = svgEl('svg', {
+        class: `bar ${cls}`, viewBox: '0 0 240 14', preserveAspectRatio: 'none', 'aria-hidden': 'true',
+      });
+      svg.append(
+        svgEl('rect', { class: 'track', x: '0', y: '3', width: '240', height: '8' }),
+        svgEl('rect', { class: 'fill', x: '0', y: '3', width: String((m / MAX) * 240), height: '8' }),
+        svgEl('line', { class: 'tick', x1: '100', x2: '100', y1: '0', y2: '14' }),
+      );
+      return svg;
+    }
+
+    function chip(t: Ty) {
+      const s = make('span', `type${t.dark ? ' dark-text' : ''}`, t.zh);
+      s.style.setProperty('--t', t.color);
+      return s;
+    }
+
+    function monItem(p: Pk) {
+      const li = make('li');
+      const a = make('a');
+      a.href = `${D.base}pokemon/${p.d}/`;
+      const th = make('span', 'th');
+      if (p.s) {
+        const ps = document.createElement('poke-sprite');
+        ps.setAttribute('data-anim', JSON.stringify(p.s));
+        ps.setAttribute('data-dir', '0');
+        ps.setAttribute('data-scale', '1');
+        ps.setAttribute('role', 'img');
+        ps.setAttribute('aria-label', `${p.n}的待機動畫`);
+        th.append(ps);
+      } else {
+        th.classList.add('nosp');
+        th.textContent = '?';
+      }
+      const nt = make('span', 'nt');
+      nt.append(make('small', 'num', `No.${String(p.d).padStart(4, '0')}`), make('b', '', p.n));
+      a.append(th, nt);
+      li.append(a);
+      return li;
+    }
+
+    function render() {
+      const a = sel1.value;
+      const b = sel2.value;
+      const i1 = idx.get(a)!;
+      const i2 = b ? idx.get(b)! : -1;
+      const names = [tById.get(a)!.zh, b ? tById.get(b)!.zh : ''].filter(Boolean).join('・');
+      titleEl.textContent = `${names}：受到攻擊時的倍率`;
+
+      // 18 種攻擊屬性的實際倍率：雙屬性相乘後夾在 0.3–2.4
+      const rows = D.types.map((t, i) => {
+        let m = D.m[i][i1];
+        if (i2 >= 0) m *= D.m[i][i2];
+        return { t, m: Math.min(MAX, Math.max(MIN, m)) };
+      });
+      const byKey = new Map<number, typeof rows>();
+      for (const r of rows) {
+        const k = Math.round(r.m * 1000);
+        byKey.set(k, [...(byKey.get(k) ?? []), r]);
+      }
+      const frag = document.createDocumentFragment();
+      for (const k of [...byKey.keys()].sort((x, y) => y - x)) {
+        const group = byKey.get(k)!;
+        const sec = make('section', 'grp');
+        const h = make('h4', 'gh num', `×${fmtM(k / 1000)}`);
+        h.append(make('small', '', `${group.length} 種屬性`));
+        const ul = make('ul', 'rows');
+        for (const r of group) {
+          const li = make('li');
+          li.append(chip(r.t), bar(r.m), make('b', 'num', `×${fmtM(r.m)}`));
+          ul.append(li);
+        }
+        sec.append(h, ul);
+        frag.append(sec);
+      }
+      groupsEl.replaceChildren(frag);
+      // 先讀一次版面再加上 on，讓長條從 0 開始動畫
+      void groupsEl.offsetWidth;
+      groupsEl.querySelectorAll('.bar').forEach(s => s.classList.add('on'));
+
+      // 屬性組合完全相同的寶可夢
+      const key = [a, b].filter(Boolean).sort().join('+');
+      const mons = combo.get(key) ?? [];
+      plistEl.textContent = `${names} 的寶可夢（${mons.length} 隻）`;
+      listEl.replaceChildren(...mons.map(monItem));
+      noneEl.hidden = mons.length > 0;
+    }
+
+    // 兩個屬性不能相同：選了相同的就把第二屬性改為「無」
+    function sync() {
+      if (sel1.value === sel2.value) sel2.value = '';
+      for (const o of sel2.options) o.disabled = o.value !== '' && o.value === sel1.value;
+      for (const o of sel1.options) o.disabled = o.value !== '' && o.value === sel2.value;
+    }
+    const update = () => { sync(); render(); };
+    sel1.addEventListener('change', update);
+    sel2.addEventListener('change', update);
+    update();
+  }
+</script>
+
+<style is:global>
+  .calc .pick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 22px; }
+  .calc .fld { display: grid; gap: 6px; }
+  .calc .fld > span { font-size: 12.5px; font-weight: 700; letter-spacing: .08em; color: var(--ink-3); }
+  .calc select {
+    width: 100%; height: 42px; padding: 0 36px 0 12px; font: 700 15px var(--font); color: var(--ink);
+    background: var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center / 14px;
+    border: 2px solid var(--ink); border-radius: 4px; appearance: none;
+  }
+  .calc select option:disabled { color: var(--ink-3); }
+  .calc select:focus-visible { outline: 3px solid var(--ch); outline-offset: 2px; }
+  .calc .sub-h { font-size: 18px; margin: 0 0 6px; padding-bottom: 6px; border-bottom: 2px solid var(--ink); }
+  .calc .gh { display: flex; align-items: baseline; gap: 10px; margin: 16px 0 0; font-size: 24px; font-weight: 900; }
+  .calc .gh small { font: 600 13px var(--font); color: var(--ink-3); }
+  .calc .rows { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+  .calc .rows li {
+    display: grid; grid-template-columns: 96px minmax(0, 1fr) 60px; align-items: center; gap: 12px;
+    padding: 7px 0; border-bottom: 1px solid var(--rule);
+  }
+  .calc .rows b { text-align: right; font-size: 16px; }
+  .calc .bar { display: block; width: 100%; height: 14px; overflow: visible; }
+  .calc .bar .track { fill: var(--paper-2); }
+  .calc .bar .fill { transform: scaleX(0); transform-origin: 0 0; transition: transform .7s var(--ease); }
+  .calc .bar.on .fill { transform: scaleX(1); }
+  .calc .bar.hi .fill { fill: var(--c-pokemon); }
+  .calc .bar.lo .fill { fill: var(--c-moves); }
+  .calc .bar.eq .fill { fill: var(--ink-3); }
+  .calc .bar .tick { stroke: var(--ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  .calc .fine { font-size: 12.5px; color: var(--ink-3); margin: 8px 0 0; }
+  .calc .who {
+    list-style: none; margin: 0; padding: 0; display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); border-top: 3px solid var(--ch);
+  }
+  .calc .who a {
+    display: flex; align-items: center; gap: 8px; padding: 4px 6px 4px 0; text-decoration: none;
+    border-bottom: 1px solid var(--rule); font-size: 14px; font-weight: 700;
+  }
+  .calc .who a:hover { background: var(--ch-tint); }
+  .calc .who .th { width: 40px; height: 40px; flex: none; display: grid; place-items: center; overflow: hidden; }
+  .calc .who .nosp { font: 800 16px var(--num); color: var(--ink-3); border: 1.5px dashed var(--rule); border-radius: 50%; width: 32px; height: 32px; }
+  .calc .who .nt { display: flex; flex-direction: column; line-height: 1.2; }
+  .calc .who small { font-size: 11.5px; color: var(--ink-3); font-weight: 600; }
+  .calc .none { color: var(--ink-3); padding: 14px 0; border-top: 3px solid var(--ch); }
+  @media (max-width: 560px) {
+    .calc .pick { grid-template-columns: 1fr; }
+    .calc .rows li { grid-template-columns: 84px minmax(0, 1fr) 52px; gap: 8px; }
+  }
+</style>

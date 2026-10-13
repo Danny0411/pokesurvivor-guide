@@ -1,0 +1,175 @@
+---
+// 大寶箱：開啟進度環（可互動示範）與開出的東西。開啟時間取自 derived/world.json；倒退倍率與掉落數量依 app.pretty.js 行號核對。
+import world from '../../data/derived/world.json';
+const OPEN = world.interaction.bigchest.openTime; // 3.5 秒（89340）
+const DECAY = 1.5; // 離開範圍或死亡：open = max(0, open - 1.5 * dt)（89310）
+const R = 84;
+const CIRC = +(2 * Math.PI * R).toFixed(2);
+const EMPTY_SEC = (OPEN / DECAY).toFixed(1); // 從滿到空約 2.3 秒
+const LOOT = [
+  { item: '寶可幣', qty: '9 堆，每堆 4', p: '100%', note: '局內寶可幣，局末計入寶可幣' },
+  { item: '抽獎券', qty: '1–3 張（均勻隨機），每張 1', p: '100%', note: '單抽用，局末存入帳號' },
+  { item: '十連抽獎券', qty: '1 張', p: '15%', note: '局末存入帳號' },
+  { item: '持有物', qty: '1 件', p: '50%', note: '內容見「冒險中」' },
+  { item: '經驗寶石', qty: '升到下一級所需的量', p: '100%', note: '升到下一級所需的經驗' },
+];
+---
+<section class="wsec" aria-labelledby="bigchest">
+  <h2 id="bigchest">大寶箱</h2>
+  <p class="wlead">站在大寶箱附近會累積開啟進度，滿 {OPEN} 秒即開啟。離開範圍或死亡時，進度以 1.5 倍速倒退。開啟後寶箱從地圖移除。</p>
+
+  <div class="bc" data-chest data-open-time={OPEN} data-decay={DECAY} data-circ={CIRC}>
+    <figure class="ring">
+      <svg viewBox="0 0 200 200" role="img" aria-label="大寶箱開啟進度環，數字見下方">
+        <circle class="track" cx="100" cy="100" r={R} />
+        <circle class="arc" cx="100" cy="100" r={R} transform="rotate(-90 100 100)" stroke-dasharray={CIRC} stroke-dashoffset={CIRC} />
+        <g aria-hidden="true">
+          <path class="lid" d="M60 100 Q60 66 100 66 Q140 66 140 100 Z" />
+          <rect class="bx" x="60" y="100" width="80" height="50" rx="5" />
+          <path class="band" d="M60 116 H140" />
+          <rect class="lock" x="94" y="104" width="12" height="16" rx="2" />
+        </g>
+      </svg>
+      <figcaption>
+        <span class="readout"><b class="num" data-open>0.0</b><span class="num"> / {OPEN} 秒</span></span>
+      </figcaption>
+    </figure>
+
+    <div class="ctl">
+      <p class="state" data-state aria-live="polite">尚未開始。按「站上去」開始累積。</p>
+      <div class="btns">
+        <button type="button" class="go" data-in>站上去</button>
+        <button type="button" data-out>離開</button>
+        <button type="button" data-reset hidden>重新開始</button>
+      </div>
+      <dl class="rates">
+        <div><dt>累積</dt><dd>站在範圍內，每秒 +1，滿 {OPEN} 秒開啟。</dd></div>
+        <div><dt>倒退</dt><dd>離開範圍或死亡，每秒 −{DECAY}（1.5 倍速）。從滿到空約 {EMPTY_SEC} 秒。</dd></div>
+        <div><dt>範圍</dt><dd>玩家距離小於 max(46, 38 + 玩家半徑) 像素（以距離平方比較）。</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="loot">
+    <h3 class="wcap">開出的東西</h3>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th>掉落物</th><th>數量</th><th>機率</th><th>備註</th></tr></thead>
+        <tbody>
+          {LOOT.map(r => (
+            <tr>
+              <th>{r.item}</th>
+              <td>{r.qty}</td>
+              <td class="num">{r.p}</td>
+              <td>{r.note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <ul class="wrules">
+      <li>經驗：升到下一級所需的量為「下一級門檻 − 目前經驗 + 1」除以經驗倍率後無條件進位；沒有玩家時為 20。撿起經驗寶石時再乘以經驗倍率，因此開啟後約可升一級。</li>
+      <li>開啟時同時記錄一次「開寶箱」。</li>
+      <li>經驗寶石附帶掉落：抽獎券 0.25%（獨立判定）；回復 1.2%、磁吸 0.8%、炸彈 0.6%（同一次擲骰，互斥）。</li>
+    </ul>
+    
+  </div>
+</section>
+
+<script>
+  // 大寶箱示範：站上去每秒 +1，離開每秒 −1.5，滿 3.5 秒開啟。數值由 data 屬性帶入。
+  document.querySelectorAll<HTMLElement>('[data-chest]').forEach(root => {
+    const T = Number(root.dataset.openTime);
+    const D = Number(root.dataset.decay);
+    const C = Number(root.dataset.circ);
+    const arc = root.querySelector<SVGCircleElement>('.arc')!;
+    const num = root.querySelector<HTMLElement>('[data-open]')!;
+    const state = root.querySelector<HTMLElement>('[data-state]')!;
+    const bIn = root.querySelector<HTMLButtonElement>('[data-in]')!;
+    const bOut = root.querySelector<HTMLButtonElement>('[data-out]')!;
+    const bReset = root.querySelector<HTMLButtonElement>('[data-reset]')!;
+
+    let open = 0; // 目前進度（秒）
+    let dir = 0; // +1 累積、-1 倒退、0 停止
+    let done = false;
+    let last = 0;
+    let raf = 0;
+    // 偏好減少動態時，進度每 0.5 秒才跳一次，不逐格填滿
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const draw = () => {
+      const v = done ? T : reduce ? Math.floor(open * 2) / 2 : open;
+      arc.style.strokeDashoffset = String(C * (1 - v / T));
+      num.textContent = v.toFixed(1);
+    };
+    const say = (t: string) => { state.textContent = t; };
+    const frame = (now: number) => {
+      const dt = last ? Math.min(0.1, (now - last) / 1000) : 0;
+      last = now;
+      open = dir > 0 ? Math.min(T, open + dt) : Math.max(0, open - D * dt);
+      draw();
+      if (dir > 0 && open >= T) {
+        dir = 0;
+        done = true;
+        say('已開啟。遊戲中大寶箱開啟後會從地圖移除；這裡可以按「重新開始」再試一次。');
+        bReset.hidden = false;
+      } else if (dir < 0 && open <= 0) {
+        dir = 0;
+        say('已倒退到 0。');
+      }
+      if (dir !== 0) raf = requestAnimationFrame(frame);
+      else { cancelAnimationFrame(raf); last = 0; }
+    };
+    const start = (d: number) => {
+      if (done) return;
+      if (d > 0 && dir > 0) return;
+      if (d < 0 && open === 0) { say('進度已經是 0，不需要倒退。'); return; }
+      dir = d;
+      say(d > 0 ? '累積中……' : '倒退中……');
+      last = 0;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(frame);
+    };
+
+    bIn.addEventListener('click', () => start(1));
+    bOut.addEventListener('click', () => start(-1));
+    bReset.addEventListener('click', () => {
+      cancelAnimationFrame(raf);
+      open = 0; dir = 0; done = false; last = 0;
+      draw();
+      bReset.hidden = true;
+      say('尚未開始。按「站上去」開始累積。');
+    });
+    draw();
+  });
+</script>
+
+<style>
+  .bc { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: 28px; align-items: start; }
+  .ring { margin: 0; }
+  .ring svg { display: block; width: 100%; height: auto; border: 2px solid var(--ink); background: var(--paper); }
+  .track { fill: none; stroke: var(--rule); stroke-width: 14; }
+  .arc { fill: none; stroke: var(--ch); stroke-width: 14; }
+  .lid, .bx { fill: var(--paper-2); stroke: var(--ink); stroke-width: 4; stroke-linejoin: round; }
+  .band { fill: none; stroke: var(--ink); stroke-width: 3; }
+  .lock { fill: var(--ink); }
+  figcaption { text-align: center; margin-top: 10px; }
+  .readout { font-size: 15px; color: var(--ink-2); }
+  .readout b { font-size: 30px; font-weight: 800; color: var(--ink); margin-right: 2px; }
+  .ctl { min-width: 0; }
+  .state { font-weight: 700; min-height: 3em; margin: 0 0 10px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btns button { font: 700 15px var(--font); padding: 9px 16px; border: 2px solid var(--ink); border-radius: 4px; background: var(--paper); color: var(--ink); cursor: pointer; }
+  .btns button:hover { background: var(--paper-2); }
+  .btns button.go { background: var(--ink); color: var(--paper); }
+  .btns button:focus-visible { outline: 3px solid var(--ch); outline-offset: 2px; }
+  .rates { display: grid; gap: 8px; margin: 16px 0 0; font-size: 14px; max-width: 60ch; }
+  .rates div { display: grid; grid-template-columns: 3.2em minmax(0, 1fr); gap: 8px; }
+  .rates dt { font-weight: 700; color: var(--ink-2); }
+  .rates dd { margin: 0; }
+  .loot { margin-top: 28px; }
+  @media (max-width: 640px) {
+    .bc { grid-template-columns: 1fr; }
+    .ring { max-width: 280px; }
+  }
+</style>

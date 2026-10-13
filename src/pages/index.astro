@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import Sprite from '../components/Sprite.astro';
+import Icon from '../components/Icon.astro';
+import { CHAPTERS } from '../lib/nav';
+import { POKEMON, MOVE_LIST, TYPE_IDS, url, gameVersion } from '../lib/game';
+import ACH from '../data/game/AchDefs.json';
+import ZH_META from '../i18n/zh/meta.json';
+import ITEMS from '../data/game/Items.json';
+import UPG from '../data/game/Upgrades.json';
+
+const log = (ZH_META as any).changelog as { d: string; title: string; chg: string[] }[];
+const counts: Record<string, string> = {
+  pokemon: `${POKEMON.length} 隻`,
+  moves: `${MOVE_LIST.length} 招`,
+  types: `${TYPE_IDS.length} 屬性`,
+  run: `${(ITEMS as any).LIST.length} 持有物`,
+  enemies: `${POKEMON.filter(p => p.leg).length} 傳說`,
+  world: '21 生態區',
+  collect: `${(ACH as any).LIST.length} 成就`,
+  log: `${log.length} 次更新`,
+};
+const walkers = POKEMON.filter(p => p.starter && p.sprite?.Walk);
+const latest = log[0];
+---
+<Base title="PokéSurvivor 完全圖鑑" description="PokéSurvivor 完全圖鑑：966 隻寶可夢、64 招式、敵人、裂隙、地圖、扭蛋與成就，全部從遊戲原始碼整理的繁中資料。">
+  <div class="spread">
+    <section class="cover" aria-labelledby="h-title">
+      <p class="game num">PokéSurvivor</p>
+      <h1 id="h-title">完全圖鑑</h1>
+      <p class="pitch">遊戲裡的每一個數字：寶可夢、招式、敵人、裂隙、地圖、扭蛋與成就。全部直接從遊戲程式碼擷取，遊戲改版後重新整理。</p>
+      <p class="total"><b class="num">{POKEMON.length}</b><span>隻寶可夢<br />{MOVE_LIST.length} 招・{TYPE_IDS.length} 屬性</span></p>
+      <button class="big-search" type="button" data-focus-search>
+        <Icon name="search" /><span>搜尋寶可夢、招式或機制</span><kbd>/</kbd>
+      </button>
+      <div class="update">
+        <p class="u-t">{latest.title}<time class="num" datetime={latest.d}>{latest.d} 更新</time></p>
+        <ul>{latest.chg.slice(0, 3).map(c => <li>{c}</li>)}</ul>
+        <a href={url('/changelog/')}>全部更新紀錄<Icon name="arrowRight" /></a>
+      </div>
+    </section>
+
+    <nav class="toc" aria-labelledby="h-toc">
+      <h2 id="h-toc">目次</h2>
+      <ol>
+        {CHAPTERS.map((c, i) => (
+          <li data-ch={c.id} style={`--i:${i}`}>
+            <a href={url(c.href)}>
+              <span class="tab" aria-hidden="true" />
+              <span class="t"><b>{c.zh}</b><small>{c.desc}</small></span>
+              <span class="dots" aria-hidden="true" />
+              <span class="n num">{counts[c.id]}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <p class="ver num">資料版本 {gameVersion}</p>
+    </nav>
+  </div>
+
+  <div class="frieze" aria-label="初始夥伴" role="img">
+    <div class="lane">
+      {[...walkers, ...walkers].map((p, i) => (
+        <span class="w" style={`--k:${i}`}><Sprite dex={p.dex} anim="Walk" dir={2} scale={2} label={p.zh} /></span>
+      ))}
+    </div>
+  </div>
+</Base>
+<script>
+  document.querySelector('[data-focus-search]')?.addEventListener('click', () => (document.getElementById('q') as HTMLInputElement).focus());
+</script>
+<style>
+  .spread { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; padding: 48px 0 32px; align-items: start; }
+  .game { margin: 0; font-size: clamp(26px, 3.4vw, 40px); font-weight: 800; letter-spacing: .04em; line-height: 1; }
+  h1 { font-size: clamp(56px, 8.6vw, 112px); line-height: 1; letter-spacing: .06em; margin-top: 6px; position: relative; display: inline-block; padding-bottom: 10px; }
+  h1::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 10px; background: var(--c-pokemon); }
+  .pitch { margin-top: 22px; font-size: 17px; line-height: 1.75; color: var(--ink-2); max-width: 30em; }
+  .total { display: flex; align-items: center; gap: 14px; margin: 22px 0 0; }
+  .total b { font-size: clamp(72px, 9vw, 116px); font-weight: 800; line-height: .85; color: var(--c-pokemon); letter-spacing: -.01em; }
+  .total span { font-weight: 900; font-size: 18px; line-height: 1.5; }
+  .big-search { display: flex; align-items: center; gap: 12px; width: 100%; max-width: 460px; height: 54px; margin-top: 24px; padding: 0 16px; font: 500 16px var(--font); color: var(--ink-3); background: var(--paper); border: 2px solid var(--ink); border-radius: 4px; cursor: text; box-shadow: 0 10px 24px -14px #0006; transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .big-search:hover { transform: translateY(-1px); box-shadow: 0 14px 28px -14px #0007; }
+  .big-search :global(svg) { width: 20px; height: 20px; color: var(--ink); }
+  .big-search kbd { margin-left: auto; font: 700 12px var(--num); border: 1px solid var(--rule); border-radius: 3px; padding: 1px 7px; }
+  .update { margin-top: 36px; padding-top: 14px; border-top: 2px solid var(--ink); max-width: 460px; }
+  .u-h { display: flex; justify-content: space-between; margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .12em; color: var(--ink-3); }
+  .u-h time { font-size: 15px; letter-spacing: .02em; color: var(--ink); }
+  .u-t { font-size: 19px; font-weight: 900; margin: 0 0 6px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .u-t time { font-size: 15px; font-weight: 700; color: var(--ink-3); letter-spacing: .02em; }
+  .update ul { margin: 0 0 10px; padding-left: 1.2em; font-size: 14px; color: var(--ink-2); }
+  .update li::marker { color: var(--c-log); }
+  .update a { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; text-decoration: none; }
+  .update a :global(svg) { width: 15px; height: 15px; }
+
+  .toc h2 { font-size: 15px; letter-spacing: .5em; padding-bottom: 10px; border-bottom: 4px solid var(--ink); }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li a { display: grid; grid-template-columns: 12px minmax(0, auto) 1fr auto; align-items: center; gap: 0 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); text-decoration: none; animation: rise .7s var(--ease) both; animation-delay: calc(var(--i) * 60ms); }
+  .tab { width: 12px; align-self: stretch; background: var(--ch); border-radius: 2px; transform-origin: left center; transition: transform .3s var(--ease); }
+  .t { display: flex; flex-direction: column; min-width: 0; }
+  .t b { font-size: 22px; font-weight: 900; letter-spacing: .06em; line-height: 1.3; }
+  .t small { font-size: 13px; color: var(--ink-3); line-height: 1.5; }
+  .dots { align-self: end; margin-bottom: 9px; height: 2px; background-image: radial-gradient(circle, var(--ink-3) 1px, transparent 1.3px); background-size: 7px 2px; opacity: .8; min-width: 24px; }
+  .n { font-size: 22px; font-weight: 800; white-space: nowrap; }
+  .toc li a:hover .tab { transform: scaleX(1.67); }
+  .toc li a:hover b { color: var(--ch); }
+  .toc li a:hover { background: linear-gradient(90deg, var(--ch-tint), transparent 70%); }
+  .ver { font-size: 12.5px; color: var(--ink-3); margin-top: 12px; text-align: right; }
+  @keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+
+  .frieze { position: relative; height: 128px; margin: 0 calc(-1 * (var(--tab-w) + 24px)) 0 -24px; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); overflow: hidden; background: linear-gradient(var(--paper), var(--paper-2)); }
+  .frieze::after { content: ''; position: absolute; left: 0; right: 0; bottom: 18px; height: 2px; background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 8px, transparent 8px 16px); opacity: .5; }
+  .lane { position: absolute; left: 0; bottom: 18px; display: flex; gap: 28px; align-items: flex-end; width: max-content; animation: march 90s linear infinite; }
+  .w { display: block; height: 100px; display: flex; align-items: flex-end; }
+  @keyframes march { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+  @media (max-width: 960px) {
+    .spread { grid-template-columns: 1fr; gap: 40px; padding-top: 32px; min-height: 0; }
+    .frieze { margin: 0 -14px; }
+  }
+  @media (max-width: 560px) {
+    .t small { display: none; }
+    .t b { font-size: 18px; }
+    .n { font-size: 18px; }
+  }
+</style>

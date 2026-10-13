@@ -1,0 +1,135 @@
+{
+  "_meta": {
+    "locale": "zh-TW",
+    "description": "PokéSurvivor 世界地圖的繁體中文譯名，依 id 索引。遊戲原文為西班牙文。hazards 的中文標籤為本專案自訂（遊戲內沒有名稱）。",
+    "source": "app.pretty.js 與 src/data/game/{Tiles,Weather}.json"
+  },
+  "biomes": {
+    "forest": "幽暗森林",
+    "cave": "水晶洞窟",
+    "volcano": "灰燼火山",
+    "rift.normal": "裂隙 · 永恆草原",
+    "rift.fire": "裂隙 · 熔岩火山",
+    "rift.water": "裂隙 · 海洋洞窟",
+    "rift.grass": "裂隙 · 翡翠叢林",
+    "rift.electric": "裂隙 · 伏特發電站",
+    "rift.ice": "裂隙 · 永恆冰河",
+    "rift.fighting": "裂隙 · 古代道場",
+    "rift.poison": "裂隙 · 毒沼澤",
+    "rift.ground": "裂隙 · 赤沙漠",
+    "rift.flying": "裂隙 · 蒼天之巔",
+    "rift.psychic": "裂隙 · 心靈神殿",
+    "rift.bug": "裂隙 · 蜂巢森林",
+    "rift.rock": "裂隙 · 古老採石場",
+    "rift.ghost": "裂隙 · 幽暗墓園",
+    "rift.dragon": "裂隙 · 龍之聖域",
+    "rift.dark": "裂隙 · 暗影小巷",
+    "rift.steel": "裂隙 · 鋼鐵要塞",
+    "rift.fairy": "裂隙 · 魔法森林"
+  },
+  "tiles": {
+    "liquid.water": "水",
+    "liquid.lava": "岩漿",
+    "liquid.swamp": "沼澤",
+    "liquid.spark": "電火花",
+    "liquid.ice": "冰面",
+    "liquid.poison": "毒液",
+    "kind.floor": "地面",
+    "kind.wall": "牆壁",
+    "kind.liquid": "液體"
+  },
+  "props": {
+    "tree": "樹木",
+    "rock": "岩石",
+    "chest": "寶箱",
+    "grass": "草叢",
+    "altar": "祭壇",
+    "spring": "泉水",
+    "bigchest": "大寶箱",
+    "trap": "陷阱",
+    "rift": "裂隙入口"
+  },
+  "propStyles": {
+    "tree": "樹",
+    "crystal": "水晶樹",
+    "dead": "枯樹"
+  },
+  "trapKinds": {
+    "poison": "毒陷阱",
+    "grass": "草系陷阱（黏住）",
+    "fire": "火焰陷阱"
+  },
+  "powers": {
+    "dmg": {
+      "name": "狂怒",
+      "desc": "傷害 ×2"
+    },
+    "spd": {
+      "name": "迅雷",
+      "desc": "移動速度 +45%"
+    },
+    "mag": {
+      "name": "磁吸",
+      "desc": "從遠處吸引所有拾取物"
+    },
+    "cd": {
+      "name": "急速",
+      "desc": "冷卻時間 -40%"
+    }
+  },
+  "weather": {
+    "sun": {
+      "name": "烈日",
+      "hint": "火屬性增強，水屬性減弱"
+    },
+    "rain": {
+      "name": "降雨",
+      "hint": "水屬性增強，火屬性減弱"
+    },
+    "sand": {
+      "name": "沙暴",
+      "hint": "岩石、地面、鋼屬性增強；其餘屬性受傷"
+    },
+    "snow": {
+      "name": "降雪",
+      "hint": "冰屬性增強；其餘屬性受傷且移動變慢"
+    },
+    "fog": {
+      "name": "濃霧",
+      "hint": "幽靈、妖精、超能力屬性增強"
+    }
+  },
+  "hazards": {
+    "zone": "圓形危險區",
+    "beam": "直線危險帶",
+    "boss.slam": "王・猛擊（圓形）",
+    "boss.dash": "王・衝撞（直線）",
+    "boss.leap": "王・躍擊（圓形）",
+    "boss.rain": "王・落雨（多個圓形）",
+    "boss.beam": "王・光束（多條直線）",
+    "enemy.beamer": "光束型敵人",
+    "enemy.zoner": "範圍型敵人",
+    "enemy.bomber": "自爆型敵人（引信）",
+    "enemy.jumper": "跳躍型敵人（落點）"
+  },
+  "arenaThemes": {
+    "normal": "永恆草原",
+    "fire": "熔岩火山",
+    "water": "海洋洞窟",
+    "grass": "翡翠叢林",
+    "electric": "伏特發電站",
+    "ice": "永恆冰河",
+    "fighting": "古代道場",
+    "poison": "毒沼澤",
+    "ground": "赤沙漠",
+    "flying": "蒼天之巔",
+    "psychic": "心靈神殿",
+    "bug": "蜂巢森林",
+    "rock": "古老採石場",
+    "ghost": "幽暗墓園",
+    "dragon": "龍之聖域",
+    "dark": "暗影小巷",
+    "steel": "鋼鐵要塞",
+    "fairy": "魔法森林"
+  }
+}

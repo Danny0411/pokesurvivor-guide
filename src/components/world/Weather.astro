@@ -1,0 +1,150 @@
+---
+// 天氣：天氣一覽、觸發與時長、強度與效果。數值讀自 derived/world.json 的 weather；屬性譯名由 lib/game 的 typeName 取得。
+import world from '../../data/derived/world.json';
+import Type from '../Type.astro';
+import { typeName } from '../../lib/game';
+
+const W = world.weather;
+const KINDS = W.kinds as { id: string; nameZh: string; mult: Record<string, number>; safe: string[] | null; slow: boolean; hurts: boolean }[];
+const byId = Object.fromEntries(KINDS.map(k => [k.id, k]));
+const nameOf = (id: string) => byId[id]?.nameZh ?? id;
+const pctStr = (x: number) => `${+(x * 100).toFixed(1)}%`;
+
+// 其他效果（依程式碼：濃霧有暗角，降雪降速，沙暴受傷；四種都有畫面色調）
+const OTHER: Record<string, string> = {
+  sun: '畫面色調',
+  rain: '畫面色調',
+  sand: '畫面色調；玩家與敵人受傷',
+  snow: '畫面色調；非冰屬性移動變慢',
+  fog: '畫面色調；畫面邊緣暗角',
+};
+
+// 生態區索引除以 3 的餘數 → 權重表（未正規化）與換算機率
+const SCHED = W.schedule.tables.map(t => {
+  const entries = Object.entries(t.weights as Record<string, number>);
+  const total = entries.reduce((a, [, v]) => a + v, 0);
+  return {
+    rem: t.index,
+    biomes: t.biomes,
+    weights: entries.map(([id, w]) => `${nameOf(id)} ${w}`).join('、'),
+    probs: entries.map(([id, w]) => `${nameOf(id)} ${pctStr(w / total)}`).join('、'),
+  };
+});
+
+// 強度示意圖：以 60 秒為例（持續時間實際為 55 至 75 秒）
+const D = 60, X0 = 50, X1 = 580, Y0 = 150, Y1 = 30;
+const xs = (t: number) => X0 + (t / D) * (X1 - X0);
+const ys = (i: number) => Y0 - i * (Y0 - Y1);
+const inten = (t: number) => Math.min(1, t / 3, (D - t) / 3);
+const CURVE = [0, 3, D - 3, D].map(t => `${xs(t).toFixed(1)},${ys(inten(t)).toFixed(1)}`).join(' ');
+const SHADE = [[1.5, 0.5], [3, 1], [D - 3, 1], [D - 1.5, 0.5]].map(([t, i]) => `${xs(t).toFixed(1)},${ys(i).toFixed(1)}`).join(' ');
+---
+<section class="wsec" aria-labelledby="weather">
+  <h2 id="weather">天氣一覽</h2>
+  <p class="wlead">天氣共五種。每種天氣會調整部分屬性的傷害倍率：增強的屬性傷害變大，減弱的屬性傷害變小。</p>
+  <div class="spec-wrap">
+    <table class="spec">
+      <caption>五種天氣的屬性倍率與其他效果</caption>
+      <thead><tr><th>天氣</th><th>增強</th><th>減弱</th><th>受傷屬性</th><th>其他效果</th></tr></thead>
+      <tbody>
+        {KINDS.map(k => {
+          const up = Object.entries(k.mult).filter(([, v]) => v > 1);
+          const down = Object.entries(k.mult).filter(([, v]) => v < 1);
+          return (
+            <tr>
+              <th>{k.nameZh}</th>
+              <td>{up.length ? up.map(([t, v]) => <span class="pair"><Type t={t} link={false} /><span class="num">×{v}</span></span>) : '無'}</td>
+              <td>{down.length ? down.map(([t, v]) => <span class="pair"><Type t={t} link={false} /><span class="num">×{v}</span></span>) : '無'}</td>
+              <td>{k.hurts ? (k.safe ? `除${k.safe.map(t => typeName(t)).join('、')}以外` : '所有屬性') : '無'}</td>
+              <td>{OTHER[k.id]}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+  
+</section>
+
+<section class="wsec" aria-labelledby="weather-trigger">
+  <h2 id="weather-trigger">觸發與時長</h2>
+  <ul class="wrules">
+    <li>計時只在主機或單人遊戲進行。條件是一局超過 120 秒、目前沒有天氣、且不在競技場。</li>
+    <li>計時器為 60 秒，只在條件成立時遞減。歸零時以 18% 機率觸發天氣，並重設為 60 秒。</li>
+    <li>天氣種類依生態區索引除以 3 的餘數，選擇對應的權重表後抽取（見下表）。</li>
+    <li>持續時間為 55 至 75 秒之間的隨機值，四捨五入。</li>
+    <li>天氣開始時顯示「名稱: 說明」3.4 秒，並播放生態區音效。</li>
+    <li>競技場主題有天氣時，進入後強制該天氣 135 秒，離開時清除（見「生態區與競技場」）。</li>
+  </ul>
+  <div class="spec-wrap">
+    <table class="spec">
+      <caption>天氣權重表</caption>
+      <thead><tr><th>索引除以 3 的餘數</th><th>生態區索引</th><th>權重（未正規化）</th><th>換算機率</th></tr></thead>
+      <tbody>
+        {SCHED.map(s => (
+          <tr>
+            <th class="num">{s.rem}</th>
+            <td class="num">{s.biomes}</td>
+            <td>{s.weights}</td>
+            <td class="num">{s.probs}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="wnote">換算機率由權重除以權重總和計算，程式碼未直接列出。抽取不到時為降雨。</p>
+  
+</section>
+
+<section class="wsec" aria-labelledby="weather-effects">
+  <h2 id="weather-effects">強度與效果</h2>
+  <p class="wlead">天氣開始與結束各有 3 秒漸變。強度 i 決定屬性倍率、減速與暗角的大小，受傷則要求強度大於 0.5。</p>
+  <figure class="inten">
+    <svg viewBox="0 0 600 190" role="img" aria-label="強度示意：3 秒內漸強到 1，中間維持 1，最後 3 秒漸弱；強度高於 0.5 時才會受傷">
+      <polygon points={SHADE} class="shade" />
+      <line x1={X0} y1={Y0} x2={X1} y2={Y0} class="axis" />
+      <line x1={X0} y1={Y1} x2={X0} y2={Y0} class="axis" />
+      <line x1={X0} y1={ys(0.5)} x2={X1} y2={ys(0.5)} class="thr" />
+      <polyline points={CURVE} class="curve" />
+      <text x={X0 - 8} y={Y1 + 4} class="tick" text-anchor="end">1</text>
+      <text x={X0 - 8} y={ys(0.5) + 4} class="tick" text-anchor="end">0.5</text>
+      <text x={X0 - 8} y={Y0 + 4} class="tick" text-anchor="end">0</text>
+      <text x={xs(3)} y={Y0 + 18} class="tick" text-anchor="middle">3 秒</text>
+      <text x={xs(D - 3)} y={Y0 + 18} class="tick" text-anchor="middle">剩 3 秒</text>
+      <text x={X1} y={Y0 + 18} class="tick" text-anchor="end">60 秒（示意）</text>
+      <text x={300} y={ys(0.5) - 6} class="lbl">強度 0.5 以上才受傷</text>
+    </svg>
+    <figcaption>強度 i = min(1, 已持續秒數 ÷ 3, 剩餘秒數 ÷ 3)。陰影處為 i 大於 0.5 的時段。圖中以 60 秒示意，實際為 55 至 75 秒。</figcaption>
+  </figure>
+
+  <div class="spec-wrap">
+    <table class="spec">
+      <caption>效果與數值</caption>
+      <thead><tr><th>效果</th><th>對象</th><th>條件</th><th>數值</th></tr></thead>
+      <tbody>
+        <tr><th>受傷</th><td>玩家</td><td>天氣的受傷屬性（見一覽）；強度大於 0.5；每 2 秒一次</td><td>最大生命 × 1.2%（至少 1）；扣後生命需仍大於 1 才扣</td></tr>
+        <tr><th>受傷</th><td>敵人（僅主機）</td><td>沙暴與降雪；強度大於 0.5；每 2 秒一次；非首領、非遠程、屬性會受傷的敵人</td><td>最大生命 × 2% + 1</td></tr>
+        <tr><th>移動減速</th><td>玩家與敵人</td><td>降雪；非冰屬性</td><td class="num">移動速度 × (1 − 0.1 × 強度)</td></tr>
+        <tr><th>屬性倍率</th><td>招式傷害與受到的屬性傷害</td><td>每種天氣的增強與減弱</td><td class="num">1 + (倍率 − 1) × 強度</td></tr>
+        <tr><th>暗角</th><td>畫面</td><td>濃霧</td><td class="num">邊緣暗角強度 = 強度</td></tr>
+        <tr><th>色調</th><td>畫面</td><td>所有天氣</td><td class="num">全畫面色調疊加，透明度 × 強度</td></tr>
+        <tr><th>視野距離</th><td>—</td><td>—</td><td>程式碼未明確（未找到改變視野距離的設定）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="wnote">首領與遠程敵人不受天氣傷害。飛行判定與飄浮設定不影響天氣傷害；敵人是否受傷由屬性與天氣的安全清單決定。</p>
+  
+</section>
+
+<style>
+  .pair { display: inline-flex; align-items: center; gap: 4px; margin: 0 8px 4px 0; white-space: nowrap; }
+  .inten { margin: 6px 0 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .inten svg { display: block; width: 100%; min-width: 520px; height: auto; border: 2px solid var(--ink); background: var(--paper); }
+  .inten figcaption { font-size: 13px; color: var(--ink-2); margin-top: 8px; max-width: 72ch; }
+  .inten .axis { stroke: var(--ink-2); stroke-width: 2; }
+  .inten .thr { stroke: var(--ink); stroke-width: 2; stroke-dasharray: 6 5; }
+  .inten .curve { fill: none; stroke: var(--ch); stroke-width: 4; stroke-linejoin: round; }
+  .inten .shade { fill: var(--ch); opacity: .16; }
+  .inten .tick { font: 700 12px var(--num); fill: var(--ink-2); }
+  .inten .lbl { font: 700 13px var(--font); fill: var(--ink); }
+</style>

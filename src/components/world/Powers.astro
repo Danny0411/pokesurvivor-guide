@@ -1,0 +1,71 @@
+---
+// 傳說之力：四種力量的效果與持續時間讀自 derived/world.json 的 powers；取得與替換規則依 app.pretty.js。
+import world from '../../data/derived/world.json';
+const POW = world.powers;
+---
+<section class="wsec" aria-labelledby="powers">
+  <h2 id="powers">傳說之力</h2>
+  <p class="wlead">祭壇給予四種限時強化，每座祭壇只觸發一次，效果持續 25 秒。同一時間只能有一種，取得新的會取代舊的。</p>
+
+  <div class="spec-wrap">
+    <table class="spec">
+      <caption>四種力量</caption>
+      <thead><tr><th>祭壇種類</th><th>力量</th><th>效果</th><th>遊戲內數值</th><th>持續</th></tr></thead>
+      <tbody>
+        {POW.map(p => (
+          <tr>
+            <th class="num">{p.kind}</th>
+            <th>{p.nameZh}</th>
+            <td>{p.descZh}</td>
+            <td>{p.effect}</td>
+            <td class="num">{p.durationSec} 秒</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="wcap">怎麼決定是哪一種</h3>
+  <ul class="wrules">
+    <li>生成祭壇時，該地塊的雜湊值乘以 4 取整數，得到種類 0 至 3，各 25%。生成後固定，不會因玩家而改變。</li>
+    <li>玩家存活並進入範圍（距離小於 max(30, 23 + 玩家半徑) 像素，以距離平方比較）時，自動取得該種力量。每座祭壇只觸發一次。</li>
+  </ul>
+
+  <h3 class="wcap">同時只能一種</h3>
+  <ul class="wrules">
+    <li>取得新力量時，舊力量的效果先移除，新力量立即生效。</li>
+    <li>計時從 25 秒重新開始，不疊加。計時每幀減少，歸零時移除效果。</li>
+  </ul>
+  <figure class="swap">
+    <svg viewBox="0 0 600 104" role="img" aria-label="時間軸示意：狂怒在 0 至 10 秒，之後迅雷從 10 秒持續到 35 秒">
+      <text x="186" y="14" class="lbl">10 秒：取得迅雷，狂怒結束</text>
+      <line x1="180" y1="18" x2="180" y2="78" class="mark" />
+      <rect x="20" y="30" width="160" height="34" class="old" />
+      <text x="28" y="52" class="in">狂怒</text>
+      <rect x="180" y="30" width="400" height="34" class="new" />
+      <text x="190" y="52" class="in-new">迅雷（25 秒）</text>
+      <line x1="20" y1="78" x2="580" y2="78" class="axis" />
+      <text x="20" y="96" class="tick">0 秒</text>
+      <text x="180" y="96" class="tick" text-anchor="middle">10</text>
+      <text x="340" y="96" class="tick" text-anchor="middle">20</text>
+      <text x="500" y="96" class="tick" text-anchor="middle">30</text>
+      <text x="580" y="96" class="tick" text-anchor="end">35 秒</text>
+    </svg>
+    <figcaption>示意：先取得狂怒，10 秒後取得迅雷。狂怒立即結束，迅雷持續 25 秒。</figcaption>
+  </figure>
+  
+</section>
+
+<style>
+  .swap { margin: 14px 0 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .swap svg { display: block; width: 100%; min-width: 520px; height: auto; border: 2px solid var(--ink); background: var(--paper); }
+  .swap figcaption { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+  .swap .old { fill: var(--paper-2); stroke: var(--ink-3); stroke-width: 2; stroke-dasharray: 5 4; }
+  .swap .new { fill: var(--ch); }
+  .swap .mark { stroke: var(--ink); stroke-width: 2; stroke-dasharray: 4 4; }
+  .swap .axis { stroke: var(--ink-2); stroke-width: 2; }
+  .swap .in { font: 700 14px var(--font); fill: var(--ink-2); }
+  .swap .in-new { font: 700 14px var(--font); fill: #fff; }
+  .swap .lbl { font: 700 13px var(--font); fill: var(--ink); }
+  .swap .tick { font: 700 12px var(--num); fill: var(--ink-2); }
+</style>

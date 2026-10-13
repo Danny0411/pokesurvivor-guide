@@ -1,0 +1,194 @@
+@font-face { font-family: 'Noto Sans TC'; src: url('../assets/fonts/NotoSansTC.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Barlow C'; src: url('../assets/fonts/BarlowCondensed-SemiBold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow C'; src: url('../assets/fonts/BarlowCondensed-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow C'; src: url('../assets/fonts/BarlowCondensed-ExtraBold.woff2') format('woff2'); font-weight: 800; font-display: swap; }
+
+:root {
+  /* 銅版紙與油墨 */
+  --paper: #fafaf7;
+  --paper-2: #f0f0eb;
+  --ink: #151515;
+  --ink-2: #4a4a48;
+  --ink-3: #74746f;
+  --rule: #15151524;
+  --rule-strong: #151515;
+  /* 章節印刷色：每章一色，只用在側邊索引、表頭色帶與列底色 */
+  --c-pokemon: #e60012;
+  --c-moves: #0077b6;
+  --c-types: #6a3cb2;
+  --c-run: #00803a;
+  --c-enemies: #d6006f;
+  --c-world: #b85600;
+  --c-collect: #1d50a2;
+  --c-log: #3a3a3a;
+  /* 保留色：只用來標示「目前選取」，像攻略本上的螢光筆 */
+  --sel: #fff000;
+  --sel-ink: #151515;
+  /* 全站數值共用的 10 階色階 */
+  --r0: #e9eef6; --r1: #d3def0; --r2: #b6c8e6; --r3: #94aedb; --r4: #7092ce;
+  --r5: #4f76bf; --r6: #355ead; --r7: #24498f; --r8: #183670; --r9: #0e2350;
+  --ch: var(--c-pokemon);
+  --ch-tint: color-mix(in oklab, var(--ch) 9%, var(--paper));
+  --ch-ink: #fff;
+  --cell: 8px;
+  --font: 'Noto Sans TC', system-ui, sans-serif;
+  --num: 'Barlow C', 'Noto Sans TC', sans-serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --tab-w: 44px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #121211; --paper-2: #1c1c1a; --ink: #f1f1ec; --ink-2: #bdbdb6; --ink-3: #8f8f88;
+    --rule: #f1f1ec26; --rule-strong: #f1f1ec;
+    --c-pokemon: #d81e26; --c-moves: #0a72b8; --c-types: #7448c8; --c-run: #0b7a3b; --c-enemies: #c4146b; --c-world: #ad5300; --c-collect: #2f5fbf; --c-log: #5a5a56;
+    --r0: #18202e; --r1: #1c2a42; --r2: #213456; --r3: #26406c; --r4: #2e4f86; --r5: #3a62a3; --r6: #4c78bd; --r7: #6890d0; --r8: #8eaee0; --r9: #bcd0f0;
+    color-scheme: dark;
+  }
+}
+[data-ch='pokemon'] { --ch: var(--c-pokemon); }
+[data-ch='moves'] { --ch: var(--c-moves); }
+[data-ch='types'] { --ch: var(--c-types); }
+[data-ch='run'] { --ch: var(--c-run); }
+[data-ch='enemies'] { --ch: var(--c-enemies); }
+[data-ch='world'] { --ch: var(--c-world); }
+[data-ch='collect'] { --ch: var(--c-collect); }
+[data-ch='log'] { --ch: var(--c-log); }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 15px/1.7 var(--font); font-feature-settings: 'palt' 0;
+  text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--sel); color: var(--sel-ink); }
+:focus-visible { outline: 3px solid var(--ch); outline-offset: 2px; border-radius: 2px; }
+a { color: inherit; text-decoration-thickness: 1.5px; text-underline-offset: 3px; text-decoration-color: color-mix(in oklab, var(--ch) 70%, transparent); }
+a:hover { text-decoration-color: var(--ch); }
+img { max-width: 100%; }
+h1, h2, h3, h4 { font-weight: 900; line-height: 1.25; margin: 0; text-wrap: balance; letter-spacing: .01em; }
+p { margin: 0 0 1em; max-width: 70ch; }
+.num { font-family: var(--num); font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* 捲軸 */
+* { scrollbar-width: thin; scrollbar-color: color-mix(in oklab, var(--ink) 35%, transparent) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--ink) 30%, transparent); border: 3px solid var(--paper); border-radius: 10px; }
+
+/* 像素圖 */
+.pixel { image-rendering: pixelated; image-rendering: crisp-edges; }
+
+/* 網點陰影：攻略本的章節標題底紋 */
+.halftone {
+  background-image: radial-gradient(circle at center, color-mix(in oklab, var(--ch) 55%, transparent) 1.1px, transparent 1.4px);
+  background-size: 6px 6px;
+}
+
+/* 屬性標籤 */
+.type {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 3.4em; height: 22px; padding: 0 8px;
+  font-size: 12px; font-weight: 700; line-height: 1; letter-spacing: .06em; color: #fff; background: var(--t); border-radius: 3px;
+  text-shadow: 0 1px 0 #0003; text-decoration: none; white-space: nowrap;
+}
+.type.dark-text { color: #1a1a1a; text-shadow: none; }
+
+/* 稀有度 */
+.rarity { display: inline-flex; gap: 2px; vertical-align: middle; }
+.rarity i { width: 8px; height: 8px; border-radius: 50%; background: var(--rc); box-shadow: inset 0 -1.5px 0 #0003; }
+.rarity i.off { background: var(--rule); box-shadow: none; }
+
+/* 資料表：章節色表頭色帶、細線、色調列 */
+.spec { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.45; }
+.spec caption { text-align: left; font-weight: 900; font-size: 15px; padding: 0 0 6px; }
+.spec thead th {
+  background: var(--ch); color: var(--ch-ink); font-weight: 700; font-size: 12.5px; letter-spacing: .05em;
+  text-align: left; padding: 7px 10px; white-space: nowrap; position: relative;
+}
+.spec td, .spec tbody th { padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; text-align: left; }
+.spec tbody th { font-weight: 700; white-space: nowrap; }
+.spec tbody tr:nth-child(even) > * { background: var(--ch-tint); }
+.spec .r, .spec td.num, .spec th.num { text-align: right; }
+.spec td.num { font-size: 16px; font-weight: 600; }
+.spec-wrap { position: relative; overflow-x: auto; -webkit-overflow-scrolling: touch; border-top: 3px solid var(--ch); }
+.spec-wrap > .spec thead th { border-top: 0; }
+
+/* 數值格：固定色階 */
+.ramp { --v: 0; position: relative; display: block; height: 10px; background: var(--paper-2); border-radius: 1px; overflow: hidden; min-width: 60px; }
+.ramp b { position: absolute; inset: 0 auto 0 0; width: calc(var(--p) * 100%); background: var(--rc, var(--r5)); }
+.s0 { --rc: var(--r0); } .s1 { --rc: var(--r1); } .s2 { --rc: var(--r2); } .s3 { --rc: var(--r3); } .s4 { --rc: var(--r4); }
+.s5 { --rc: var(--r5); } .s6 { --rc: var(--r6); } .s7 { --rc: var(--r7); } .s8 { --rc: var(--r8); } .s9 { --rc: var(--r9); }
+
+/* 正文排版（機制章節） */
+.prose { font-size: 15.5px; }
+.prose h2 { font-size: 24px; margin: 56px 0 16px; padding: 10px 14px 9px; color: #fff; background-color: var(--ch); position: relative; }
+.prose h2::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 38%; background-image: radial-gradient(circle, #ffffff59 1.1px, transparent 1.4px); background-size: 6px 6px; mask-image: linear-gradient(90deg, transparent, #000); }
+.prose h3 { font-size: 18px; margin: 36px 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--ink); display: flex; align-items: center; gap: 10px; }
+.prose h3::before { content: ''; width: 10px; height: 10px; background: var(--ch); flex: none; }
+.prose h4 { font-size: 15.5px; margin: 24px 0 8px; }
+.prose ul, .prose ol { padding-left: 1.3em; margin: 0 0 1em; max-width: 72ch; }
+.prose li { margin: .3em 0; }
+.prose li::marker { color: var(--ch); }
+.prose code { font-family: var(--num); font-size: .95em; background: var(--paper-2); padding: 1px 5px; border-radius: 3px; }
+.prose .table-wrap { overflow-x: auto; margin: 12px 0 24px; border-top: 3px solid var(--ch); -webkit-overflow-scrolling: touch; }
+.prose table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.5; margin: 12px 0 24px; border-top: 3px solid var(--ch); }
+.prose pre { margin: 12px 0 20px; padding: 14px 16px; background: var(--paper-2); color: var(--ink); border-top: 3px solid var(--ch); overflow-x: auto; font: 600 15px/1.7 var(--num); white-space: pre-wrap; }
+.prose pre code { background: none; padding: 0; font: inherit; }
+.prose thead th { background: var(--ch); color: #fff; font-weight: 700; font-size: 12.5px; letter-spacing: .04em; text-align: left; padding: 7px 10px; white-space: nowrap; }
+.prose td { padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; min-width: 4em; }
+.prose tbody tr:nth-child(even) td { background: var(--ch-tint); }
+.prose blockquote { margin: 16px 0; padding: 10px 16px; background: var(--paper-2); border-radius: 2px; }
+.prose strong { font-weight: 800; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+
+/* 搜尋結果（由 script 產生） */
+.results li a { display: grid; grid-template-columns: 3.4em 1fr; grid-template-rows: auto auto; column-gap: 10px; padding: 7px 10px; text-decoration: none; border-radius: 3px; }
+.results li .k { grid-row: 1 / span 2; align-self: center; font-size: 11px; font-weight: 700; color: var(--ink-3); letter-spacing: .06em; }
+.results li b { font-size: 15px; }
+.results li small { font-size: 12.5px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.results li[aria-selected='true'] a, .results li a:hover { background: color-mix(in oklab, var(--sel) 55%, var(--paper)); color: #151515; }
+.results li[aria-selected='true'] small, .results li a:hover small { color: #444; }
+.results .none { padding: 14px 10px; color: var(--ink-2); font-size: 14px; }
+
+@media (max-width: 860px) {
+  .spec td, .spec th { white-space: nowrap; }
+  .spec td.up, .spec td.wrap { white-space: normal; min-width: 14em; }
+  .prose td { min-width: 6em; }
+  .prose table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+fieldset { min-width: 0; }
+
+/* 章節扉頁：全站共用 */
+.ch-head { margin: 0 calc(-1 * (var(--tab-w) + 24px)) 0 -24px; padding: 44px calc(var(--tab-w) + 24px) 26px 24px; border-bottom: 4px solid var(--ch); background-color: var(--paper); background-image: radial-gradient(circle at center, color-mix(in oklab, var(--ch) 50%, transparent) 1.1px, transparent 1.4px); background-size: 6px 6px; position: relative; }
+.ch-head::before { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, var(--paper) 38%, color-mix(in oklab, var(--paper) 70%, transparent) 70%, transparent); }
+.ch-head > * { max-width: 1240px; margin-left: max(0px, calc((100% - 1240px) / 2)); margin-right: auto; position: relative; }
+.ch-head h1 { font-size: clamp(32px, 4.8vw, 56px); letter-spacing: .05em; line-height: 1.1; }
+.ch-head .sum { max-width: 72ch; margin-top: 12px; font-size: 16px; color: var(--ink-2); max-width: 72ch; }
+.ch-head .sub { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.ch-head .sub a { font-weight: 700; font-size: 14px; text-decoration: none; padding: 6px 14px; border: 2px solid var(--ink); border-radius: 4px; background: var(--paper); }
+.ch-head .sub a[aria-current='page'] { background: var(--ink); color: var(--paper); }
+@media (max-width: 860px) { .ch-head { margin: 0 -14px; padding: 30px 14px 20px; } }
+
+/* 段落標題色帶（與正文 h2 相同） */
+.band { font-size: 22px; margin: 0 0 14px; padding: 9px 14px 8px; color: #fff; background-color: var(--ch); position: relative; display: flex; align-items: baseline; gap: 10px; }
+.band::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 38%; background-image: radial-gradient(circle, #ffffff59 1.1px, transparent 1.4px); background-size: 6px 6px; mask-image: linear-gradient(90deg, transparent, #000); pointer-events: none; }
+.band .count, .band small { color: #fff; }
+
+/* 表格可以橫向捲動時，在邊緣顯示陰影提示 */
+.spec-wrap, .prose table, .chart-wrap {
+  background:
+    linear-gradient(90deg, var(--paper) 30%, transparent) left / 24px 100% no-repeat local,
+    linear-gradient(270deg, var(--paper) 30%, transparent) right / 24px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, #0003, transparent) left / 10px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, #0003, transparent) right / 10px 100% no-repeat scroll;
+}
+.spec thead th { text-align: left; }
+.spec thead th.r, .spec thead th.num { text-align: right; }
+.spec tbody th.num { text-align: left; }
+
+.spec td.r { text-align: right; }

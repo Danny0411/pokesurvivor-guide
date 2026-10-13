@@ -1,0 +1,26 @@
+---
+// 章節頭與子頁籤：樣式與 src/components/Chapter.astro 的 .ch-head 相同，給非機制章節的子頁使用。
+// 標題與章節名稱相同時（例如更新紀錄）不重複顯示章節名稱。
+import { chapterOf } from '../../lib/nav';
+import { url } from '../../lib/game';
+import type { SubLink } from './nav';
+
+interface Props { chapter: string; title: string; summary?: string; sub?: SubLink[] }
+const { chapter, title, summary, sub = [] } = Astro.props;
+const ch = chapterOf(chapter);
+const path = Astro.url.pathname;
+---
+<header class="ch-head halftone">
+  <h1>{title}</h1>
+  {summary && <p class="sum">{summary}</p>}
+  {sub.length > 0 && (
+    <nav class="sub" aria-label={`${ch.zh}的頁面`}>
+      {sub.map(s => <a href={url(s.href)} aria-current={path === url(s.href) ? 'page' : undefined}>{s.zh}</a>)}
+    </nav>
+  )}
+</header>
+
+<style>
+  @media (max-width: 960px) {
+  }
+</style>

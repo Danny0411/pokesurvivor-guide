@@ -1,0 +1,112 @@
+---
+import RunPage from '../../../components/run/RunPage.astro';
+import XpCurve from '../../../components/run/XpCurve.astro';
+import { url, ENEMY_TIERS, BOSS_SLOTS } from '../../../lib/game';
+
+// 升級所需經驗（程式碼 G.Player.xpFor：.cache/）
+const xpFor = (lv: number) => Math.floor(4 * (8 + 6 * lv + 1.6 * Math.pow(lv, 1.75)));
+const ROWS: { lv: number; need: number; cum: number }[] = [];
+let total = 0;
+for (let lv = 1; lv <= 60; lv++) {
+  const need = xpFor(lv);
+  total += need;
+  ROWS.push({ lv, need, cum: total });
+}
+const LEFT = ROWS.slice(0, 30);
+const RIGHT = ROWS.slice(30);
+const f = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const TIER_XP = [...new Set(ENEMY_TIERS.map(t => t.xp))].join('、');
+const BOSS_XP = BOSS_SLOTS.map(b => b.xp).join('、');
+const TOC = [
+  { id: 'formula', text: '升級所需經驗' },
+  { id: 'chart', text: '經驗曲線' },
+  { id: 'sources', text: '經驗來源' },
+  { id: 'gems', text: '經驗寶石與拾取' },
+  { id: 'mult', text: '經驗倍率' },
+  { id: 'table', text: 'Lv1 到 Lv60' },
+];
+---
+<RunPage title="經驗與等級" summary="升級所需經驗只由等級決定。角色從 1 級、0 經驗開始，升到 2 級需要 62 點經驗。程式碼未明確有等級上限。" toc={TOC}>
+  <h2 id="formula">升級所需經驗</h2>
+  <pre class="formula"><code>升級所需經驗 = floor(4 × (8 + 6L + 1.6 × L^1.75))
+L 為目前等級</code></pre>
+  <ul>
+    <li>Lv1 升到 Lv2 需要 62 點（4 × (8 + 6 + 1.6) = 62.4，取整數）。</li>
+    <li>經驗超過門檻時升級，超出的部分保留到下一級。</li>
+    <li>每升一級，遊戲暫停並顯示 3 張能力卡，選一張後才繼續。升級本身不會提升能力。</li>
+    <li>遊戲中未見等級上限，因此本頁不標示上限（程式碼未明確）。</li>
+  </ul>
+
+  <h2 id="chart">經驗曲線</h2>
+  <XpCurve rows={ROWS} />
+
+  <h2 id="sources">經驗來源</h2>
+  <div class="spec-wrap">
+    <table class="spec">
+      <thead><tr><th>來源</th><th>獲得經驗</th><th>說明</th></tr></thead>
+      <tbody>
+        <tr><th>一般敵人</th><td>敵人定義的經驗：{TIER_XP}</td><td>死亡時掉 1 顆經驗寶石，值為該敵人的經驗。敵人分級見<a href={url('/enemies/')}>敵人與裂隙</a>。</td></tr>
+        <tr><th>閃光敵人</th><td>經驗 ×5</td><td>同時最大生命 ×2。</td></tr>
+        <tr><th>金色敵人</th><td>經驗 ×2</td><td>首領與盜賊除外。</td></tr>
+        <tr><th>首領</th><td>敵人定義的經驗：{BOSS_XP}</td><td>以 14 顆大型經驗寶石掉落，每顆為經驗 ÷ 14 無條件進位。</td></tr>
+        <tr><th>岩石</th><td>40% 機率 6 點</td><td>其餘情況不掉經驗。</td></tr>
+        <tr><th>小寶箱</th><td>20 點</td><td>掉 1 顆大型經驗寶石（數值 20 以上使用大型）。</td></tr>
+        <tr><th>大寶箱</th><td>升到下一級所需的剩餘經驗</td><td>寶石值為 ceil((升級所需 − 目前經驗 + 1) ÷ 經驗倍率)，拾取後的實際獲得量約等於剩餘經驗。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="gems">經驗寶石與拾取</h2>
+  <ul>
+    <li>經驗寶石分兩種：數值未滿 20 為<b>經驗寶石</b>，20 以上為<b>大型經驗寶石</b>。</li>
+    <li>拾取時獲得的經驗 = 寶石數值 × 經驗倍率。合作模式中會再乘上經驗分攤係數，依人數與各玩家的倍率計算，本頁不展開。</li>
+    <li>寶石進入拾取範圍後飛向最近的玩家。基礎範圍為 78 像素，乘上磁力倍率；距離 15 像素內即被拾取。</li>
+    <li>場上掉落物最多 420 個。超過時先把一顆經驗寶石合併到下一顆，變成大型寶石；找不到經驗寶石時，移除最舊的一個。</li>
+    <li>每次掉落一般經驗寶石時，另有機率掉抽獎券（0.25%）、回復果實（1.2%）、磁鐵（0.8%）或炸彈（0.6%）。</li>
+  </ul>
+
+  <h2 id="mult">經驗倍率</h2>
+  <div class="spec-wrap">
+    <table class="spec">
+      <thead><tr><th>來源</th><th>效果</th><th>上限</th></tr></thead>
+      <tbody>
+        <tr><th>永久強化「智慧強化」（Sabiduría）</th><td class="num">×(1 + 0.05 × 等級)</td><td class="num">8 級</td></tr>
+        <tr><th>升級卡「學習」</th><td class="num">×1.12</td><td class="num">每局 8 張</td></tr>
+        <tr><th>持有物「幸運蛋」</th><td class="num">×1.3</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>以上數值為乘法，全部相乘後套用到每次獲得的經驗。</p>
+
+  <h2 id="table">Lv1 到 Lv60</h2>
+  <p>「升到下一級」是從該等級升到下一級所需的經驗。「累計」是從 Lv1、0 經驗開始，升到該等級的下一級為止的總經驗。</p>
+  <div class="lv-grid">
+    {[LEFT, RIGHT].map(part => (
+      <div class="spec-wrap">
+        <table class="spec lv">
+          <thead><tr><th>等級</th><th class="r">升到下一級</th><th class="r">累計</th></tr></thead>
+          <tbody>
+            {part.map(r => (
+              <tr>
+                <th class="num">Lv{r.lv}</th>
+                <td class="num r">{f(r.need)}</td>
+                <td class="num r">{f(r.cum)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ))}
+  </div>
+</RunPage>
+
+<style>
+  .formula { margin: 12px 0 16px; padding: 14px 16px; background: var(--paper-2); border-left: 0; border-radius: 2px; overflow-x: auto; }
+  .formula code { font-family: var(--num); font-size: 16px; font-weight: 600; background: none; padding: 0; white-space: pre; }
+  .lv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .lv th, .lv td { padding: 5px 10px; }
+  .lv th.num { font-size: 14px; }
+  .lv td.num { font-size: 15px; font-weight: 600; }
+  .r { text-align: right; }
+  @media (max-width: 760px) { .lv-grid { grid-template-columns: 1fr; } }
+</style>

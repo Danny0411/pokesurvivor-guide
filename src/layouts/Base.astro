@@ -1,0 +1,140 @@
+---
+import '../styles/global.css';
+import { CHAPTERS } from '../lib/nav';
+import { url, gameVersion, extractedAt } from '../lib/game';
+import Icon from '../components/Icon.astro';
+interface Props { title: string; description?: string; chapter?: string; wide?: boolean }
+const { title, description = 'PokéSurvivor 完全圖鑑：從遊戲原始碼整理的寶可夢、招式、敵人、地圖與收集系統資料。', chapter = '', wide = false } = Astro.props;
+const fullTitle = title === 'PokéSurvivor 完全圖鑑' ? title : `${title}｜PokéSurvivor 完全圖鑑`;
+const path = Astro.url.pathname;
+const date = new Date(extractedAt).toLocaleDateString('zh-TW', { timeZone: 'Asia/Taipei', year: 'numeric', month: 'long', day: 'numeric' });
+---
+<!doctype html>
+<html lang="zh-Hant-TW" data-ch={chapter}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#121211" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href={url('/favicon-32.png')} sizes="32x32" type="image/png" />
+  <link rel="icon" href={url('/favicon-64.png')} sizes="64x64" type="image/png" />
+  <meta property="og:image" content={new URL(url('/icon-512.png'), Astro.site)} />
+  <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
+  <link rel="canonical" href={new URL(path, Astro.site)} />
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要內容</a>
+  <header class="top">
+    <a class="brand" href={url('/')} aria-label="PokéSurvivor 完全圖鑑 首頁">
+      <img class="mark pixel" src={url('/favicon-64.png')} width="32" height="32" alt="" />
+      <span class="brand-name">PokéSurvivor<b>完全圖鑑</b></span>
+    </a>
+    <div class="search" data-search>
+      <label class="vh" for="q">搜尋寶可夢、招式或機制</label>
+      <Icon name="search" />
+      <input id="q" type="search" placeholder="搜尋寶可夢、招式、機制…" autocomplete="off" spellcheck="false" aria-controls="q-results" aria-expanded="false" role="combobox" />
+      <kbd>/</kbd>
+      <ol id="q-results" class="results" role="listbox" hidden></ol>
+    </div>
+    <a class="play" href="https://pokesurvivor.com/" rel="noopener">去玩遊戲<Icon name="external" /></a>
+  </header>
+
+  <nav class="tabs" aria-label="章節">
+    {CHAPTERS.map(c => (
+      <a href={url(c.href)} data-ch={c.id} aria-current={path.startsWith(url(c.href)) ? 'page' : undefined}><span>{c.short}</span></a>
+    ))}
+  </nav>
+
+  <main id="main" class:list={['main', { wide }]}>
+    <slot />
+  </main>
+
+  <footer class="foot">
+    <div class="foot-in">
+      <p><strong>PokéSurvivor 完全圖鑑</strong>是非官方的粉絲網站，與遊戲作者、任天堂、Game Freak 及 The Pokémon Company 無關。所有資料取自 <a href="https://pokesurvivor.com/" rel="noopener">PokéSurvivor</a> 公開的遊戲程式碼，中文名稱為翻譯。</p>
+      <p>寶可夢動畫圖來自 <a href="https://sprites.pmdcollab.org/" rel="noopener">PMDCollab SpriteCollab</a>，版權屬各圖作者，依 CC BY-NC 4.0 授權使用。</p>
+      <p class="ver num">資料版本 {gameVersion} · 擷取於 {date}</p>
+    </div>
+  </footer>
+
+  <script>
+    import '../scripts/search.ts';
+  </script>
+</body>
+</html>
+
+<style>
+  .skip { position: absolute; left: -999px; top: 8px; z-index: 100; background: var(--sel); color: #151515; padding: 8px 12px; font-weight: 700; }
+  .skip:focus { left: 8px; }
+
+  .top {
+    position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 16px;
+    height: 60px; padding: 0 calc(var(--tab-w) + 24px) 0 24px;
+    background: color-mix(in oklab, var(--paper) 92%, transparent); backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 2px solid var(--ink);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex: none; }
+  .mark { width: 32px; height: 32px; }
+  .brand-name { display: flex; flex-direction: column; font-family: var(--num); font-weight: 800; font-size: 15px; line-height: 1; letter-spacing: .02em; }
+  .brand-name b { font-family: var(--font); font-weight: 900; font-size: 17px; letter-spacing: .12em; margin-top: 3px; }
+
+  .search { position: relative; flex: 1; max-width: 560px; margin-left: auto; display: flex; align-items: center; }
+  .search :global(svg) { position: absolute; left: 12px; width: 18px; height: 18px; color: var(--ink-3); pointer-events: none; }
+  .search input {
+    width: 100%; height: 40px; padding: 0 40px 0 38px; font: 500 15px var(--font); color: var(--ink);
+    background: var(--paper-2); border: 1.5px solid transparent; border-radius: 4px; outline: none;
+    transition: border-color .2s var(--ease), background .2s var(--ease);
+  }
+  .search input::placeholder { color: var(--ink-3); }
+  .search input:focus { border-color: var(--ink); background: var(--paper); }
+  .search kbd { position: absolute; right: 10px; font: 700 12px var(--num); color: var(--ink-3); border: 1px solid var(--rule); border-radius: 3px; padding: 1px 6px; }
+  .search input:focus ~ kbd { display: none; }
+  .results {
+    position: absolute; top: 46px; left: 0; right: 0; margin: 0; padding: 6px; list-style: none; max-height: min(70vh, 520px); overflow: auto;
+    background: var(--paper); border: 2px solid var(--ink); border-radius: 4px; box-shadow: 0 18px 40px -12px #0005;
+  }
+  .play { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; text-decoration: none; padding: 8px 14px; border: 2px solid var(--ink); border-radius: 4px; flex: none; transition: background .2s var(--ease), color .2s var(--ease); }
+  .play:hover { background: var(--ink); color: var(--paper); }
+  .play :global(svg) { width: 14px; height: 14px; }
+
+  /* 書口的索引標籤 */
+  .tabs { position: fixed; right: 0; top: 0; bottom: 0; z-index: 45; width: var(--tab-w); display: flex; flex-direction: column; justify-content: center; gap: 3px; padding: 12px 0; }
+  .tabs a {
+    --ch-c: var(--ch); position: relative; display: flex; align-items: center; justify-content: center; height: 76px;
+    background: var(--ch); color: #fff; text-decoration: none; border-radius: 6px 0 0 6px;
+    transform: translateX(10px); transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+  }
+  .tabs a span { writing-mode: vertical-rl; font-weight: 900; font-size: 14px; letter-spacing: .3em; padding-top: .3em; }
+  .tabs a:hover { transform: translateX(2px); }
+  .tabs a[aria-current='page'] { transform: translateX(0); box-shadow: -4px 0 14px -4px #0006; }
+  .tabs a[aria-current='page']::before { content: ''; position: absolute; left: -7px; top: 50%; width: 7px; height: 24px; margin-top: -12px; background: var(--sel); border-radius: 2px 0 0 2px; }
+
+  .main { padding: 0 calc(var(--tab-w) + 24px) 80px 24px; max-width: calc(1240px + var(--tab-w) + 48px); margin: 0 auto; }
+  .main.wide { max-width: none; }
+
+  .foot { border-top: 2px solid var(--ink); padding: 28px calc(var(--tab-w) + 24px) 40px 24px; color: var(--ink-2); font-size: 13px; }
+  .foot-in { max-width: 1240px; margin: 0 auto; }
+  .foot p { max-width: 80ch; margin: 0 0 .5em; }
+  .ver { color: var(--ink-3); font-size: 13px; letter-spacing: .04em; }
+
+  @media (max-width: 860px) {
+    :root { --tab-w: 0px; }
+    .top { height: 56px; padding: 0 12px; gap: 10px; }
+    .brand-name { display: none; }
+    .play { display: none; }
+    .search kbd { display: none; }
+    .tabs { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: calc(48px + env(safe-area-inset-bottom)); flex-direction: row; padding: 0 0 env(safe-area-inset-bottom); gap: 0; background: var(--paper); border-top: 2px solid var(--ink); justify-content: stretch; }
+    .tabs a { flex: 1 1 0; min-width: 0; height: 48px; border-radius: 0; transform: none; background: var(--paper); color: var(--ink); border-top: 5px solid var(--ch); }
+    .tabs a span { writing-mode: horizontal-tb; letter-spacing: 0; font-size: 12.5px; padding: 0; }
+    .tabs a:hover { transform: none; }
+    .tabs a[aria-current='page'] { background: var(--ch); color: #fff; box-shadow: none; }
+    .tabs a[aria-current='page']::before { display: none; }
+    .main { padding: 0 14px 96px; }
+    .foot { padding: 24px 14px 90px; }
+  }
+</style>

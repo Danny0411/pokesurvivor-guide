@@ -1,0 +1,186 @@
+---
+// 扭蛋：花費、抽獎券來源、機率、保底、9 個卡池與寶可夢清單。
+// 數字
+// 程式行號指 .cache/app.pretty.js。
+import Base from '../../../layouts/Base.astro';
+import ChapterHead from '../../../components/collect/ChapterHead.astro';
+import PityBar from '../../../components/collect/PityBar.astro';
+import PokeList from '../../../components/collect/PokeList.astro';
+import Rarity from '../../../components/Rarity.astro';
+import { COLLECT_SUB } from '../../../components/collect/nav';
+import { POKEMON, BANNERS, RARITY_NAME, RARITY_COLOR, url } from '../../../lib/game';
+import GACHA from '../../../data/game/Gacha.json';
+import META from '../../../data/derived/meta.json';
+import '../../../components/collect/collect.css';
+
+const RARITIES = [5, 4, 3, 2, 1];
+const RATE = Object.fromEntries(GACHA.RATES as [number, number][]) as Record<number, number>;
+const REFUND = GACHA.REFUND as Record<string, number>;
+const PITY = GACHA.PITY_5;
+
+// 卡池：世代相符，且有動畫圖。數量與推導值核對，不符就讓建置失敗。
+const pools = BANNERS.map(b => {
+  const list = POKEMON.filter(p => p.gen === b.gen && p.gacha);
+  const d = META.gacha.banners.find(x => x.gen === b.gen)!;
+  if (list.length !== d.pool_size_total) throw new Error(`${b.name} 卡池數量與 derived 不符`);
+  return {
+    gen: b.gen,
+    zh: b.zh,
+    total: list.length,
+    shiny: d.shiny_eligible_total,
+    groups: RARITIES.map(r => ({ r, items: list.filter(p => p.rarity === r).sort((a, c) => a.dex - c.dex) })),
+    featured: list.filter(p => p.rarity === 5).sort((a, c) => c.bst - a.bst).slice(0, 3),
+  };
+});
+
+// 機率條：由 1★ 到 5★ 排列，寬度依機率（總寬 1000）
+let acc = 0;
+const bar = [1, 2, 3, 4, 5].map(r => {
+  const s = { r, x: acc * 10, w: RATE[r] * 10 };
+  acc += RATE[r];
+  return s;
+});
+---
+<Base title="扭蛋" description="PokéSurvivor 扭蛋：9 個卡池的機率、70 抽保底、重複退款，以及各卡池的寶可夢清單。" chapter="collect">
+  <ChapterHead chapter="collect" title="扭蛋" summary="9 個卡池，每池都有 5 種稀有度。單抽花 1 張抽獎券，閃光機率 1%。機率、保底與退款依遊戲程式碼整理。" sub={COLLECT_SUB} />
+
+  <section class="sec" aria-labelledby="h-cost">
+    <h2 id="h-cost">抽取花費</h2>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th>操作</th><th>花費</th></tr></thead>
+        <tbody>
+          <tr><th>單抽</th><td>抽獎券 1 張</td></tr>
+          <tr><th>×10（抽獎券）</th><td>抽獎券 10 張</td></tr>
+          <tr><th>×10（×10 抽獎券）</th><td>×10 抽獎券 1 張</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead">扭蛋只用抽獎券，不用寶可幣。抽獎券不夠時，按鈕無法使用，並會跳出抽獎券不足的提示。</p>
+
+    <h3 id="h-get">抽獎券怎麼取得</h3>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th>來源</th><th>抽獎券</th><th>×10 抽獎券</th></tr></thead>
+        <tbody>
+          <tr><th>一般敵人、寶箱，以及部分岩石道具的經驗值掉落判定</th><td>每次判定 0.25% 掉 1 張</td><td>—</td></tr>
+          <tr><th>野生首領死亡</th><td>—</td><td>1/3 機率掉 1 張</td></tr>
+          <tr><th>大寶箱</th><td>1–3 張</td><td>15% 機率掉 1 張</td></tr>
+          <tr><th>裂隙中的傳說寶可夢死亡</th><td>固定 3 張</td><td>1/2 機率掉 1 張</td></tr>
+          <tr><th>竊盜事件中逃跑的賽鋼鬼</th><td>—</td><td>固定 1 張</td></tr>
+          <tr><th>護送救援完成</th><td>1 張</td><td>—</td></tr>
+          <tr><th>每日任務獎勵</th><td>2–3 張</td><td>—</td></tr>
+          <tr><th>每週任務獎勵</th><td>—</td><td>1 張</td></tr>
+          <tr><th>成就獎勵</th><td colspan="2">依成就不同，見<a href={url('/collect/achievements/')}>成就</a>頁</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">局內拾取的抽獎券會立即寫入帳號。掉落判定與寶可夢種類無關；扭蛋頁的說明文字寫「部分寶可夢會掉落抽獎券」，與遊戲的實際行為不一致，以實際行為為準。</p>
+  </section>
+
+  <section class="sec" aria-labelledby="h-rate">
+    <h2 id="h-rate">機率</h2>
+    <p class="lead">每抽先依下表抽稀有度，再從該卡池中同稀有度的寶可夢隨機選一隻。</p>
+    <figure>
+      <svg viewBox="0 0 1000 40" role="img" aria-label="稀有度機率：普通 45%、少見 30%、稀有 17%、史詩 6.5%、傳說 1.5%">
+        {bar.map(s => <rect x={s.x} y="0" width={s.w} height="40" fill={RARITY_COLOR[s.r]} />)}
+      </svg>
+      <figcaption>色條寬度依機率比例（由左至右為 1★ 到 5★）。</figcaption>
+    </figure>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th>稀有度</th><th class="r">機率</th><th class="r">重複時退還（寶可幣）</th></tr></thead>
+        <tbody>
+          {RARITIES.map(r => (
+            <tr>
+              <th><Rarity r={r} /> {RARITY_NAME[r]}</th>
+              <td class="num r">{RATE[r]}%</td>
+              <td class="num r">{REFUND[r]}</td>
+            </tr>
+          ))}
+          <tr>
+            <th>閃光（有閃光圖的寶可夢）</th>
+            <td class="num r">{GACHA.SHINY_RATE * 100}%</td>
+            <td class="r">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="pts">
+      <li><strong>閃光</strong>：抽中的寶可夢有閃光圖時，有 1% 機率成為閃光。966 隻中有 958 隻有閃光圖。</li>
+      <li><strong>閃光不重複</strong>：若該寶可夢已有閃光，遊戲會改抽同稀有度中尚未有閃光的寶可夢；沒有可改抽的，這一抽就不出閃光。</li>
+      <li><strong>重複退款</strong>：抽到已擁有、非閃光的寶可夢時，退還上表的寶可幣；新寶可夢與新閃光不退。</li>
+      <li><strong>×10 至少一隻 4★</strong>：×10 抽時，若前 9 抽都不是 4★ 以上，第 10 抽只從 4★ 與 5★ 中抽，權重 6.5 : 1.5，約 81% 為 4★、19% 為 5★。</li>
+    </ul>
+  </section>
+
+  <section class="sec" aria-labelledby="h-pity">
+    <h2 id="h-pity">保底（PITY）</h2>
+    <ul class="pts">
+      <li>保底計數依卡池（世代）分開記錄。單抽與 ×10 共用同一個卡池的計數。卡池頁會顯示「未出傳說的抽數：y / 70」。</li>
+      <li>每抽前計數 +1；計數達到 70 的那一抽強制為 5★。</li>
+      <li>抽到任何 5★，計數歸零。</li>
+      <li>所以<strong>連續 69 抽未出 5★ 後，第 70 抽必定是 5★</strong>。計數因此最多只會顯示到 69。</li>
+    </ul>
+    <figure>
+      <PityBar />
+      <figcaption>動畫示意：一格代表一抽。第 1 到 69 格是未保底的抽數，第 70 格是必定 5★ 的那一抽，之後計數歸零。</figcaption>
+    </figure>
+
+    <h3 id="h-diff">遊戲規則與遊戲內文字的差異</h3>
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th>來源</th><th>寫法</th></tr></thead>
+        <tbody>
+          <tr><th>遊戲內文字（扭蛋頁）</th><td>「70 抽沒出傳說後，下一抽必定是傳說」，也就是第 71 抽保底。</td></tr>
+          <tr><th>遊戲規則</th><td>先把計數 +1，再判斷是否 ≥ 70。連續 69 抽未出後，第 70 抽保底。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>本站以遊戲的實際行為為準。文字寫的是第 71 抽，遊戲實際在第 70 抽就觸發，兩者相差一抽。</p>
+  </section>
+
+  <section class="sec" aria-labelledby="h-pools">
+    <h2 id="h-pools">卡池<span class="count">{pools.length} 個</span></h2>
+    <ul class="pts">
+      <li>9 個卡池依世代分為關都到帕底亞，每個都可直接選擇，沒有解鎖條件。</li>
+      <li>寶可夢進入卡池的條件：世代相符，且有動畫圖。966 隻都有動畫圖，所以每個卡池就是該世代的全部寶可夢。</li>
+      <li>某稀有度在卡池中沒有寶可夢時，遊戲會改抽最接近的稀有度。9 個卡池的五種稀有度都有寶可夢，因此目前資料中不會觸發。</li>
+    </ul>
+
+    <div class="spec-wrap">
+      <table class="spec">
+        <thead><tr><th>卡池</th><th class="r">5★</th><th class="r">4★</th><th class="r">3★</th><th class="r">2★</th><th class="r">1★</th><th class="r">合計</th><th class="r">可出閃光</th></tr></thead>
+        <tbody>
+          {pools.map(p => (
+            <tr>
+              <th><a href={`#pool-${p.gen}`}>{p.zh}</a><small>第 {p.gen} 世代</small></th>
+              {p.groups.map(g => <td class="num r">{g.items.length}</td>)}
+              <td class="num r">{p.total}</td>
+              <td class="num r">{p.shiny}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">「可出閃光」為有閃光圖的寶可夢數（推導值，依遊戲圖片資料中是否有閃光圖判定）。</p>
+
+    {pools.map(p => (
+      <div class="pool" id={`pool-${p.gen}`}>
+        <h3 id={`h-pool-${p.gen}`}>{p.zh}卡池 <small>第 {p.gen} 世代・{p.total} 隻・可出閃光 {p.shiny} 隻</small></h3>
+        <p class="lead">精選（5★，依基礎能力總和由高到低）：{p.featured.map(f => f.zh).join('、')}。</p>
+        <details>
+          <summary>完整清單（{p.total} 隻，依稀有度分組）</summary>
+          {p.groups.filter(g => g.items.length > 0).map(g => (
+            <div class="grp">
+              <h4><Rarity r={g.r} />{RARITY_NAME[g.r]}（{g.r} 星）<span class="num">{g.items.length} 隻</span></h4>
+              <PokeList list={g.items} />
+            </div>
+          ))}
+        </details>
+      </div>
+    ))}
+  </section>
+
+  <p class="src">本頁每一項敘述都對照過遊戲程式碼；標示「程式碼未明確」的部分是遊戲沒有明確定義的地方。</p>
+</Base>

@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-13T00:00:00+08:00",
+  "title": "Design System: PokéSurvivor 完全圖鑑",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Coated Paper", "canonical": "#fafaf7", "dark": "#121211" },
+      "paper-2": { "role": "neutral", "displayName": "Shade Paper", "canonical": "#f0f0eb", "dark": "#1c1c1a" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#151515", "dark": "#f1f1ec" },
+      "ink-2": { "role": "neutral", "displayName": "Ink 2", "canonical": "#4a4a48", "dark": "#bdbdb6" },
+      "ink-3": { "role": "neutral", "displayName": "Ink 3", "canonical": "#74746f", "dark": "#8f8f88" },
+      "rule": { "role": "neutral", "displayName": "Hairline", "canonical": "#15151524", "dark": "#f1f1ec26" },
+      "chapter-pokemon": { "role": "primary", "displayName": "Process Red (圖鑑)", "canonical": "#e60012", "dark": "#d81e26", "chapter": "pokemon" },
+      "chapter-moves": { "role": "primary", "displayName": "Process Cyan (招式)", "canonical": "#0077b6", "dark": "#0a72b8", "chapter": "moves" },
+      "chapter-types": { "role": "primary", "displayName": "Violet (屬性)", "canonical": "#6a3cb2", "dark": "#7448c8", "chapter": "types" },
+      "chapter-run": { "role": "primary", "displayName": "Process Green (冒險)", "canonical": "#00803a", "dark": "#0b7a3b", "chapter": "run" },
+      "chapter-enemies": { "role": "primary", "displayName": "Process Magenta (敵人)", "canonical": "#d6006f", "dark": "#c4146b", "chapter": "enemies" },
+      "chapter-world": { "role": "primary", "displayName": "Orange (地圖)", "canonical": "#b85600", "dark": "#ad5300", "chapter": "world" },
+      "chapter-collect": { "role": "primary", "displayName": "Deep Blue (收集)", "canonical": "#1d50a2", "dark": "#2f5fbf", "chapter": "collect" },
+      "chapter-log": { "role": "primary", "displayName": "Graphite (更新)", "canonical": "#3a3a3a", "dark": "#5a5a56", "chapter": "log" },
+      "selection": { "role": "secondary", "displayName": "Highlighter Yellow", "canonical": "#fff000", "dark": "#fff000", "purpose": "Reserved: current/selected state only. Text on it is always #151515." },
+      "ramp-5": {
+        "role": "tertiary",
+        "displayName": "Ledger Blue Ramp",
+        "canonical": "#4f76bf",
+        "tonalRamp": ["#e9eef6", "#d3def0", "#b6c8e6", "#94aedb", "#7092ce", "#4f76bf", "#355ead", "#24498f", "#183670", "#0e2350"],
+        "tonalRampDark": ["#18202e", "#1c2a42", "#213456", "#26406c", "#2e4f86", "#3a62a3", "#4c78bd", "#6890d0", "#8eaee0", "#bcd0f0"],
+        "purpose": "The single 10-step scale for every numeric magnitude (.ramp + .s0-.s9)."
+      }
+    },
+    "derivedTokens": [
+      { "name": "--ch", "value": "var(--c-<chapter>) via [data-ch]", "purpose": "Active chapter color; the only chapter color components read." },
+      { "name": "--ch-tint", "value": "color-mix(in oklab, var(--ch) 9%, var(--paper))", "purpose": "Even table rows, hover and current TOC wash." },
+      { "name": "--ch-ink", "value": "#fff", "purpose": "Text on chapter bands and headers." }
+    ],
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Home title only, with a 10px Process Red underbar." },
+      "display-numeral": { "displayName": "Display Numeral", "purpose": "Hero numbers (966, No.0006) in Barlow Condensed, chapter color." },
+      "headline": { "displayName": "Headline", "purpose": "Chapter opener h1 and Pokémon name." },
+      "title-band": { "displayName": "Title Band", "purpose": "White section heads on a solid chapter strip (24px in prose h2)." },
+      "title": { "displayName": "Title", "purpose": "Prose h3 with a 2px ink underline and a 10px chapter square." },
+      "body": { "displayName": "Body", "purpose": "Paragraphs, max 70ch; prose at 15.5px." },
+      "table": { "displayName": "Table", "purpose": "Spec table cells." },
+      "table-numeral": { "displayName": "Table Numeral", "purpose": "Numeric cells, right-aligned, tabular." },
+      "label": { "displayName": "Label", "purpose": "Table header cells and field labels; never uppercase." }
+    },
+    "fonts": [
+      { "family": "Noto Sans TC", "source": "src/assets/fonts/NotoSansTC.woff2", "weights": "100 900 (variable)", "note": "Self-hosted, subset by tools/subset-fonts.sh." },
+      { "family": "Barlow C", "source": "src/assets/fonts/BarlowCondensed-{SemiBold,Bold,ExtraBold}.woff2", "weights": "600, 700, 800", "note": "Self-hosted subset; numerals and Latin data only (.num)." }
+    ],
+    "shadows": [
+      { "name": "popover", "value": "0 18px 40px -12px #0005", "purpose": "Search results dropdown." },
+      { "name": "search-lift", "value": "0 10px 24px -14px #0006", "purpose": "Home big search at rest; hover 0 14px 28px -14px #0007 with translateY(-1px)." },
+      { "name": "current-tab", "value": "-4px 0 14px -4px #0006", "purpose": "Active edge tab pulled out." },
+      { "name": "rarity-pip", "value": "inset 0 -1.5px 0 #0003", "purpose": "Bottom shade on earned rarity pips." }
+    ],
+    "textures": [
+      { "name": "halftone", "value": "radial-gradient(circle at center, color-mix(in oklab, var(--ch) 55%, transparent) 1.1px, transparent 1.4px) / 6px 6px", "purpose": "Chapter opener screen (50% in .ch-head), washed to paper from the left." },
+      { "name": "band-screen", "value": "radial-gradient(circle, #ffffff59 1.1px, transparent 1.4px) / 6px 6px, masked linear-gradient(90deg, transparent, #000) over right 38%", "purpose": "Section band and prose h2 texture." }
+    ],
+    "motion": [
+      { "name": "ease", "value": "cubic-bezier(.16, 1, .3, 1)", "purpose": "The single easing for all transitions and entrances." },
+      { "name": "state", "value": ".2s", "purpose": "Color and fill changes on controls." },
+      { "name": "tab-slide", "value": ".35s", "purpose": "Edge tab tuck (10px) / hover (2px) / current (0)." },
+      { "name": "rise-stagger", "value": "translateY(10px) .7s, 60ms stagger", "purpose": "Home contents rows entrance." },
+      { "name": "flip-sort", "value": "520ms", "purpose": "Dex table rerank in place; skipped under reduced motion." },
+      { "name": "frieze-march", "value": "90s linear infinite", "purpose": "Home sprite frieze." },
+      { "name": "reduced-motion", "value": "@media (prefers-reduced-motion: reduce) { animation-duration/transition-duration: .001ms; iteration-count: 1 }", "purpose": "Global kill switch; sprite.ts, dex-table.ts, ChestRing, PityBar, Timeline also check the query." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "560px", "purpose": "Hide contents descriptions, smaller row type." },
+      { "name": "tabs", "value": "860px", "purpose": "Edge tabs become bottom bar; gutter 14px; tables stop wrapping." },
+      { "name": "spread", "value": "960px", "purpose": "Two-column spreads stack; in-page TOC hides." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Spec Table",
+      "kind": "custom",
+      "refersTo": "spec-header",
+      "description": "Ruled data table: 3px chapter top rule, solid chapter header band, hairline rows, tinted even rows, Barlow numerals right-aligned with a ramp bar.",
+      "html": "<div class=\"ds-spec-wrap\"><table class=\"ds-spec\"><thead><tr><th>項目</th><th class=\"r\">數值</th><th>全圖鑑位置</th></tr></thead><tbody><tr><th>生命</th><td class=\"n\">105</td><td><span class=\"ds-ramp\"><b style=\"width:35%;background:var(--r3,#94aedb)\"></b></span></td></tr><tr><th>速度</th><td class=\"n\">120</td><td><span class=\"ds-ramp\"><b style=\"width:50%;background:var(--r4,#7092ce)\"></b></span></td></tr><tr><th>種族值總和</th><td class=\"n\">534</td><td><span class=\"ds-ramp\"><b style=\"width:70%;background:var(--r6,#355ead)\"></b></span></td></tr></tbody></table></div>",
+      "css": ".ds-spec-wrap { border-top: 3px solid var(--ch, #e60012); overflow-x: auto; } .ds-spec { width: 100%; border-collapse: collapse; font: 400 14px/1.45 'Noto Sans TC', system-ui, sans-serif; color: var(--ink, #151515); } .ds-spec thead th { background: var(--ch, #e60012); color: #fff; font-weight: 700; font-size: 12.5px; letter-spacing: .05em; text-align: left; padding: 7px 10px; white-space: nowrap; } .ds-spec thead th.r { text-align: right; } .ds-spec td, .ds-spec tbody th { padding: 7px 10px; border-bottom: 1px solid var(--rule, #15151524); text-align: left; vertical-align: top; } .ds-spec tbody th { font-weight: 700; white-space: nowrap; } .ds-spec tbody tr:nth-child(even) > * { background: color-mix(in oklab, var(--ch, #e60012) 9%, var(--paper, #fafaf7)); } .ds-spec td.n { text-align: right; font: 600 16px 'Barlow C', 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums; } .ds-ramp { position: relative; display: block; height: 10px; min-width: 60px; background: var(--paper-2, #f0f0eb); border-radius: 1px; overflow: hidden; } .ds-ramp b { position: absolute; inset: 0 auto 0 0; }"
+    },
+    {
+      "name": "Section Band",
+      "kind": "custom",
+      "refersTo": "band",
+      "description": "Section head printed white on a solid chapter strip with a fading halftone on the right 38%.",
+      "html": "<h2 class=\"ds-band\">可學招式 <small>17</small></h2>",
+      "css": ".ds-band { position: relative; display: flex; align-items: baseline; gap: 10px; margin: 0; padding: 9px 14px 8px; font: 900 22px/1.25 'Noto Sans TC', system-ui, sans-serif; letter-spacing: .01em; color: #fff; background-color: var(--ch, #e60012); } .ds-band small { font: 800 18px 'Barlow C', 'Barlow Condensed', sans-serif; } .ds-band::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 38%; background-image: radial-gradient(circle, #ffffff59 1.1px, transparent 1.4px); background-size: 6px 6px; -webkit-mask-image: linear-gradient(90deg, transparent, #000); mask-image: linear-gradient(90deg, transparent, #000); pointer-events: none; }"
+    },
+    {
+      "name": "Edge Tab",
+      "kind": "nav",
+      "refersTo": "edge-tab",
+      "description": "Thumb-index chapter tab on the right book edge; tucked at rest, slides out on hover, flush with a highlighter nub when current.",
+      "html": "<nav class=\"ds-tabs\"><a href=\"#\" style=\"--ch:#e60012\" aria-current=\"page\"><span>圖鑑</span></a><a href=\"#\" style=\"--ch:#0077b6\"><span>招式</span></a><a href=\"#\" style=\"--ch:#6a3cb2\"><span>屬性</span></a></nav>",
+      "css": ".ds-tabs { display: flex; flex-direction: column; gap: 3px; width: 44px; margin-left: auto; } .ds-tabs a { position: relative; display: flex; align-items: center; justify-content: center; height: 76px; background: var(--ch); color: #fff; text-decoration: none; border-radius: 6px 0 0 6px; transform: translateX(10px); transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s cubic-bezier(.16,1,.3,1); } .ds-tabs a span { writing-mode: vertical-rl; font: 900 14px 'Noto Sans TC', system-ui, sans-serif; letter-spacing: .3em; padding-top: .3em; } .ds-tabs a:hover { transform: translateX(2px); } .ds-tabs a:focus-visible { outline: 3px solid var(--ch); outline-offset: 2px; } .ds-tabs a[aria-current='page'] { transform: none; box-shadow: -4px 0 14px -4px #0006; } .ds-tabs a[aria-current='page']::before { content: ''; position: absolute; left: -7px; top: 50%; width: 7px; height: 24px; margin-top: -12px; background: #fff000; border-radius: 2px 0 0 2px; }"
+    },
+    {
+      "name": "Outlined Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Default action: 2px ink outline, 4px radius; fills ink on hover.",
+      "html": "<a class=\"ds-btn\" href=\"#\">去玩遊戲<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M14 4h6v6\"/><path d=\"M20 4 11 13\"/><path d=\"M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5\"/></svg></a>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; font: 700 14px 'Noto Sans TC', system-ui, sans-serif; color: var(--ink, #151515); background: var(--paper, #fafaf7); text-decoration: none; border: 2px solid var(--ink, #151515); border-radius: 4px; transition: background .2s cubic-bezier(.16,1,.3,1), color .2s cubic-bezier(.16,1,.3,1); } .ds-btn svg { width: 14px; height: 14px; } .ds-btn:hover { background: var(--ink, #151515); color: var(--paper, #fafaf7); } .ds-btn:focus-visible { outline: 3px solid var(--ch, #e60012); outline-offset: 2px; }"
+    },
+    {
+      "name": "Selected Toggle",
+      "kind": "button",
+      "refersTo": "toggle-selected",
+      "description": "Pressed toggle in reserved highlighter yellow (shiny, auto-rotate).",
+      "html": "<button class=\"ds-toggle\" aria-pressed=\"false\">自動旋轉</button> <button class=\"ds-toggle\" aria-pressed=\"true\">閃光</button>",
+      "css": ".ds-toggle { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; font: 700 13.5px 'Noto Sans TC', system-ui, sans-serif; color: var(--ink, #151515); background: var(--paper, #fafaf7); border: 2px solid var(--ink, #151515); border-radius: 4px; cursor: pointer; } .ds-toggle:hover { background: var(--paper-2, #f0f0eb); } .ds-toggle:focus-visible { outline: 3px solid var(--ch, #e60012); outline-offset: 2px; } .ds-toggle[aria-pressed='true'] { background: #fff000; color: #151515; border-color: #151515; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "Header search: shade-paper fill, icon left, '/' hint right; paper fill and ink border on focus.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m15.5 15.5 5 5\"/></svg><input type=\"search\" placeholder=\"搜尋寶可夢、招式、機制…\"><kbd>/</kbd></label>",
+      "css": ".ds-search { position: relative; display: flex; align-items: center; max-width: 560px; } .ds-search svg { position: absolute; left: 12px; width: 18px; height: 18px; color: var(--ink-3, #74746f); pointer-events: none; } .ds-search input { width: 100%; height: 40px; padding: 0 40px 0 38px; font: 500 15px 'Noto Sans TC', system-ui, sans-serif; color: var(--ink, #151515); background: var(--paper-2, #f0f0eb); border: 1.5px solid transparent; border-radius: 4px; outline: none; transition: border-color .2s cubic-bezier(.16,1,.3,1), background .2s cubic-bezier(.16,1,.3,1); } .ds-search input::placeholder { color: var(--ink-3, #74746f); } .ds-search input:focus { border-color: var(--ink, #151515); background: var(--paper, #fafaf7); } .ds-search kbd { position: absolute; right: 10px; font: 700 12px 'Barlow C', 'Barlow Condensed', sans-serif; color: var(--ink-3, #74746f); border: 1px solid var(--rule, #15151524); border-radius: 3px; padding: 1px 6px; } .ds-search input:focus ~ kbd { display: none; }"
+    },
+    {
+      "name": "Type Tag and Rarity",
+      "kind": "chip",
+      "refersTo": "type-tag",
+      "description": "Fixed game vocabulary: type tags in the game's type colors, rarity as five pips.",
+      "html": "<span class=\"ds-type\" style=\"--t:#ff612c\">火</span> <span class=\"ds-type dark\" style=\"--t:#fad343\">電</span> <span class=\"ds-rarity\" style=\"--rc:#a855f7\"><i></i><i></i><i></i><i></i><i class=\"off\"></i></span>",
+      "css": ".ds-type { display: inline-flex; align-items: center; justify-content: center; min-width: 3.4em; height: 22px; padding: 0 8px; font: 700 12px/1 'Noto Sans TC', system-ui, sans-serif; letter-spacing: .06em; color: #fff; background: var(--t); border-radius: 3px; text-shadow: 0 1px 0 #0003; } .ds-type.dark { color: #1a1a1a; text-shadow: none; } .ds-rarity { display: inline-flex; gap: 2px; vertical-align: middle; } .ds-rarity i { width: 8px; height: 8px; border-radius: 50%; background: var(--rc); box-shadow: inset 0 -1.5px 0 #0003; } .ds-rarity i.off { background: var(--rule, #15151524); box-shadow: none; }"
+    },
+    {
+      "name": "Chapter Opener",
+      "kind": "card",
+      "refersTo": "headline",
+      "description": "Full-bleed halftone head washed to paper from the left, closed by a 4px chapter rule; sub-page links as outlined buttons.",
+      "html": "<header class=\"ds-chhead\"><h1>招式</h1><p>64 招每一級的傷害、冷卻、範圍，升級效果、Lv5 進化與傷害公式。</p><nav><a href=\"#\" aria-current=\"page\">全部招式</a><a href=\"#\">傷害公式</a></nav></header>",
+      "css": ".ds-chhead { position: relative; padding: 44px 24px 26px; border-bottom: 4px solid var(--ch, #0077b6); background-color: var(--paper, #fafaf7); background-image: radial-gradient(circle at center, color-mix(in oklab, var(--ch, #0077b6) 50%, transparent) 1.1px, transparent 1.4px); background-size: 6px 6px; } .ds-chhead::before { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, var(--paper, #fafaf7) 38%, color-mix(in oklab, var(--paper, #fafaf7) 70%, transparent) 70%, transparent); } .ds-chhead > * { position: relative; } .ds-chhead h1 { margin: 0; font: 900 clamp(32px, 4.8vw, 56px)/1.1 'Noto Sans TC', system-ui, sans-serif; letter-spacing: .05em; } .ds-chhead p { margin: 12px 0 0; max-width: 72ch; font-size: 16px; color: var(--ink-2, #4a4a48); } .ds-chhead nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; } .ds-chhead nav a { padding: 6px 14px; font: 700 14px 'Noto Sans TC', system-ui, sans-serif; color: var(--ink, #151515); text-decoration: none; border: 2px solid var(--ink, #151515); border-radius: 4px; background: var(--paper, #fafaf7); } .ds-chhead nav a:hover { background: var(--paper-2, #f0f0eb); } .ds-chhead nav a:focus-visible { outline: 3px solid var(--ch, #0077b6); outline-offset: 2px; } .ds-chhead nav a[aria-current='page'] { background: var(--ink, #151515); color: var(--paper, #fafaf7); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Complete Guidebook (完全攻略本)",
+    "overview": "The site behaves like a printed Japanese complete guidebook that you can search. The ground is bright coated paper and the text is true ink black. Each chapter owns one process color, and that color appears only on the chapter's edge tab, its solid table-header bands and section bands, its halftone heads and its tinted alternate rows. Content is dense. Ruled spec tables carry most pages, and the numbers sit next to the formula that produces them.\n\nHierarchy comes from heavy Taiwanese gothic heads and condensed tabular numerals, not from cards or shadows. Surfaces are flat. Depth is printed: halftone dot screens, 2px ink rules, 3px chapter-color table tops. The game's real pixel sprites are the only imagery, and they always render pixelated at integer scale.\n\nThe system turns down two category defaults: the dark neon gamer dashboard and the white card-grid Pokédex clone. Dark mode exists, but it is the same printed book on dark stock, not a neon theme.",
+    "keyCharacteristics": [
+      "Paper and ink ground, with one process color per chapter used structurally",
+      "One reserved highlighter yellow that means \"current/selected\" and nothing else",
+      "One shared 10-step blue ramp for every numeric magnitude",
+      "Heavy gothic heads (900) with condensed tabular numerals (Barlow Condensed)",
+      "Ruled spec tables with solid color header bands and tinted even rows",
+      "Thumb-index edge tabs as primary chapter navigation",
+      "Flat surfaces; halftone screens and rules carry depth"
+    ],
+    "rules": [
+      { "name": "The One Chapter, One Color Rule", "body": "A page wears only its own chapter color, through `--ch`. It goes on the edge tab, table header bands, the 3px table top rule, section bands, halftone heads, the h3 square, list markers, link underlines and the focus ring. A chapter color never decorates content.", "section": "colors" },
+      { "name": "The Highlighter Rule", "body": "`selection` yellow means \"this is the current/selected one.\" It is never used for emphasis, warning or decoration.", "section": "colors" },
+      { "name": "The One Ramp Rule", "body": "Every numeric magnitude on every chapter uses the same 10-step ramp. Chapter colors and type colors never encode quantity.", "section": "colors" },
+      { "name": "The Fixed Language Rule", "body": "Type and rarity colors are game vocabulary. They appear only as type tags and rarity pips and never tint backgrounds, borders or headings.", "section": "colors" },
+      { "name": "The Numerals Are Barlow Rule", "body": "Any number a reader compares (stats, damage, cooldowns, counts, dex numbers, dates, versions) carries `.num`, which means Barlow Condensed with tabular figures. Chinese text never uses Barlow.", "section": "typography" },
+      { "name": "The Heavy Head Rule", "body": "Headings h1–h4 are weight 900 with `text-wrap: balance`. Hierarchy changes size, never weight.", "section": "typography" },
+      { "name": "The Printed Depth Rule", "body": "Hierarchy and grouping come from halftone, rules and color bands. A shadow marks only something that floats (popover), invites action (big search) or is pulled out (current tab).", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** set `data-ch` on the page and style through `--ch`, `--ch-tint` and `--ch-ink`. Never hard-code a chapter hex inside a component.",
+      "**Do** reserve `selection` yellow (with `#151515` text) for current/selected state only.",
+      "**Do** encode every numeric magnitude with the 10-step ramp (`.ramp` + `.s0`–`.s9`).",
+      "**Do** set every compared number in Barlow Condensed tabular (`.num`), right-aligned in tables.",
+      "**Do** build data as ruled spec tables: a 3px chapter top rule, a solid chapter header band, 1px hairlines and tinted even rows.",
+      "**Do** render sprites with `image-rendering: pixelated` at integer scale.",
+      "**Do** define new colors as custom properties with a matching dark-mode value in the `prefers-color-scheme: dark` block.",
+      "**Do** keep every animation under the global reduced-motion rule, and stop scripted motion when `prefers-reduced-motion: reduce` matches.",
+      "**Do** present game facts only, with the formula or mechanic beside the number."
+    ],
+    "donts": [
+      "**Don't** add recommendations, tier lists, \"best\" picks or strategy opinions to any surface. The site records the game; it does not advise.",
+      "**Don't** use type or rarity colors outside type tags and rarity pips.",
+      "**Don't** let a chapter color encode quantity or appear on another chapter's page as decoration.",
+      "**Don't** lift content into shadowed cards. Group with rules, bands and halftone.",
+      "**Don't** use glyph or emoji icons, or an icon font. Use the inline SVG set.",
+      "**Don't** load fonts from a CDN or add a third face. Noto Sans TC and Barlow Condensed are the whole system.",
+      "**Don't** smooth, interpolate or fractionally scale sprite art."
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+---
+// 冒險中的子頁版型：章節頭、子頁籤與本頁目錄，與 Chapter.astro 的機制章節頁相同
+import Base from '../../layouts/Base.astro';
+import { chapterOf } from '../../lib/nav';
+import { url } from '../../lib/game';
+import { RUN_SUB } from './sub.js';
+interface Props { title: string; summary: string; toc?: { id: string; text: string }[] }
+const { title, summary, toc = [] } = Astro.props;
+const ch = chapterOf('run');
+const path = Astro.url.pathname;
+---
+<Base title={title} description={summary} chapter="run">
+  <header class="ch-head halftone">
+    <h1>{title}</h1>
+    <p class="sum">{summary}</p>
+    <nav class="sub" aria-label={`${ch.zh}的頁面`}>
+      {RUN_SUB.map(s => <a href={url(s.href)} aria-current={path === url(s.href) ? 'page' : undefined}>{s.zh}</a>)}
+    </nav>
+  </header>
+  <div class:list={['layout', { solo: toc.length === 0 }]}>
+    {toc.length > 0 && (
+      <aside class="toc" aria-label="本頁目錄">
+        <p>本頁目錄</p>
+        <ol>
+          {toc.map(h => <li><a href={`#${h.id}`}>{h.text}</a></li>)}
+        </ol>
+      </aside>
+    )}
+    <div class="body">
+      <div class="prose"><slot /></div>
+      <p class="src">本頁每一項敘述都對照過遊戲程式碼；標示「程式碼未明確」的部分是遊戲沒有明確定義的地方。</p>
+    </div>
+  </div>
+</Base>
+<script>
+  // 目錄跟著捲動標示目前段落
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+  const map = new Map(links.map(a => [decodeURIComponent(a.hash.slice(1)), a]));
+  const io = new IntersectionObserver(es => {
+    for (const e of es) if (e.isIntersecting) {
+      links.forEach(a => a.removeAttribute('aria-current'));
+      const a = map.get(e.target.id);
+      if (a) { a.setAttribute('aria-current', 'true'); a.scrollIntoView({ block: 'nearest' }); }
+    }
+  }, { rootMargin: '-80px 0px -70% 0px' });
+  document.querySelectorAll('.prose h2[id]').forEach(h => io.observe(h));
+</script>
+<style>
+  .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px; max-width: 1240px; margin: 0 auto; }
+  .layout.solo { grid-template-columns: minmax(0, 1fr); }
+  .toc { position: sticky; top: 76px; align-self: start; max-height: calc(100vh - 96px); overflow: auto; padding: 24px 0; font-size: 13.5px; }
+  .toc p { font-weight: 900; font-size: 12px; letter-spacing: .2em; color: var(--ink-3); margin: 0 0 8px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--rule); }
+  .toc li a { display: block; padding: 5px 10px; text-decoration: none; color: var(--ink-2); line-height: 1.4; margin-left: -2px; border-left: 2px solid transparent; }
+  .toc li a:hover { color: var(--ink); }
+  .toc li a[aria-current] { color: var(--ink); font-weight: 700; border-left-color: var(--ch); background: linear-gradient(90deg, var(--ch-tint), transparent); }
+  .body { min-width: 0; padding-bottom: 40px; }
+  /* .spec-wrap 已有頂部色帶，表格不再重複 .prose table 的色帶與邊距 */
+  .prose :global(.spec-wrap > .spec) { border-top: 0; margin: 0; }
+  .src { margin-top: 48px; font-size: 12.5px; color: var(--ink-3); border-top: 1px solid var(--rule); padding-top: 12px; }
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; gap: 0; }
+    .toc { display: none; }
+  }
+</style>

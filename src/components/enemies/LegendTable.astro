@@ -1,0 +1,37 @@
+---
+// 傳說名單：leg 標記且有動畫圖的寶可夢（裂隙的傳說候選）。
+import Sprite from '../Sprite.astro';
+import Type from '../Type.astro';
+import { LEGENDS } from './model';
+import { url, genRegion } from '../../lib/game';
+---
+<details class="en-more" open>
+  <summary>傳說名單（{LEGENDS.length} 隻）</summary>
+  <div class="spec-wrap en-scroll">
+    <table class="spec">
+      <thead>
+        <tr>
+          <th>寶可夢</th>
+          <th>屬性</th>
+          <th class="r">種族值</th>
+          <th>世代</th>
+        </tr>
+      </thead>
+      <tbody>
+        {LEGENDS.map(p => (
+          <tr>
+            <th>
+              <span class="en-nm">
+                <Sprite dex={p.dex} scale={1} play={false} />
+                <a href={url(`/pokemon/${p.dex}/`)}>{p.zh}</a>
+              </span>
+            </th>
+            <td><span class="en-types">{p.types.map(t => <Type t={t} />)}</span></td>
+            <td class="num">{p.bst}</td>
+            <td>{genRegion(p.gen)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</details>

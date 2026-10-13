@@ -1,0 +1,2167 @@
+{
+  "_meta": {
+    "source": "src/data/game/*.json + .cache/app.pretty.js（行號見各段 _src）",
+    "verifiedAgainst": ".cache/app.min.js 沙盒（tools/load-game.cjs）",
+    "verification": {
+      "checkedEntries": 2520,
+      "rounds": 60
+    },
+    "note": "隨機名單（cast / BOSSES）每場重抽，這裡的 Enemies.json 只是一次抽樣。"
+  },
+  "tiers": [
+    {
+      "index": 0,
+      "from": 0,
+      "bst": [
+        180,
+        330
+      ],
+      "base": {
+        "hp": 17,
+        "spd": 56,
+        "dmg": 6,
+        "xp": 3.5,
+        "cast": 7
+      },
+      "candidateCount": 276,
+      "candidateGroups": {
+        "support": 16,
+        "front": 208,
+        "other": 52
+      },
+      "candidateByBehavior": {
+        "chase": 156,
+        "summoner": 10,
+        "ranged": 23,
+        "charger": 28,
+        "zoner": 9,
+        "healer": 4,
+        "jumper": 9,
+        "fan": 22,
+        "beamer": 8,
+        "bomber": 4,
+        "tank": 1,
+        "shielder": 2
+      },
+      "_src": "app.pretty.js:82956-83004 (TIERS), 83109-83110 (candidates), 83076-83082 (classify)"
+    },
+    {
+      "index": 1,
+      "from": 70,
+      "bst": [
+        300,
+        405
+      ],
+      "base": {
+        "hp": 32,
+        "spd": 62,
+        "dmg": 8.5,
+        "xp": 5,
+        "cast": 7
+      },
+      "candidateCount": 261,
+      "candidateGroups": {
+        "support": 12,
+        "front": 201,
+        "other": 48
+      },
+      "candidateByBehavior": {
+        "chase": 153,
+        "summoner": 6,
+        "charger": 24,
+        "ranged": 22,
+        "healer": 2,
+        "fan": 18,
+        "zoner": 9,
+        "beamer": 9,
+        "bomber": 6,
+        "shielder": 4,
+        "jumper": 6,
+        "tank": 2
+      },
+      "_src": "app.pretty.js:82956-83004 (TIERS), 83109-83110 (candidates), 83076-83082 (classify)"
+    },
+    {
+      "index": 2,
+      "from": 160,
+      "bst": [
+        385,
+        465
+      ],
+      "base": {
+        "hp": 52,
+        "spd": 60,
+        "dmg": 11,
+        "xp": 8,
+        "cast": 7
+      },
+      "candidateCount": 182,
+      "candidateGroups": {
+        "support": 24,
+        "front": 124,
+        "other": 34
+      },
+      "candidateByBehavior": {
+        "chase": 88,
+        "summoner": 16,
+        "tank": 6,
+        "zoner": 4,
+        "fan": 14,
+        "ranged": 12,
+        "bomber": 3,
+        "shielder": 4,
+        "jumper": 9,
+        "charger": 18,
+        "healer": 4,
+        "beamer": 4
+      },
+      "_src": "app.pretty.js:82956-83004 (TIERS), 83109-83110 (candidates), 83076-83082 (classify)"
+    },
+    {
+      "index": 3,
+      "from": 260,
+      "bst": [
+        445,
+        515
+      ],
+      "base": {
+        "hp": 88,
+        "spd": 70,
+        "dmg": 14,
+        "xp": 13,
+        "cast": 7
+      },
+      "candidateCount": 270,
+      "candidateGroups": {
+        "support": 32,
+        "front": 176,
+        "other": 62
+      },
+      "candidateByBehavior": {
+        "summoner": 19,
+        "chase": 111,
+        "healer": 6,
+        "ranged": 30,
+        "bomber": 6,
+        "fan": 21,
+        "charger": 30,
+        "zoner": 13,
+        "jumper": 14,
+        "shielder": 7,
+        "tank": 5,
+        "beamer": 8
+      },
+      "_src": "app.pretty.js:82956-83004 (TIERS), 83109-83110 (candidates), 83076-83082 (classify)"
+    },
+    {
+      "index": 4,
+      "from": 380,
+      "bst": [
+        495,
+        560
+      ],
+      "base": {
+        "hp": 150,
+        "spd": 66,
+        "dmg": 22,
+        "xp": 24,
+        "cast": 7
+      },
+      "candidateCount": 192,
+      "candidateGroups": {
+        "support": 29,
+        "front": 122,
+        "other": 41
+      },
+      "candidateByBehavior": {
+        "chase": 84,
+        "summoner": 19,
+        "ranged": 16,
+        "bomber": 2,
+        "beamer": 8,
+        "fan": 10,
+        "jumper": 10,
+        "charger": 20,
+        "shielder": 7,
+        "zoner": 11,
+        "healer": 3,
+        "tank": 2
+      },
+      "_src": "app.pretty.js:82956-83004 (TIERS), 83109-83110 (candidates), 83076-83082 (classify)"
+    },
+    {
+      "index": 5,
+      "from": 500,
+      "bst": [
+        530,
+        620
+      ],
+      "base": {
+        "hp": 250,
+        "spd": 72,
+        "dmg": 28,
+        "xp": 38,
+        "cast": 7
+      },
+      "candidateCount": 75,
+      "candidateGroups": {
+        "support": 10,
+        "front": 51,
+        "other": 14
+      },
+      "candidateByBehavior": {
+        "chase": 38,
+        "summoner": 8,
+        "charger": 8,
+        "healer": 1,
+        "zoner": 3,
+        "jumper": 4,
+        "shielder": 1,
+        "beamer": 4,
+        "ranged": 3,
+        "tank": 2,
+        "fan": 3
+      },
+      "_src": "app.pretty.js:82956-83004 (TIERS), 83109-83110 (candidates), 83076-83082 (classify)"
+    }
+  ],
+  "bossSlots": [
+    {
+      "slot": 0,
+      "at": 180,
+      "baseHp": 1400,
+      "baseDmg": 34,
+      "baseXp": 220,
+      "defHp": 1890,
+      "defDmg": 41,
+      "hpAtSpawnSolo": 2457,
+      "dmgAtSpawnSolo": 53.3,
+      "shotDmgBase": 19,
+      "shotCd": 1.1,
+      "range": 260,
+      "_src": "app.pretty.js:83011-83034 (BOSS_SLOTS), 83135-83152 (boss def), 88858-88862 (spawn)"
+    },
+    {
+      "slot": 1,
+      "at": 360,
+      "baseHp": 3200,
+      "baseDmg": 42,
+      "baseXp": 420,
+      "defHp": 4320,
+      "defDmg": 50,
+      "hpAtSpawnSolo": 6912,
+      "dmgAtSpawnSolo": 80,
+      "shotDmgBase": 23,
+      "shotCd": 1.1,
+      "range": 260,
+      "_src": "app.pretty.js:83011-83034 (BOSS_SLOTS), 83135-83152 (boss def), 88858-88862 (spawn)"
+    },
+    {
+      "slot": 2,
+      "at": 540,
+      "baseHp": 5600,
+      "baseDmg": 48,
+      "baseXp": 680,
+      "defHp": 7560,
+      "defDmg": 58,
+      "hpAtSpawnSolo": 14364,
+      "dmgAtSpawnSolo": 110.2,
+      "shotDmgBase": 26,
+      "shotCd": 1.1,
+      "range": 260,
+      "_src": "app.pretty.js:83011-83034 (BOSS_SLOTS), 83135-83152 (boss def), 88858-88862 (spawn)"
+    },
+    {
+      "slot": 3,
+      "at": 720,
+      "baseHp": 9000,
+      "baseDmg": 56,
+      "baseXp": 1000,
+      "defHp": 12150,
+      "defDmg": 67,
+      "hpAtSpawnSolo": 26730,
+      "dmgAtSpawnSolo": 147.4,
+      "shotDmgBase": 31,
+      "shotCd": 1.1,
+      "range": 260,
+      "_src": "app.pretty.js:83011-83034 (BOSS_SLOTS), 83135-83152 (boss def), 88858-88862 (spawn)"
+    },
+    {
+      "slot": 4,
+      "at": 900,
+      "baseHp": 16000,
+      "baseDmg": 68,
+      "baseXp": 1800,
+      "defHp": 21600,
+      "defDmg": 82,
+      "hpAtSpawnSolo": 54000,
+      "dmgAtSpawnSolo": 205,
+      "shotDmgBase": 37,
+      "shotCd": 1.1,
+      "range": 260,
+      "_src": "app.pretty.js:83011-83034 (BOSS_SLOTS), 83135-83152 (boss def), 88858-88862 (spawn)"
+    }
+  ],
+  "scalingSamplesByMinute": [
+    {
+      "minute": 0,
+      "t": 0,
+      "tierIndex": 0,
+      "late": 1,
+      "timeHpFactor": 3.3,
+      "regularHpMult": 3.3,
+      "regularDmgMult": 2.4,
+      "regularSpdMult": 1,
+      "bossHpMult": 1,
+      "bossDmgMult": 1,
+      "surgeSizeNoCap": 6
+    },
+    {
+      "minute": 1,
+      "t": 60,
+      "tierIndex": 0,
+      "late": 1,
+      "timeHpFactor": 3.585714,
+      "regularHpMult": 5.8504,
+      "regularDmgMult": 2.7429,
+      "regularSpdMult": 1.0429,
+      "bossHpMult": 1.1,
+      "bossDmgMult": 1.1,
+      "surgeSizeNoCap": 6
+    },
+    {
+      "minute": 2,
+      "t": 120,
+      "tierIndex": 1,
+      "late": 1,
+      "timeHpFactor": 3.871429,
+      "regularHpMult": 8.7617,
+      "regularDmgMult": 3.0857,
+      "regularSpdMult": 1.0857,
+      "bossHpMult": 1.2,
+      "bossDmgMult": 1.2,
+      "surgeSizeNoCap": 8
+    },
+    {
+      "minute": 3,
+      "t": 180,
+      "tierIndex": 2,
+      "late": 1,
+      "timeHpFactor": 4.157143,
+      "regularHpMult": 12.0338,
+      "regularDmgMult": 3.4286,
+      "regularSpdMult": 1.1286,
+      "bossHpMult": 1.3,
+      "bossDmgMult": 1.3,
+      "surgeSizeNoCap": 9
+    },
+    {
+      "minute": 4,
+      "t": 240,
+      "tierIndex": 2,
+      "late": 1,
+      "timeHpFactor": 4.442857,
+      "regularHpMult": 15.6669,
+      "regularDmgMult": 3.7714,
+      "regularSpdMult": 1.1714,
+      "bossHpMult": 1.4,
+      "bossDmgMult": 1.4,
+      "surgeSizeNoCap": 10
+    },
+    {
+      "minute": 5,
+      "t": 300,
+      "tierIndex": 3,
+      "late": 1,
+      "timeHpFactor": 4.728571,
+      "regularHpMult": 19.6609,
+      "regularDmgMult": 4.1143,
+      "regularSpdMult": 1.2143,
+      "bossHpMult": 1.5,
+      "bossDmgMult": 1.5,
+      "surgeSizeNoCap": 11
+    },
+    {
+      "minute": 6,
+      "t": 360,
+      "tierIndex": 3,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 23.9474,
+      "regularDmgMult": 4.4571,
+      "regularSpdMult": 1.2571,
+      "bossHpMult": 1.6,
+      "bossDmgMult": 1.6,
+      "surgeSizeNoCap": 12
+    },
+    {
+      "minute": 7,
+      "t": 420,
+      "tierIndex": 4,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 27.1053,
+      "regularDmgMult": 4.8,
+      "regularSpdMult": 1.3,
+      "bossHpMult": 1.7,
+      "bossDmgMult": 1.7,
+      "surgeSizeNoCap": 13
+    },
+    {
+      "minute": 8,
+      "t": 480,
+      "tierIndex": 4,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 30.2632,
+      "regularDmgMult": 5.1429,
+      "regularSpdMult": 1.3429,
+      "bossHpMult": 1.8,
+      "bossDmgMult": 1.8,
+      "surgeSizeNoCap": 14
+    },
+    {
+      "minute": 9,
+      "t": 540,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 33.4211,
+      "regularDmgMult": 5.4857,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 1.9,
+      "bossDmgMult": 1.9,
+      "surgeSizeNoCap": 15
+    },
+    {
+      "minute": 10,
+      "t": 600,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 36.5789,
+      "regularDmgMult": 5.8286,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 2,
+      "bossDmgMult": 2,
+      "surgeSizeNoCap": 16
+    },
+    {
+      "minute": 11,
+      "t": 660,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 39.7368,
+      "regularDmgMult": 6.1714,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 2.1,
+      "bossDmgMult": 2.1,
+      "surgeSizeNoCap": 18
+    },
+    {
+      "minute": 12,
+      "t": 720,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 42.8947,
+      "regularDmgMult": 6.5143,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 2.2,
+      "bossDmgMult": 2.2,
+      "surgeSizeNoCap": 18
+    },
+    {
+      "minute": 13,
+      "t": 780,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 46.0526,
+      "regularDmgMult": 6.8571,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 2.3,
+      "bossDmgMult": 2.3,
+      "surgeSizeNoCap": 20
+    },
+    {
+      "minute": 14,
+      "t": 840,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 49.2105,
+      "regularDmgMult": 7.2,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 2.4,
+      "bossDmgMult": 2.4,
+      "surgeSizeNoCap": 21
+    },
+    {
+      "minute": 15,
+      "t": 900,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 52.3684,
+      "regularDmgMult": 7.5429,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 2.5,
+      "bossDmgMult": 2.5,
+      "surgeSizeNoCap": 22
+    },
+    {
+      "minute": 16,
+      "t": 960,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 55.5263,
+      "regularDmgMult": 7.8857,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 2.6,
+      "bossDmgMult": 2.6,
+      "surgeSizeNoCap": 23
+    },
+    {
+      "minute": 17,
+      "t": 1020,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 58.6842,
+      "regularDmgMult": 8.2286,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 2.7,
+      "bossDmgMult": 2.7,
+      "surgeSizeNoCap": 24
+    },
+    {
+      "minute": 18,
+      "t": 1080,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 61.8421,
+      "regularDmgMult": 8.5714,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 2.8,
+      "bossDmgMult": 2.8,
+      "surgeSizeNoCap": 25
+    },
+    {
+      "minute": 19,
+      "t": 1140,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 65,
+      "regularDmgMult": 8.9143,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 2.9,
+      "bossDmgMult": 2.9,
+      "surgeSizeNoCap": 26
+    },
+    {
+      "minute": 20,
+      "t": 1200,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 68.1579,
+      "regularDmgMult": 9.2571,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 3,
+      "bossDmgMult": 3,
+      "surgeSizeNoCap": 27
+    },
+    {
+      "minute": 21,
+      "t": 1260,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 71.3158,
+      "regularDmgMult": 9.6,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 3.1,
+      "bossDmgMult": 3.1,
+      "surgeSizeNoCap": 28
+    },
+    {
+      "minute": 22,
+      "t": 1320,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 74.4737,
+      "regularDmgMult": 9.9429,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 3.2,
+      "bossDmgMult": 3.2,
+      "surgeSizeNoCap": 30
+    },
+    {
+      "minute": 23,
+      "t": 1380,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 77.6316,
+      "regularDmgMult": 10.2857,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 3.3,
+      "bossDmgMult": 3.3,
+      "surgeSizeNoCap": 30
+    },
+    {
+      "minute": 24,
+      "t": 1440,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 80.7895,
+      "regularDmgMult": 10.6286,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 3.4,
+      "bossDmgMult": 3.4,
+      "surgeSizeNoCap": 32
+    },
+    {
+      "minute": 25,
+      "t": 1500,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 83.9474,
+      "regularDmgMult": 10.9714,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 3.5,
+      "bossDmgMult": 3.5,
+      "surgeSizeNoCap": 33
+    },
+    {
+      "minute": 26,
+      "t": 1560,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 87.1053,
+      "regularDmgMult": 11.3143,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 3.6,
+      "bossDmgMult": 3.6,
+      "surgeSizeNoCap": 34
+    },
+    {
+      "minute": 27,
+      "t": 1620,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 90.2632,
+      "regularDmgMult": 11.6571,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 3.7,
+      "bossDmgMult": 3.7,
+      "surgeSizeNoCap": 35
+    },
+    {
+      "minute": 28,
+      "t": 1680,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 93.4211,
+      "regularDmgMult": 12,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 3.8,
+      "bossDmgMult": 3.8,
+      "surgeSizeNoCap": 36
+    },
+    {
+      "minute": 29,
+      "t": 1740,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 96.5789,
+      "regularDmgMult": 12.3429,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 3.9,
+      "bossDmgMult": 3.9,
+      "surgeSizeNoCap": 37
+    },
+    {
+      "minute": 30,
+      "t": 1800,
+      "tierIndex": 5,
+      "late": 1,
+      "timeHpFactor": 5,
+      "regularHpMult": 99.7368,
+      "regularDmgMult": 12.6857,
+      "regularSpdMult": 1.35,
+      "bossHpMult": 4,
+      "bossDmgMult": 4,
+      "surgeSizeNoCap": 38
+    }
+  ],
+  "timeline": [
+    {
+      "t": 0,
+      "minute": 0,
+      "tierIndex": 0,
+      "tierFrom": 0,
+      "spawnRatePerSec": 0.384,
+      "spawnRatePerSecBossAlive": 0.096,
+      "cap": 64,
+      "bossSlotsDue": 0
+    },
+    {
+      "t": 30,
+      "minute": 0.5,
+      "tierIndex": 0,
+      "tierFrom": 0,
+      "spawnRatePerSec": 0.6252,
+      "spawnRatePerSecBossAlive": 0.1563,
+      "cap": 64,
+      "bossSlotsDue": 0
+    },
+    {
+      "t": 60,
+      "minute": 1,
+      "tierIndex": 0,
+      "tierFrom": 0,
+      "spawnRatePerSec": 0.9072,
+      "spawnRatePerSecBossAlive": 0.2268,
+      "cap": 64,
+      "bossSlotsDue": 0
+    },
+    {
+      "t": 90,
+      "minute": 1.5,
+      "tierIndex": 1,
+      "tierFrom": 70,
+      "spawnRatePerSec": 1.2184,
+      "spawnRatePerSecBossAlive": 0.3046,
+      "cap": 64,
+      "bossSlotsDue": 0
+    },
+    {
+      "t": 120,
+      "minute": 2,
+      "tierIndex": 1,
+      "tierFrom": 70,
+      "spawnRatePerSec": 1.5542,
+      "spawnRatePerSecBossAlive": 0.3885,
+      "cap": 64,
+      "bossSlotsDue": 0
+    },
+    {
+      "t": 150,
+      "minute": 2.5,
+      "tierIndex": 1,
+      "tierFrom": 70,
+      "spawnRatePerSec": 1.9119,
+      "spawnRatePerSecBossAlive": 0.478,
+      "cap": 64,
+      "bossSlotsDue": 0
+    },
+    {
+      "t": 180,
+      "minute": 3,
+      "tierIndex": 2,
+      "tierFrom": 160,
+      "spawnRatePerSec": 2.2895,
+      "spawnRatePerSecBossAlive": 0.5724,
+      "cap": 64,
+      "bossSlotsDue": 1
+    },
+    {
+      "t": 210,
+      "minute": 3.5,
+      "tierIndex": 2,
+      "tierFrom": 160,
+      "spawnRatePerSec": 2.6858,
+      "spawnRatePerSecBossAlive": 0.6715,
+      "cap": 64,
+      "bossSlotsDue": 1
+    },
+    {
+      "t": 240,
+      "minute": 4,
+      "tierIndex": 2,
+      "tierFrom": 160,
+      "spawnRatePerSec": 3.0996,
+      "spawnRatePerSecBossAlive": 0.7749,
+      "cap": 64,
+      "bossSlotsDue": 1
+    },
+    {
+      "t": 270,
+      "minute": 4.5,
+      "tierIndex": 3,
+      "tierFrom": 260,
+      "spawnRatePerSec": 3.5298,
+      "spawnRatePerSecBossAlive": 0.8825,
+      "cap": 64,
+      "bossSlotsDue": 1
+    },
+    {
+      "t": 300,
+      "minute": 5,
+      "tierIndex": 3,
+      "tierFrom": 260,
+      "spawnRatePerSec": 3.9759,
+      "spawnRatePerSecBossAlive": 0.994,
+      "cap": 64,
+      "bossSlotsDue": 1
+    },
+    {
+      "t": 330,
+      "minute": 5.5,
+      "tierIndex": 3,
+      "tierFrom": 260,
+      "spawnRatePerSec": 4.4371,
+      "spawnRatePerSecBossAlive": 1.1093,
+      "cap": 64,
+      "bossSlotsDue": 1
+    },
+    {
+      "t": 360,
+      "minute": 6,
+      "tierIndex": 3,
+      "tierFrom": 260,
+      "spawnRatePerSec": 4.9129,
+      "spawnRatePerSecBossAlive": 1.2282,
+      "cap": 64,
+      "bossSlotsDue": 2
+    },
+    {
+      "t": 390,
+      "minute": 6.5,
+      "tierIndex": 4,
+      "tierFrom": 380,
+      "spawnRatePerSec": 5.4028,
+      "spawnRatePerSecBossAlive": 1.3507,
+      "cap": 64,
+      "bossSlotsDue": 2
+    },
+    {
+      "t": 420,
+      "minute": 7,
+      "tierIndex": 4,
+      "tierFrom": 380,
+      "spawnRatePerSec": 5.9062,
+      "spawnRatePerSecBossAlive": 1.4766,
+      "cap": 64,
+      "bossSlotsDue": 2
+    },
+    {
+      "t": 450,
+      "minute": 7.5,
+      "tierIndex": 4,
+      "tierFrom": 380,
+      "spawnRatePerSec": 6.4229,
+      "spawnRatePerSecBossAlive": 1.6057,
+      "cap": 64,
+      "bossSlotsDue": 2
+    },
+    {
+      "t": 480,
+      "minute": 8,
+      "tierIndex": 4,
+      "tierFrom": 380,
+      "spawnRatePerSec": 6.9525,
+      "spawnRatePerSecBossAlive": 1.7381,
+      "cap": 64,
+      "bossSlotsDue": 2
+    },
+    {
+      "t": 510,
+      "minute": 8.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 7.4946,
+      "spawnRatePerSecBossAlive": 1.8737,
+      "cap": 64,
+      "bossSlotsDue": 2
+    },
+    {
+      "t": 540,
+      "minute": 9,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 8.049,
+      "spawnRatePerSecBossAlive": 2.0122,
+      "cap": 64,
+      "bossSlotsDue": 3
+    },
+    {
+      "t": 570,
+      "minute": 9.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 8.6153,
+      "spawnRatePerSecBossAlive": 2.1538,
+      "cap": 64,
+      "bossSlotsDue": 3
+    },
+    {
+      "t": 600,
+      "minute": 10,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 9.1933,
+      "spawnRatePerSecBossAlive": 2.2983,
+      "cap": 64,
+      "bossSlotsDue": 3
+    },
+    {
+      "t": 630,
+      "minute": 10.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 9.7828,
+      "spawnRatePerSecBossAlive": 2.4457,
+      "cap": 64,
+      "bossSlotsDue": 3
+    },
+    {
+      "t": 660,
+      "minute": 11,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 10.3835,
+      "spawnRatePerSecBossAlive": 2.5959,
+      "cap": 64,
+      "bossSlotsDue": 3
+    },
+    {
+      "t": 690,
+      "minute": 11.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 10.9952,
+      "spawnRatePerSecBossAlive": 2.7488,
+      "cap": 64,
+      "bossSlotsDue": 3
+    },
+    {
+      "t": 720,
+      "minute": 12,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 11.6179,
+      "spawnRatePerSecBossAlive": 2.9045,
+      "cap": 64,
+      "bossSlotsDue": 4
+    },
+    {
+      "t": 750,
+      "minute": 12.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 12.2511,
+      "spawnRatePerSecBossAlive": 3.0628,
+      "cap": 64,
+      "bossSlotsDue": 4
+    },
+    {
+      "t": 780,
+      "minute": 13,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 12.8949,
+      "spawnRatePerSecBossAlive": 3.2237,
+      "cap": 64,
+      "bossSlotsDue": 4
+    },
+    {
+      "t": 810,
+      "minute": 13.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 13.5489,
+      "spawnRatePerSecBossAlive": 3.3872,
+      "cap": 64,
+      "bossSlotsDue": 4
+    },
+    {
+      "t": 840,
+      "minute": 14,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 14.2132,
+      "spawnRatePerSecBossAlive": 3.5533,
+      "cap": 64,
+      "bossSlotsDue": 4
+    },
+    {
+      "t": 870,
+      "minute": 14.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 14.8875,
+      "spawnRatePerSecBossAlive": 3.7219,
+      "cap": 64,
+      "bossSlotsDue": 4
+    },
+    {
+      "t": 900,
+      "minute": 15,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 15.5716,
+      "spawnRatePerSecBossAlive": 3.8929,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 930,
+      "minute": 15.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 16.2655,
+      "spawnRatePerSecBossAlive": 4.0664,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 960,
+      "minute": 16,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 16.969,
+      "spawnRatePerSecBossAlive": 4.2423,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 990,
+      "minute": 16.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 17.682,
+      "spawnRatePerSecBossAlive": 4.4205,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1020,
+      "minute": 17,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 18.4044,
+      "spawnRatePerSecBossAlive": 4.6011,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1050,
+      "minute": 17.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 19.1361,
+      "spawnRatePerSecBossAlive": 4.784,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1080,
+      "minute": 18,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 19.877,
+      "spawnRatePerSecBossAlive": 4.9692,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1110,
+      "minute": 18.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 20.6269,
+      "spawnRatePerSecBossAlive": 5.1567,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1140,
+      "minute": 19,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 21.3858,
+      "spawnRatePerSecBossAlive": 5.3464,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1170,
+      "minute": 19.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 22.1535,
+      "spawnRatePerSecBossAlive": 5.5384,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1200,
+      "minute": 20,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 22.93,
+      "spawnRatePerSecBossAlive": 5.7325,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1230,
+      "minute": 20.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 23.7152,
+      "spawnRatePerSecBossAlive": 5.9288,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1260,
+      "minute": 21,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 24.509,
+      "spawnRatePerSecBossAlive": 6.1273,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1290,
+      "minute": 21.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 25.3114,
+      "spawnRatePerSecBossAlive": 6.3278,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1320,
+      "minute": 22,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 26.1222,
+      "spawnRatePerSecBossAlive": 6.5305,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1350,
+      "minute": 22.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 26.9413,
+      "spawnRatePerSecBossAlive": 6.7353,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1380,
+      "minute": 23,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 27.7687,
+      "spawnRatePerSecBossAlive": 6.9422,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1410,
+      "minute": 23.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 28.6044,
+      "spawnRatePerSecBossAlive": 7.1511,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1440,
+      "minute": 24,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 29.4482,
+      "spawnRatePerSecBossAlive": 7.362,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1470,
+      "minute": 24.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 30.3001,
+      "spawnRatePerSecBossAlive": 7.575,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1500,
+      "minute": 25,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 31.1599,
+      "spawnRatePerSecBossAlive": 7.79,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1530,
+      "minute": 25.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 32.0278,
+      "spawnRatePerSecBossAlive": 8.0069,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1560,
+      "minute": 26,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 32.9035,
+      "spawnRatePerSecBossAlive": 8.2259,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1590,
+      "minute": 26.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 33.787,
+      "spawnRatePerSecBossAlive": 8.4468,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1620,
+      "minute": 27,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 34.6783,
+      "spawnRatePerSecBossAlive": 8.6696,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1650,
+      "minute": 27.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 35.5774,
+      "spawnRatePerSecBossAlive": 8.8943,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1680,
+      "minute": 28,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 36.484,
+      "spawnRatePerSecBossAlive": 9.121,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1710,
+      "minute": 28.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 37.3983,
+      "spawnRatePerSecBossAlive": 9.3496,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1740,
+      "minute": 29,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 38.3201,
+      "spawnRatePerSecBossAlive": 9.58,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1770,
+      "minute": 29.5,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 39.2494,
+      "spawnRatePerSecBossAlive": 9.8123,
+      "cap": 64,
+      "bossSlotsDue": 5
+    },
+    {
+      "t": 1800,
+      "minute": 30,
+      "tierIndex": 5,
+      "tierFrom": 500,
+      "spawnRatePerSec": 40.1861,
+      "spawnRatePerSecBossAlive": 10.0465,
+      "cap": 64,
+      "bossSlotsDue": 5
+    }
+  ],
+  "timelineSource": "app.pretty.js:88797 (rate), 88786-88787 (CAP, SHINY_RATE), 88790 (surge first), 88870 (surge gap 38-56s), 88873 (surge size)",
+  "coop": [
+    {
+      "players": 1,
+      "scaleRate": 1,
+      "scaleHp": 1,
+      "bossHpFactorExtra": 1,
+      "surgeSizeAt0": 6,
+      "_src": "app.pretty.js:91736 (scaleRate), 91737 (scaleHp), 88860 (boss ×1.4 when >1 player), 88873 (surge size)"
+    },
+    {
+      "players": 2,
+      "scaleRate": 1.75,
+      "scaleHp": 1.3,
+      "bossHpFactorExtra": 1.4,
+      "surgeSizeAt0": 10,
+      "_src": "app.pretty.js:91736 (scaleRate), 91737 (scaleHp), 88860 (boss ×1.4 when >1 player), 88873 (surge size)"
+    },
+    {
+      "players": 3,
+      "scaleRate": 2.5,
+      "scaleHp": 1.6,
+      "bossHpFactorExtra": 1.4,
+      "surgeSizeAt0": 14,
+      "_src": "app.pretty.js:91736 (scaleRate), 91737 (scaleHp), 88860 (boss ×1.4 when >1 player), 88873 (surge size)"
+    },
+    {
+      "players": 4,
+      "scaleRate": 3.25,
+      "scaleHp": 1.9,
+      "bossHpFactorExtra": 1.4,
+      "surgeSizeAt0": 18,
+      "_src": "app.pretty.js:91736 (scaleRate), 91737 (scaleHp), 88860 (boss ×1.4 when >1 player), 88873 (surge size)"
+    },
+    {
+      "players": 5,
+      "scaleRate": 4,
+      "scaleHp": 2.2,
+      "bossHpFactorExtra": 1.4,
+      "surgeSizeAt0": 22,
+      "_src": "app.pretty.js:91736 (scaleRate), 91737 (scaleHp), 88860 (boss ×1.4 when >1 player), 88873 (surge size)"
+    }
+  ],
+  "biomes": {
+    "cycleSeconds": 240,
+    "rule": "index = floor(runTime / 240) mod 21（app.pretty.js:95226, 85552-85555）",
+    "list": [
+      {
+        "index": 0,
+        "name": "Bosque Umbrío",
+        "liquid": "water",
+        "kind": "normal"
+      },
+      {
+        "index": 1,
+        "name": "Cueva Cristal",
+        "liquid": "water",
+        "kind": "normal"
+      },
+      {
+        "index": 2,
+        "name": "Volcán Ceniza",
+        "liquid": "lava",
+        "kind": "normal"
+      },
+      {
+        "index": 3,
+        "name": "Grieta · Pradera Eterna",
+        "liquid": "water",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 4,
+        "name": "Grieta · Volcán Ígneo",
+        "liquid": "lava",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 5,
+        "name": "Grieta · Gruta Marina",
+        "liquid": "water",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 6,
+        "name": "Grieta · Selva Esmeralda",
+        "liquid": "swamp",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 7,
+        "name": "Grieta · Central Voltio",
+        "liquid": "spark",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 8,
+        "name": "Grieta · Glaciar Eterno",
+        "liquid": "ice",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 9,
+        "name": "Grieta · Dojo Ancestral",
+        "liquid": "water",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 10,
+        "name": "Grieta · Ciénaga Tóxica",
+        "liquid": "poison",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 11,
+        "name": "Grieta · Desierto Rojo",
+        "liquid": "swamp",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 12,
+        "name": "Grieta · Pico Celeste",
+        "liquid": "water",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 13,
+        "name": "Grieta · Templo Mental",
+        "liquid": "water",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 14,
+        "name": "Grieta · Bosque Colmena",
+        "liquid": "swamp",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 15,
+        "name": "Grieta · Cantera Antigua",
+        "liquid": "water",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 16,
+        "name": "Grieta · Cementerio Sombrío",
+        "liquid": "water",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 17,
+        "name": "Grieta · Santuario Dragón",
+        "liquid": "lava",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 18,
+        "name": "Grieta · Callejón Oscuro",
+        "liquid": "water",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 19,
+        "name": "Grieta · Fortaleza de Acero",
+        "liquid": "water",
+        "kind": "rift-theme"
+      },
+      {
+        "index": 20,
+        "name": "Grieta · Bosque Encantado",
+        "liquid": "water",
+        "kind": "rift-theme"
+      }
+    ]
+  },
+  "arenaTypes": [
+    {
+      "type": "normal",
+      "name": "Pradera Eterna",
+      "liquid": "water",
+      "weather": null,
+      "pools": 0,
+      "pillars": 0.035,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "fire",
+      "name": "Volcán Ígneo",
+      "liquid": "lava",
+      "weather": "sun",
+      "pools": 0.31,
+      "pillars": 0.03,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "water",
+      "name": "Gruta Marina",
+      "liquid": "water",
+      "weather": "rain",
+      "pools": 0.33,
+      "pillars": 0.02,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "grass",
+      "name": "Selva Esmeralda",
+      "liquid": "swamp",
+      "weather": null,
+      "pools": 0.22,
+      "pillars": 0,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "electric",
+      "name": "Central Voltio",
+      "liquid": "spark",
+      "weather": "rain",
+      "pools": 0.28,
+      "pillars": 0.04,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "ice",
+      "name": "Glaciar Eterno",
+      "liquid": "ice",
+      "weather": "snow",
+      "pools": 0.36,
+      "pillars": 0.02,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "fighting",
+      "name": "Dojo Ancestral",
+      "liquid": "water",
+      "weather": null,
+      "pools": 0,
+      "pillars": 0.075,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "poison",
+      "name": "Ciénaga Tóxica",
+      "liquid": "poison",
+      "weather": null,
+      "pools": 0.31,
+      "pillars": 0.015,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "ground",
+      "name": "Desierto Rojo",
+      "liquid": "swamp",
+      "weather": "sand",
+      "pools": 0.25,
+      "pillars": 0.04,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "flying",
+      "name": "Pico Celeste",
+      "liquid": "water",
+      "weather": null,
+      "pools": 0,
+      "pillars": 0.02,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "psychic",
+      "name": "Templo Mental",
+      "liquid": "water",
+      "weather": null,
+      "pools": 0,
+      "pillars": 0.045,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "bug",
+      "name": "Bosque Colmena",
+      "liquid": "swamp",
+      "weather": null,
+      "pools": 0.2,
+      "pillars": 0,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "rock",
+      "name": "Cantera Antigua",
+      "liquid": "water",
+      "weather": "sand",
+      "pools": 0,
+      "pillars": 0.08,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "ghost",
+      "name": "Cementerio Sombrío",
+      "liquid": "water",
+      "weather": "fog",
+      "pools": 0,
+      "pillars": 0.03,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "dragon",
+      "name": "Santuario Dragón",
+      "liquid": "lava",
+      "weather": null,
+      "pools": 0.22,
+      "pillars": 0.04,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "dark",
+      "name": "Callejón Oscuro",
+      "liquid": "water",
+      "weather": null,
+      "pools": 0,
+      "pillars": 0.05,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "steel",
+      "name": "Fortaleza de Acero",
+      "liquid": "water",
+      "weather": null,
+      "pools": 0,
+      "pillars": 0.08,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    },
+    {
+      "type": "fairy",
+      "name": "Bosque Encantado",
+      "liquid": "water",
+      "weather": null,
+      "pools": 0.16,
+      "pillars": 0,
+      "_src": "Tiles.json ARENA_TYPES / ARENA_THEMES（app.pretty.js:85181-85182, 84711 名稱前綴 \"Grieta · \"）"
+    }
+  ],
+  "mapSpecials": {
+    "_src": "app.pretty.js:85346（每格：f < .0032 才會生成；altar f<4e-4，spring f<8e-4，bigchest f<.0011，其餘為 trap）",
+    "perCellThreshold": 0.0032,
+    "perKind": {
+      "altar": 0.0004,
+      "spring": 0.0004,
+      "bigchest": 0.0003,
+      "trap": 0.0021
+    },
+    "variantCount": {
+      "altar": 4,
+      "spring": 3,
+      "bigchest": 3,
+      "trap": 3
+    },
+    "note": "f 為 x(n,o,seed+909) 的種子雜湊值，與本場世界種子有關；同種子的地圖相同。"
+  },
+  "propDrops": [
+    {
+      "prop": "rock",
+      "drops": "XP 6（機率 40%）；寶可幣 value 2（機率 25%，e>.75）；heal（機率 6%，e>.94）",
+      "_src": "app.pretty.js:85502-85507"
+    },
+    {
+      "prop": "chest",
+      "drops": "寶可幣 4–7 顆（value 3）；heal 或 magnet 各 50%；XP 20；道具 8%（G.Items.roll）",
+      "_src": "app.pretty.js:85508-85511（以 85509-85511 為準，語法見原碼）"
+    },
+    {
+      "prop": "bigchest",
+      "drops": "寶可幣 9 顆（value 4）；ticket 1–3 顆（value 1）；ticket10 15%；道具 50%；XP = G.Game.levelXp()；進度 event \"chest\"",
+      "_src": "app.pretty.js:85512-85518"
+    }
+  ],
+  "runEnd": {
+    "_src": "app.pretty.js:95076-95082（M 函式，遊戲結束結算）",
+    "formula": "round((floor(時間/5) + floor(0.25×擊倒數) + 80×首領數 + 拾取寶可幣) × coinMul)",
+    "terms": {
+      "tiempo": "floor(o / 5)",
+      "derrotados": "floor(0.25 * kills)",
+      "jefes": "80 * bosses",
+      "recogidas": "coins"
+    }
+  },
+  "lateSamples": [
+    {
+      "minute": 60,
+      "t": 3600,
+      "late": 1,
+      "regularHpMultSolo": 194.474,
+      "bossHpMultSolo": 7
+    },
+    {
+      "minute": 70,
+      "t": 4200,
+      "late": 1.038108,
+      "regularHpMultSolo": 234.667,
+      "bossHpMultSolo": 8.305
+    },
+    {
+      "minute": 80,
+      "t": 4800,
+      "late": 1.16137,
+      "regularHpMultSolo": 299.205,
+      "bossHpMultSolo": 10.452
+    },
+    {
+      "minute": 90,
+      "t": 5400,
+      "late": 1.400179,
+      "regularHpMultSolo": 404.946,
+      "bossHpMultSolo": 14.002
+    },
+    {
+      "minute": 100,
+      "t": 6000,
+      "late": 1.819206,
+      "regularHpMultSolo": 583.582,
+      "bossHpMultSolo": 20.011
+    },
+    {
+      "minute": 120,
+      "t": 7200,
+      "late": 3.843564,
+      "regularHpMultSolo": 1475.726,
+      "bossHpMultSolo": 49.966
+    },
+    {
+      "minute": 180,
+      "t": 10800,
+      "late": 218.241009,
+      "regularHpMultSolo": 125143.989,
+      "bossHpMultSolo": 4146.579
+    },
+    {
+      "minute": 240,
+      "t": 14400,
+      "late": 183065.629742,
+      "regularHpMultSolo": 139659805.427,
+      "bossHpMultSolo": 4576640.744
+    }
+  ],
+  "rift": {
+    "_src": "app.pretty.js:89346 (timer r=30), 89475-89477 (check), 89361 (ttl 45), 89471 (enter 30px), 89496 (lose 1.4s), 89343 (fight 120s)",
+    "checkIntervalSec": 30,
+    "firstCheckAfterRunSec": 75,
+    "portalTtlSec": 45,
+    "enterRadiusPx": 30,
+    "fightLimitSec": 120,
+    "loseAllDeadSec": 1.4,
+    "arenaRadiusTiles": 11,
+    "placement": {
+      "tries": 24,
+      "radiusMin": 380,
+      "radiusMax": 560,
+      "ySquash": 0.85,
+      "isFreeRadius": 22
+    },
+    "legendWeight": {
+      "alreadyDefeated": 1,
+      "notYetDefeated": 4
+    },
+    "arenaShinyChance": 0.001953125,
+    "forcedWeatherSec": 135,
+    "winEndSec": 5,
+    "loseEndSec": 1.2,
+    "ladder": [
+      {
+        "consecutiveMisses": 0,
+        "checkNumber": 1,
+        "chance": 0.2,
+        "firstCheckAtRunSec": 105,
+        "_src": "app.pretty.js:89477"
+      },
+      {
+        "consecutiveMisses": 1,
+        "checkNumber": 2,
+        "chance": 0.4,
+        "firstCheckAtRunSec": 135,
+        "_src": "app.pretty.js:89477"
+      },
+      {
+        "consecutiveMisses": 2,
+        "checkNumber": 3,
+        "chance": 0.6,
+        "firstCheckAtRunSec": 165,
+        "_src": "app.pretty.js:89477"
+      },
+      {
+        "consecutiveMisses": 3,
+        "checkNumber": 4,
+        "chance": 0.8,
+        "firstCheckAtRunSec": 195,
+        "_src": "app.pretty.js:89477"
+      },
+      {
+        "consecutiveMisses": 4,
+        "checkNumber": 5,
+        "chance": 1,
+        "firstCheckAtRunSec": 225,
+        "_src": "app.pretty.js:89477"
+      }
+    ],
+    "bossSamplesSolo": [
+      {
+        "runMinute": 0,
+        "T": 0,
+        "hpSolo": 3200,
+        "meleeDmg": 36,
+        "shotDmg": 18,
+        "xp": 500,
+        "shotCd": 0.9,
+        "range": 300
+      },
+      {
+        "runMinute": 5,
+        "T": 300,
+        "hpSolo": 5900,
+        "meleeDmg": 51,
+        "shotDmg": 26,
+        "xp": 860,
+        "shotCd": 0.9,
+        "range": 300
+      },
+      {
+        "runMinute": 10,
+        "T": 600,
+        "hpSolo": 8600,
+        "meleeDmg": 66,
+        "shotDmg": 33,
+        "xp": 1220,
+        "shotCd": 0.9,
+        "range": 300
+      },
+      {
+        "runMinute": 15,
+        "T": 900,
+        "hpSolo": 11300,
+        "meleeDmg": 81,
+        "shotDmg": 41,
+        "xp": 1580,
+        "shotCd": 0.9,
+        "range": 300
+      },
+      {
+        "runMinute": 20,
+        "T": 1200,
+        "hpSolo": 14000,
+        "meleeDmg": 96,
+        "shotDmg": 48,
+        "xp": 1940,
+        "shotCd": 0.9,
+        "range": 300
+      },
+      {
+        "runMinute": 30,
+        "T": 1800,
+        "hpSolo": 19400,
+        "meleeDmg": 126,
+        "shotDmg": 63,
+        "xp": 2660,
+        "shotCd": 0.9,
+        "range": 300
+      },
+      {
+        "runMinute": 60,
+        "T": 3600,
+        "hpSolo": 35600,
+        "meleeDmg": 216,
+        "shotDmg": 108,
+        "xp": 4820,
+        "shotCd": 0.9,
+        "range": 300
+      }
+    ]
+  },
+  "events": {
+    "_src": "app.pretty.js:89570-89572 (timers), 89758-89763 (scheduler), 89582-89593 (horde), 89594-89600 (gold), 89602-89638 (lost), 89655-89682 (thief)",
+    "schedulerIntervalSec": [
+      240,
+      300
+    ],
+    "schedulerBossDelaySec": 10,
+    "thiefFirstSec": [
+      120,
+      240
+    ],
+    "thiefGapSec": [
+      240,
+      360
+    ],
+    "thiefBossDelaySec": 8,
+    "thiefMaxPerRun": 2,
+    "types": [
+      {
+        "id": "horde",
+        "durationSec": 30,
+        "pool": "G.Enemies.hordeTypes(time) → 隨機一種；空則改成 gold",
+        "burstCount": "round(6 × scaleRate(players))",
+        "spawnBag": "hordeDefs(type, time)：同梯次同屬性候選中隨機最多 4 種（排除 bomber/healer/shielder/summoner）",
+        "_src": "app.pretty.js:89582-89593, 89765-89766"
+      },
+      {
+        "id": "gold",
+        "durationSec": 30,
+        "effect": "場上非遠端敵人全部變金色（經驗 ×2、死亡 35% 掉 1 枚寶可幣）；期間新生敵人也是金色",
+        "_src": "app.pretty.js:89594-89600, 86974-86976, 87017, 89849-89850, 88843"
+      },
+      {
+        "id": "lost",
+        "durationSec": "until delivered or 120s timeout",
+        "monsterHp": 100,
+        "grantChance": 0.2,
+        "followRadiusPx": "(enemy.r + monster.r + 18)",
+        "deliverRadiusPx": 56,
+        "healOnDeliver": 0.5,
+        "damageEverySec": 0.5,
+        "damagePerTick": "min(30, Σ(4 + 0.12 × enemy.dmg))",
+        "timeoutSec": 120,
+        "reward": "12 coins（value 5）+ 1 ticket（value 1）+ 回復 50% HP；grant 時 G.onRescue",
+        "_src": "app.pretty.js:89602-89638, 89728-89756, 89700-89705, 89743-89747"
+      },
+      {
+        "id": "thief",
+        "durationSec": "enemy life 15s",
+        "spawnDex": {
+          "normal": 52,
+          "ticketVariant": 1000,
+          "ticketChance": 0.25
+        },
+        "hp": "60 × (1 + time/95) × (1.5 if ticket variant)",
+        "spd": 92,
+        "xp": 10,
+        "loot": "coins（20 × coin value 5）或 ticket10 variant（6 × coin value 5 + ticket10 value 1）",
+        "escape": "生命歸零則逃走，無掉落",
+        "_src": "app.pretty.js:89655-89682, 87017-87020, 87634-87636"
+      }
+    ]
+  },
+  "weather": {
+    "_src": "app.pretty.js:89934-89947 (biome tables), 89878-89928 (effects), 90022-90044 (roll and damage)",
+    "rollEverySec": 60,
+    "rollChance": 0.18,
+    "startsAfterRunSec": 120,
+    "durationSec": "round(rand(55, 75))",
+    "rampSec": 3,
+    "biomeTables": [
+      {
+        "biomeIndexMod3": 0,
+        "weights": {
+          "rain": 3,
+          "fog": 2,
+          "sun": 1.5,
+          "snow": 0.5,
+          "sand": 0.5
+        }
+      },
+      {
+        "biomeIndexMod3": 1,
+        "weights": {
+          "fog": 3,
+          "snow": 2.5,
+          "rain": 1,
+          "sand": 1
+        }
+      },
+      {
+        "biomeIndexMod3": 2,
+        "weights": {
+          "sun": 3,
+          "sand": 3,
+          "fog": 1
+        }
+      }
+    ],
+    "kinds": [
+      {
+        "id": "sun",
+        "name": "Sol abrasador",
+        "mult": {
+          "fire": 1.5,
+          "water": 0.5
+        }
+      },
+      {
+        "id": "rain",
+        "name": "Lluvia",
+        "mult": {
+          "water": 1.5,
+          "electric": 1.2,
+          "fire": 0.5
+        }
+      },
+      {
+        "id": "sand",
+        "name": "Tormenta de arena",
+        "mult": {
+          "rock": 1.3,
+          "ground": 1.3,
+          "steel": 1.3
+        },
+        "safe": [
+          "rock",
+          "ground",
+          "steel"
+        ]
+      },
+      {
+        "id": "snow",
+        "name": "Nevada",
+        "mult": {
+          "ice": 1.5
+        },
+        "safe": [
+          "ice"
+        ],
+        "slowsNonIce": 0.1
+      },
+      {
+        "id": "fog",
+        "name": "Niebla",
+        "mult": {
+          "ghost": 1.3,
+          "fairy": 1.3,
+          "psychic": 1.3
+        }
+      }
+    ],
+    "damage": {
+      "playerEverySec": 2,
+      "playerPerTick": "max(1, 0.012 × maxHp)，僅當天氣對玩家屬性造成傷害且強度 > 0.5",
+      "enemyEverySec": 2,
+      "enemyPerTick": "0.02 × maxHp + 1，僅沙暴/雪，強度 > 0.5，略過首領與遠端敵人",
+      "_src": "app.pretty.js:90038-90043"
+    }
+  },
+  "drops": {
+    "_src": "app.pretty.js:87004-87027 (die), 87772-87785 (dropXp), 85502-85518 (prop break), 95128-95139 (rescue/shiny)",
+    "normalEnemyDeath": [
+      {
+        "item": "XP orb",
+        "value": "round(5.6 × base xp) at spawn（經驗值由 Enemy.xp 帶入）",
+        "_src": "app.pretty.js:88843, 87781"
+      },
+      {
+        "item": "ticket（value 1）",
+        "chance": 0.0025,
+        "_src": "app.pretty.js:87781"
+      },
+      {
+        "item": "heal",
+        "chance": 0.012,
+        "_src": "app.pretty.js:87782-87783"
+      },
+      {
+        "item": "magnet",
+        "chance": 0.008,
+        "_src": "app.pretty.js:87783"
+      },
+      {
+        "item": "bomb",
+        "chance": 0.006,
+        "_src": "app.pretty.js:87783"
+      }
+    ],
+    "bossDeath": [
+      {
+        "item": "coin（value 5）",
+        "count": 10,
+        "_src": "app.pretty.js:87012-87014"
+      },
+      {
+        "item": "item（G.Items.roll()）",
+        "count": 1,
+        "_src": "app.pretty.js:87015"
+      },
+      {
+        "item": "xpBig orbs",
+        "count": 14,
+        "valueEach": "ceil(xp / 14)",
+        "_src": "app.pretty.js:87774-87777"
+      },
+      {
+        "item": "heal（value 0）+ magnet（value 0）",
+        "count": 2,
+        "_src": "app.pretty.js:87779"
+      },
+      {
+        "item": "ticket10",
+        "chance": "legend 時 0.5，否則 1/3",
+        "_src": "app.pretty.js:87736, 87779"
+      }
+    ],
+    "goldenEnemyDeath": [
+      {
+        "item": "coin（value 3）",
+        "chance": 0.35,
+        "_src": "app.pretty.js:87017"
+      }
+    ],
+    "thiefDeath": {
+      "coins": 20,
+      "coinValue": 5,
+      "ticket10Variant": {
+        "coins": 6,
+        "ticket10": 1
+      },
+      "_src": "app.pretty.js:87017-87020"
+    },
+    "legendDeath": {
+      "tickets": {
+        "count": 3,
+        "value": 1
+      },
+      "coins": {
+        "count": 10,
+        "value": 8
+      },
+      "_src": "app.pretty.js:87022-87025"
+    },
+    "shinyDeath": {
+      "onShinyCaught": "G.DB.grantShiny(dex,\"wild\")：新收錄則收錄；重複則 +300 寶可幣",
+      "_src": "app.pretty.js:87026, 95128-95139"
+    },
+    "propBreak": [
+      {
+        "prop": "rock",
+        "drops": "XP 6（40%）、coin value 2（25%）、heal（6%）",
+        "_src": "app.pretty.js:85502-85507"
+      },
+      {
+        "prop": "chest",
+        "drops": "4–7 coins（value 3）、heal 或 magnet（各 50%）、XP 20、道具（8%）",
+        "_src": "app.pretty.js:85508-85511"
+      },
+      {
+        "prop": "bigchest",
+        "drops": "9 coins（value 4）、1–3 tickets（value 1）、ticket10（15%）、道具（50%）、XP（G.Game.levelXp）",
+        "_src": "app.pretty.js:85512-85518"
+      }
+    ],
+    "runEnd": {
+      "formula": "round((floor(time/5) + floor(0.25 × kills) + 80 × bosses + coins) × coinMul)",
+      "_src": "app.pretty.js:95076-95082"
+    }
+  }
+}
